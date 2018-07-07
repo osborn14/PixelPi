@@ -1,0 +1,6 @@
+# Don't overwrite personalized settings
+Application/Settings/client_settings.txt
+Application/Settings/server_settings.txt
+
+# Don't load audio server for now
+Application/Audio/ProcessingSpectrumAnalyzer
