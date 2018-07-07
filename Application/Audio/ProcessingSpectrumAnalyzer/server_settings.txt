@@ -1,3 +1,0 @@
-Display Modes: 0, 1, 2, 3
-Display Mode Duration: 30
-Display Mode Timer: 6, 3, 3, 3

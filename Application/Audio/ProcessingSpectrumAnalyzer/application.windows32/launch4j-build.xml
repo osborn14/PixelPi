@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project>
-  <target name="windows">
-    <taskdef classname="net.sf.launch4j.ant.Launch4jTask" classpath="/home/pi/Documents/processing-3.3.6/modes/java/application/launch4j/launch4j.jar:/home/pi/Documents/processing-3.3.6/modes/java/application/launch4j/lib/xstream.jar" name="launch4j"/>
-    <launch4j configFile="/home/pi/Documents/spectrum-analyzer/ProcessingSpectrumAnalyzer/application.windows32/launch4j-config.xml"/>
-  </target>
-</project>
