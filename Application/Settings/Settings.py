@@ -12,7 +12,7 @@ class Settings(object):
         try:
             settings_file = open(settings_file_location, "r")
         except IOError:
-            print("Could not read file:" + settings_file_location)
+            print("Could not read settings file: " + settings_file_location)
             sys.exit()
     
         with settings_file:
