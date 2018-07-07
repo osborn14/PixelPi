@@ -1,0 +1,11 @@
+ALL Server IPAddress				:192.168.0.106
+LED STRIP Main Red Pin				:20
+LED STRIP Main Green Pin			:21
+LED STRIP Main Blue Pin				:12
+LED STRIP ADDRESSABLE Pin			:18
+LED STRIP ADDRESSABLE Led Count			:100
+LED CLOCK TimeZone				:US/Eastern
+PIXEL PI Device Name				:5050 rgb tv main
+PIXEL PI Device Code				:N101
+PIXEL PI Device Type				:N1
+PIXEL PI Server Port				:9000
