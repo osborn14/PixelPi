@@ -6,8 +6,6 @@ from Application.Display.Runners import NeopixelRunner
 from Application.Settings.Settings import Settings
 from Application.Networking.ServerConnection import AudioServerConnection
 
-#from neopixel import *
-
 ## Create our settings file as a global variable
 settings_file = Settings()
 os.environ['TZ'] = settings_file.time_zone
