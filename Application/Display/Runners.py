@@ -31,7 +31,6 @@ class NeopixelRunner():
         self.strip = Adafruit_NeoPixel(self.LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         self.strip.begin()
 
-    
     def displayAudioLights(self, audio_data):
         if not audio_data.music_is_not_playing:
             self.turnOffLights()
