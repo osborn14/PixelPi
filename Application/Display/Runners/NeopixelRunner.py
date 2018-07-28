@@ -1,8 +1,8 @@
 import time
 
-from Application.Display import RPiLEDFunctions as led_fx
-from Application.Common import AudioData
+from Application.Display.Runners import RPiLEDFunctions as led_fx
 from neopixel import *
+
 
 class NeopixelRunner():
     def __init__(self, settings_file):
@@ -52,7 +52,7 @@ class NeopixelRunner():
             if audio_data.spectrum_heights[bar_i] >= self.FADE_START:
                 upper_transition_range = audio_data.spectrum_heights[bar_i] - self.FADE_START
 
-            temp_rgb = led_fx.getFadedColors(self.FADE_START, self.FADE_END, upper_transition_range, audio_data.spectrum_heights[bar_i], 
+            temp_rgb = led_fx.getFadedColors(self.FADE_START, self.FADE_END, upper_transition_range, audio_data.spectrum_heights[bar_i],
                                              0, audio_data.primary_colors, audio_data.primary_colors)
 
             starting_x = int(bar_i * self.BAR_RANGE)
@@ -96,16 +96,3 @@ class NeopixelRunner():
             self.strip.setPixelColor(i, Color(0, 0, 0))
         self.strip.show()
         time.sleep(self.PAUSE_TIME * 5)
-
-
-class FiftyFiftyRunner():
-    def __init__(self, settings_file):
-        ## Get pigpiod running on the RPi if it hasn't been done already
-        os.system("sudo pigpiod")
-        self.pi = pigpio.pi()
-        self.rgb_pins = [settings_file.main_red_pin, settings_file.main_green_pin, settings_file.main_blue_pin]
-    
-    
-    def displayLights(self, rgb_value):
-        for i in range(len(self.rgb_pins)):
-            self.pi.set_PWM_dutycycle(self.rgb_pins[i], rgb_value[i])

@@ -1,8 +1,8 @@
 import json, queue, threading, datetime, calendar, sys, os, signal, argparse
 
-from autobahn.asyncio.websocket import WebSocketClientProtocol, WebSocketClientFactory
+from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-from Application.Display.Runners import NeopixelRunner
+from Application.Display.Runners.Runners import NeopixelRunner
 from Application.Settings.Settings import Settings
 from Application.Networking.ServerConnection import AudioServerConnection
 

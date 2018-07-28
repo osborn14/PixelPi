@@ -211,17 +211,3 @@ def getTipColor(DisplayMode, main_rgb, tip_rgb):
         tip_rgb = main_rgb
     
     return tip_rgb
-
-def getMainLEDStripValuestoDisplay(DisplayMode, main_rgb):
-    temp_led_strip_color_main = [0, 0, 0]
-    if DisplayMode == 0 or DisplayMode == 1 or DisplayMode == 2 or DisplayMode == 3:
-        temp_led_strip_color_main = main_rgb
-    
-    return temp_led_strip_color_main
-
-def getTipLEDStripValuestoDisplay(DisplayMode, tip_rgb):
-    temp_led_strip_color_secondary = [0, 0, 0]
-    if DisplayMode == 0 or DisplayMode == 1 or DisplayMode == 2 or DisplayMode == 3:
-        temp_led_strip_color_secondary = tip_rgb
-    
-    return temp_led_strip_color_secondary

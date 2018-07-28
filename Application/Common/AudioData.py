@@ -5,6 +5,6 @@ class AudioData():
         self.display_mode = 0
         self.server_primary_colors = [0, 0, 0]
         self.server_secondary_colors = [0, 0, 0]
-        self.primary_colors = [0, 0, 0]
-        self.secondary_colors = [0, 0, 0]
+        # self.primary_colors = [0, 0, 0]
+        # self.secondary_colors = [0, 0, 0]
         self.music_is_not_playing = False

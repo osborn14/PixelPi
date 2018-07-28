@@ -1,6 +1,4 @@
 import time, socket
-
-# from Application.Display import RPiLEDFunctions as led_fx
 from Application.Common import AudioData
 
 class AudioServerConnection():
@@ -46,9 +44,9 @@ class AudioServerConnection():
             else:
                 self.sock2 = self.connectToServer(self.server_ip, self.port_two)
 
-            audio_data.display_mode = data_list_two[0]
-            audio_data.primary_colors = [data_list_two[1], data_list_two[2], data_list_two[3]]
-            audio_data.secondary_colors = [data_list_two[4], data_list_two[5], data_list_two[6]]
+            # audio_data.display_mode = data_list_two[0]
+            # audio_data.primary_colors = [data_list_two[1], data_list_two[2], data_list_two[3]]
+            # audio_data.secondary_colors = [data_list_two[4], data_list_two[5], data_list_two[6]]
 
             audio_data.spectrum_avg = data_list_one[1]
             audio_data.spectrum_heights = self.getDataListtoPrint(audio_data.spectrum_heights, data_list_one, 2, 18)

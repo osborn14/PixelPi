@@ -2,8 +2,8 @@
 import os, sys, platform
 
 #sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-import Application.Common.SettingsKeys as KEY
-from Application.Display.Runners import NeopixelRunner, FiftyFiftyRunner
+import Application.Common.SettingsConstants as KEY
+from Application.Display.Runners.Runners import NeopixelRunner, FiftyFiftyRunner
 
 
 class Settings(object):
@@ -89,6 +89,7 @@ class ClientSettings():
         else:
             self.IS_TESTING = False
 
+
 class NeopixelSettings():
     def __init__(self, raw_settings_list):
         raw_settings_processor = RawSettingsProcessor(raw_settings_list)
@@ -96,10 +97,12 @@ class NeopixelSettings():
         self.MAIN_PIN   = raw_settings_processor.getValueFromKey(KEY.MAIN_PIN)
         self.LED_COUNT  = raw_settings_processor.getValueFromKey(KEY.LED_COUNT)
 
+
 class FiftyFiftySettings():
     def __init__(self, raw_settings_list):
         raw_settings_processor = RawSettingsProcessor(raw_settings_list)
 
+        self.STRIP_TYPE = raw_settings_processor.getValueFromKey(KEY.STRIP_TYPE)
         self.RED_PIN    = raw_settings_processor.getValueFromKey(KEY.RED_PIN)
         self.GREEN_PIN  = raw_settings_processor.getValueFromKey(KEY.GREEN_PIN)
         self.BLUE_PIN   = raw_settings_processor.getValueFromKey(KEY.BLUE_PIN)
@@ -122,9 +125,9 @@ class RawSettingsProcessor():
         self.raw_settings_dict = {}
 
         for setting in raw_settings_list:
-            split_line = setting.split(":")
-            temp_key = split_line[0].rstrip()
-            temp_value = split_line[1].rstrip('\n')
+            split_line  = setting.split(":")
+            temp_key    = split_line[0].rstrip()
+            temp_value  = split_line[1].rstrip('\n')
 
             self.raw_settings_dict[temp_key] = temp_value
 
