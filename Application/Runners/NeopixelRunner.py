@@ -1,6 +1,6 @@
 import time
 
-from Application.Display.Runners import RPiLEDFunctions as led_fx
+from Application.Runners.SharedFunctions import RPiLEDFunctions as led_fx
 from neopixel import *
 
 

@@ -122,6 +122,7 @@ def displayLightsFromAudio():
         audio_data = audio_server_connection.getAudioServerData()
 
         for device in device_list:
+            # TODO: Check for audio activity here
             device.displayAudioLights(audio_data)
 
 

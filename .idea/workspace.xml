@@ -2,18 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/Display/Runners/FiftyFiftyRunner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Display/Runners/MatrixRunner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Display/Runners/NeopixelRunner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Common/AudioData.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Common/AudioData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Common/SettingsKeys.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Common/SettingsConstants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Display/LEDClock.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Display/Runners/LEDClock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Display/Runners/RPiLEDFunctions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Display/Runners.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Settings/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings/Settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Animation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/SharedFunctions/Animation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/RPiClockFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/SharedFunctions/RPiClockFunctions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Runners/FiftyFiftyRunner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/FiftyFiftyRunner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Runners/LEDClock.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/LEDClock.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Runners/MatrixRunner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/MatrixRunner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Runners/NeopixelRunner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/NeopixelRunner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Runners/RPiLEDFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/SharedFunctions/RPiLEDFunctions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/Weather.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Runners/SharedFunctions/Weather.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,8 +25,8 @@
       <file leaf-file-name="Settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1365">
-              <caret line="91" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="388">
+              <caret line="107" column="78" lean-forward="true" selection-start-line="107" selection-start-column="78" selection-end-line="107" selection-end-column="78" />
               <folding>
                 <element signature="e#22#46#0" expanded="true" />
               </folding>
@@ -36,81 +34,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerConnection.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1320">
-              <caret line="88" column="17" lean-forward="true" selection-start-line="88" selection-start-column="17" selection-end-line="88" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RPiLEDFunctions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Display/Runners/RPiLEDFunctions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="4" column="22" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FiftyFiftyRunner.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Display/Runners/FiftyFiftyRunner.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MatrixRunner.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Application/Display/Runners/MatrixRunner.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-666">
-              <folding>
-                <marker date="1532814353611" expanded="true" signature="68:74" ph="..." />
-                <marker date="1532814353611" expanded="true" signature="103:110" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Weather.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Display/Weather.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="13" selection-start-line="6" selection-end-line="6" selection-end-column="13" />
-              <folding>
-                <element signature="e#18#30#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LEDClock.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Display/Runners/LEDClock.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-260">
-              <caret line="18" column="22" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AudioData.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="34" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsConstants.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SettingsConstants.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
@@ -136,6 +60,12 @@
       <find>datalist2</find>
       <find>rawdata</find>
       <find>led_fx</find>
+      <find>font</find>
+      <find>dimmer_minimum</find>
+      <find>military_time_bool</find>
+      <find>no_display_tolerance</find>
+      <find>refresh_pause</find>
+      <find>settings_file</find>
       <find>primary_colors</find>
     </findStrings>
     <replaceStrings>
@@ -145,6 +75,9 @@
       <replace>data_list_one</replace>
       <replace>data_list</replace>
       <replace>raw_data</replace>
+      <replace>self.dimmer_minimum</replace>
+      <replace>self.military_time_bool</replace>
+      <replace>self.refresh_pause</replace>
       <replace>data_list_two</replace>
     </replaceStrings>
   </component>
@@ -156,9 +89,7 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Application/LICENSE.md" />
-        <option value="$PROJECT_DIR$/Application/Settings/client_settings.txt" />
         <option value="$PROJECT_DIR$/LICENSE.md" />
-        <option value="$PROJECT_DIR$/Application/Client.py" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Application/Common/SettingsKeys.py" />
         <option value="$PROJECT_DIR$/Application/Common/SettingsConstants.py" />
@@ -171,6 +102,10 @@
         <option value="$PROJECT_DIR$/Application/Display/Runners/NeopixelRunner.py" />
         <option value="$PROJECT_DIR$/Application/Display/Runners/FiftyFiftyRunner.py" />
         <option value="$PROJECT_DIR$/Application/Display/Runners/MatrixRunner.py" />
+        <option value="$PROJECT_DIR$/Application/Client.py" />
+        <option value="$PROJECT_DIR$/Application/Runners/FiftyFiftyRunner.py" />
+        <option value="$PROJECT_DIR$/Application/Settings/client_settings.txt" />
+        <option value="$PROJECT_DIR$/Application/Runners/MatrixRunner.py" />
       </list>
     </option>
   </component>
@@ -206,14 +141,20 @@
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
-              <item name="Display" type="462c0819:PsiDirectoryNode" />
+              <item name="Runners" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
-              <item name="Display" type="462c0819:PsiDirectoryNode" />
               <item name="Runners" type="462c0819:PsiDirectoryNode" />
+              <item name="SharedFunctions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Settings" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
@@ -240,9 +181,11 @@
       <recent name="$PROJECT_DIR$/Application/Settings" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Application/Runners/SharedFunctions" />
+      <recent name="$PROJECT_DIR$/Application" />
+      <recent name="$PROJECT_DIR$/Application/Display/Runners/SharedFunctions" />
       <recent name="$PROJECT_DIR$/Application/Display/Runners" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/Application" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -277,7 +220,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24960506" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32935324" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32935324" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" />
@@ -292,6 +235,25 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="6" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.24960506" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="0" />
+      <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
+      <window_info anchor="bottom" id="Find" order="5" visible="true" weight="0.32935324" />
+      <window_info anchor="bottom" id="Terminal" order="3" weight="0.32935324" />
+      <window_info id="Favorites" order="0" side_tool="true" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -300,7 +262,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Application/Display/Weather.py</url>
+          <url>file://$PROJECT_DIR$/Application/Runners/SharedFunctions/Weather.py</url>
           <line>1</line>
         </line-breakpoint>
       </breakpoints>
@@ -336,23 +298,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1843">
-          <caret line="144" column="26" selection-start-line="144" selection-start-column="26" selection-end-line="144" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings/client_settings.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -360,29 +305,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Settings/server_settings.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Animation.py">
+    <entry file="file://$PROJECT_DIR$/Application/Runners/SharedFunctions/Animation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2324" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1365">
-          <caret line="91" selection-start-line="91" selection-end-line="91" />
-          <folding>
-            <element signature="e#22#46#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Display/Runners/Runners.py">
@@ -394,42 +322,83 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Runners/FiftyFiftyRunner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Runners/RPiLEDFunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Runners/NeopixelRunner.py">
+    <entry file="file://$PROJECT_DIR$/Application/Runners/NeopixelRunner.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Runners/LEDClock.py">
+    <entry file="file://$PROJECT_DIR$/Application/Server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-260">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="14" selection-end-line="18" selection-end-column="22" />
+        <state>
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Weather.py">
+    <entry file="file://$PROJECT_DIR$/Application/Runners/SharedFunctions/RPiClockFunctions.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Runners/LEDClock.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="13" selection-start-line="6" selection-end-line="6" selection-end-column="13" />
+        <state relative-caret-position="330">
+          <caret line="34" column="61" lean-forward="true" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Runners/FiftyFiftyRunner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="106" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="106" />
           <folding>
-            <element signature="e#18#30#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1192">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#0#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Runners/SharedFunctions/RPiLEDFunctions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Settings/client_settings.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Runners/MatrixRunner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-320">
+          <caret line="53" column="54" selection-start-line="53" selection-start-column="42" selection-end-line="53" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+            <marker date="1532817450357" expanded="true" signature="4539:4546" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="107" column="78" lean-forward="true" selection-start-line="107" selection-start-column="78" selection-end-line="107" selection-end-column="78" />
+          <folding>
+            <element signature="e#22#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -444,13 +413,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/Runners/MatrixRunner.py">
+    <entry file="file://$PROJECT_DIR$/Application/Runners/SharedFunctions/Weather.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-666">
+        <state relative-caret-position="655">
+          <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="14" />
           <folding>
-            <marker date="1532814353611" expanded="true" signature="68:74" ph="..." />
-            <marker date="1532814353611" expanded="true" signature="103:110" ph="..." />
+            <element signature="e#18#30#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
         </state>
       </provider>
     </entry>
