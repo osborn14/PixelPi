@@ -13,6 +13,11 @@ Hardware needed:
 
 Run AppSetup.py in the AppSetup folder
 
+#### Status
+
+This app is currently undergoing a major refactor.  Please check back soon.
+
+
 ## License
 
 [MIT License](LICENSE.md)
