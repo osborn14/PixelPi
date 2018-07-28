@@ -46,28 +46,7 @@ class DisplayModeThree(object):
             temp_tip_height = self.shortened_tip_height
 
         return temp_tip_height
-        
 
-def connectToServer(settings_file, PORT):
-    try:
-        sock = socket.socket()
-        sock.connect((settings_file.ServerIP, PORT))
-    except ConnectionRefusedError:
-        error_message = "Tried connecting - server not avalible!"
-
-    return sock
-
-def receiveAndCleanData(sock, expected_array_list_size):
-    try:
-        rawdata = sock.recv(4096)
-        datalist = returnUsableServerData(rawdata, expected_array_list_size)
-        if not datalist:
-            return None
-        
-        return datalist
-    
-    except:
-        return None
 
 def calculateIndividualTransition(main, nextmain):
     if main - nextmain < 5 and main - nextmain > -5:
@@ -181,23 +160,6 @@ def calculateTempStripLEDBrightness(strip_led_brightness, strip_led_brightness_m
         temp_strip_led_brightness = minimum_brightness
     
     return temp_strip_led_brightness
-
-def returnUsableServerData(rawdata, expected_array_list_size):
-    data = rawdata.decode('utf-8')
-    if "n" in data:
-        data = data.replace("n", "")
-    datalist = data.split(" ")
-    try:
-        datalist = list(map(int, datalist))
-        datalistlen = len(datalist)
-        
-        while datalistlen > expected_array_list_size:
-            del datalist[datalistlen-2]
-            datalistlen -= 1
-    except:
-        return None
-        
-    return datalist
 
 def getDataListtoPrint(main_height, data_list, lower_limit, upper_limit):
     counter_from_zero = 0

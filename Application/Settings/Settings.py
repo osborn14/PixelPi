@@ -7,12 +7,11 @@ from Application.Display.Runners import NeopixelRunner, FiftyFiftyRunner
 
 
 class Settings(object):
-    #TODO: Settings should be able to be modified from website
+    # TODO: Settings should be able to be modified from website
     def __init__(self):
         self.runners_list = list()
         
-        # TODO: How should I reference settings file directory?
-        ## Get relative path of text file
+        # TODO: How should I reference settings text file directory?
         current_directory = os.path.dirname(os.path.abspath(__file__))
         settings_file_location = os.path.abspath(
             os.path.join(current_directory, os.pardir)) + "/PixelPi/client_settings.txt"
@@ -21,6 +20,7 @@ class Settings(object):
             settings_file = open(settings_file_location, "r")
         except IOError:
             print("Could not read settings file: " + settings_file_location)
+            # TODO: Ask user if they want to update settings (AppSetup)
             sys.exit()
 
         self.settings_file_output = settings_file.readlines()
@@ -45,8 +45,8 @@ class Settings(object):
                         if device_type == "CL":
                             self.client_settings = ClientSettings(raw_settings_list)
                             
-                        if device_type == "MA":
-                            #TODO: Add matrix settings & runner
+                        #elif device_type == "MA":
+                            # TODO: Add matrix settings & runner
                         
                         elif device_type == "NP":
                             settings = NeopixelSettings(raw_settings_list)
@@ -57,7 +57,8 @@ class Settings(object):
                             runner = FiftyFiftyRunner(settings)
 
                         else:
-                            #TODO: Throw unrecognized device error
+                            print("Device not recognized!")
+                            # TODO: Throw unrecognized device error
 
                         settings_objects.append(settings)
                         self.runners_list.append(runner)

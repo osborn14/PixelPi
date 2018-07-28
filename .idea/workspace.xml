@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Common/SettingsKeys.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Common/SettingsKeys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Display/Runners.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Display/Runners.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Settings/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings/Settings.py" afterDir="false" />
     </list>
@@ -16,23 +15,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="618">
-              <caret line="86" column="45" lean-forward="true" selection-start-line="86" selection-start-column="45" selection-end-line="86" selection-end-column="45" />
+            <state relative-caret-position="-425">
+              <caret line="48" column="34" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
+              <folding>
+                <element signature="e#22#46#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerConnection.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ServerConnection.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-707">
+              <caret line="2" column="59" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -40,8 +39,8 @@
       <file leaf-file-name="RPiLEDFunctions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="735">
-              <caret line="50" column="33" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="33" />
+            <state relative-caret-position="472">
+              <caret line="161" column="36" selection-start-line="161" selection-start-column="36" selection-end-line="161" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -120,10 +119,17 @@
       <find>df</find>
       <find>device_list</find>
       <find>rawSettingsProcessor</find>
+      <find>datalist2</find>
+      <find>rawdata</find>
     </findStrings>
     <replaceStrings>
       <replace>rawSettingsProcessor.getValueFromKey</replace>
       <replace>raw_settings_processor</replace>
+      <replace>data_list</replace>
+      <replace>data_list_one</replace>
+      <replace>data_list</replace>
+      <replace>raw_data</replace>
+      <replace>data_list_two</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -140,8 +146,9 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Application/Display/Runners.py" />
         <option value="$PROJECT_DIR$/Application/Common/SettingsKeys.py" />
-        <option value="$PROJECT_DIR$/Application/Networking/ServerConnection.py" />
         <option value="$PROJECT_DIR$/Application/Settings/Settings.py" />
+        <option value="$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py" />
+        <option value="$PROJECT_DIR$/Application/Networking/ServerConnection.py" />
       </list>
     </option>
   </component>
@@ -330,13 +337,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="735">
-          <caret line="50" column="33" selection-start-line="50" selection-start-column="20" selection-end-line="50" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Common/SettingsKeys.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -344,20 +344,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
+        <state relative-caret-position="-425">
+          <caret line="48" column="34" selection-start-line="48" selection-start-column="34" selection-end-line="48" selection-end-column="34" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#22#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
+    <entry file="file://$PROJECT_DIR$/Application/Display/RPiLEDFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="618">
-          <caret line="86" column="45" lean-forward="true" selection-start-line="86" selection-start-column="45" selection-end-line="86" selection-end-column="45" />
+        <state relative-caret-position="472">
+          <caret line="161" column="36" selection-start-line="161" selection-start-column="36" selection-end-line="161" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-707">
+          <caret line="2" column="59" selection-start-line="2" selection-start-column="53" selection-end-line="2" selection-end-column="59" />
         </state>
       </provider>
     </entry>
