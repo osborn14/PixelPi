@@ -1,16 +1,15 @@
 import time
 
+import Application.Common.SettingsConstants as KEY
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
 from neopixel import *
 
 
 class NeopixelRunner():
-    def __init__(self, settings_file):
-        self.SETTINGS                           = settings_file
-
+    def __init__(self, settings):
         # LED strip configuration:
-        self.LED_COUNT                          = settings_file.led_count      # Number of LED pixels.
-        LED_PIN                                 = 18      # GPIO pin connected to the pixels (18 uses PWM!).
+        self.LED_COUNT                          = settings[KEY.LED_COUNT]      # Number of LED pixels.
+        LED_PIN                                 = settings[KEY.MAIN_PIN]      # GPIO pin connected to the pixels (18 uses PWM!).
         LED_FREQ_HZ                             = 800000  # LED signal frequency in hertz (usually 800khz)
         LED_DMA                                 = 5       # DMA channel to use for generating signal (try 5)
         LED_BRIGHTNESS                          = 255     # Set to 0 for darkest and 255 for brightest
@@ -19,12 +18,11 @@ class NeopixelRunner():
         LED_STRIP                               = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
 
         # Defining some settings
-        self.STRIP_LED_BRIGHTNESS_MULTIPLIER    = settings_file.led_brightness_multiplier
-        self.IN_TESTING_ENVIRONMENT             = settings_file.IN_TESTING_ENVIROMENT
-        self.LED_DIMMER                         = settings_file.LED_DIMMER
-        self.PAUSE_TIME                         = 1 / settings_file.target_fps
-        self.FADE_START                         = settings_file.fade_start_pixel
-        self.FADE_END                           = settings_file.fade_end_pixel
+        self.STRIP_LED_BRIGHTNESS_MULTIPLIER    = 1.4
+        self.LED_DIMMER                         = 0.75
+        self.PAUSE_TIME                         = 1 / 20
+        self.FADE_START                         = 8
+        self.FADE_END                           = 17
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
         # Create NeoPixel object with appropriate configuration.
@@ -62,11 +60,6 @@ class NeopixelRunner():
                 display_color = Color(int(temp_rgb[0]), int(temp_rgb[1]), int(temp_rgb[2]))
                 self.strip.setPixelColor(individual_pixel, display_color)
 
-        if self.IN_TESTING_ENVIROMENT:
-            print("Printing")
-        else:
-            self.strip.show()
-
         time.sleep(self.PAUSE_TIME)
 
 
@@ -75,10 +68,11 @@ class NeopixelRunner():
         while True:
             for rgb in rgb_values_array:
                 ## N1, or WS 2811 Neopixels display in GRB, so the order of colors need to be switched
-                if self.SETTINGS.device_type == 'N1':
-                    color_array = [rgb[1], rgb[0], rgb[2]]
-                else:
-                    color_array = rgb
+                # if self.SETTINGS.device_type == 'N1':
+                #     color_array = [rgb[1], rgb[0], rgb[2]]
+                # else:
+
+                color_array = rgb
 
                 self.strip.setPixelColor(i, Color(color_array[0], color_array[1], color_array[2]))
 
@@ -91,7 +85,7 @@ class NeopixelRunner():
             # break;
 
 
-    def turnOffLights(self):
+    def displayDefaultLights(self):
         for i in range(self.LED_COUNT):
             self.strip.setPixelColor(i, Color(0, 0, 0))
         self.strip.show()

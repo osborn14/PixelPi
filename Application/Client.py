@@ -1,17 +1,18 @@
 import json, queue, threading, datetime, calendar, sys, os, signal, argparse
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-from Application.Display.Runners.Runners import NeopixelRunner
-from Application.Settings.Settings import Settings
+from Application.Interfaces import Neopixel
+from Application.Settings import Settings
 from Application.Networking.ServerConnection import AudioServerConnection
 
 ## Create our settings file as a global variable
-settings_file = Settings()
-os.environ['TZ'] = settings_file.time_zone
-DEVICE_RUNNER = settings_file.getDeviceSettings()
-device_list = list()
-device_list.addend(NeopixelRunner())
+settings = Settings()
+# os.environ['TZ'] = settings_file.time_zone
+client_settings = settings.getUniversalClientSettings()
+interface_list = settings.getInterfaces()
 
 
 def signal_handler(signal, frame):
@@ -116,14 +117,17 @@ class MyClientProtocol(WebSocketClientProtocol):
 
 
 def displayLightsFromAudio():
-    audio_server_connection = AudioServerConnection()
+    # audio_server_connection = AudioServerConnection()
     
     while True:
-        audio_data = audio_server_connection.getAudioServerData()
+        # audio_data = audio_server_connection.getAudioServerData()
 
-        for device in device_list:
-            # TODO: Check for audio activity here
-            device.displayAudioLights(audio_data)
+
+        for interface in interface_list:
+            # if audio_data.music_is_playing:
+            #     interface.displayAudioLights(audio_data)
+            # else:
+            interface.displayDefaultLights()
 
 
 if __name__ == '__main__':
