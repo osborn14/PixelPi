@@ -1,6 +1,6 @@
 import os, pigpio
 
-from Application.Runners.SharedFunctions import RPiLEDFunctions as led_fx
+from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
 from Application.Common import SettingsConstants as KEY
 
 class FiftyFiftyRunner():

@@ -68,7 +68,7 @@ def removeTask(id):
         return False
 
 def sendJsonToSingleClient(json):
-    for cd in connected_device_list:
+    for cd in connected_interface_list:
         if 'NP' == cd.category:
             print("Message sent! - NP")
             cd.client.sendMessage(payload)
@@ -99,9 +99,9 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 if str(msg['device code'])[:2] == 'AD':
                     print("Android device connected!")
                     print(msg['device code'])
-                    connected_device_list.append(Device('AD',  msg['device code'], self, 'Admin'))
+                    connected_interface_list.append(Device('AD',  msg['device code'], self, 'Admin'))
                 else:
-                    connected_device_list.append(Device('NP',  msg['device code'], self, 'Neopixel client'))
+                    connected_interface_list.append(Device('NP',  msg['device code'], self, 'Neopixel client'))
 
                     device_tasks = viewTasks(msg['device code'])
                     for t in device_tasks['tasks']:
@@ -117,14 +117,14 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             elif msg['cmd'] == 'DISPLAY':
                 if 'task id' in msg:
                     addTask('NP01', json.dumps(payload.decode('utf8')))
-                for cd in connected_device_list:
+                for cd in connected_interface_list:
                     if 'NP01' == cd.name:
                         cd.client.sendMessage(payload)
                         print("Message sent! - NP")
 
             elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
                 all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
-                for cd in connected_device_list:
+                for cd in connected_interface_list:
                     if cd.category != 'AD':
                         print("Name added!" + cd.name)
 

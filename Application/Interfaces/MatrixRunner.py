@@ -1,8 +1,8 @@
 import os, time, datetime
 
-from Application.Runners.SharedFunctions.Weather import Weather, getWeatherData
-from Application.Runners.SharedFunctions.Animation import Animation
-from Application.Runners.SharedFunctions.RPiClockFunctions as clock_fx
+from Application.Interfaces.SharedFunctions.Weather import Weather, getWeatherData
+from Application.Interfaces.SharedFunctions.Animation import Animation
+from Application.Interfaces.SharedFunctions.RPiClockFunctions as clock_fx
 
 from samplebase import SampleBase
 from rgbmatrix import RGBMatrix, graphics, RGBMatrixOptions
