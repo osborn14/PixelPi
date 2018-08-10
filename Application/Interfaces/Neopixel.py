@@ -2,7 +2,7 @@ import time
 
 import Application.Common.SettingsConstants as KEY
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
-from neopixel import *
+from Application.ImportedLibraries.neopixel import *
 
 
 class NeopixelRunner():
@@ -30,10 +30,6 @@ class NeopixelRunner():
         self.strip.begin()
 
     def displayAudioLights(self, audio_data):
-        if not audio_data.music_is_not_playing:
-            self.turnOffLights()
-            return
-
         # Strip brightness is the actual number (between 0 and 1) that determines the intensity of the displayed color
         self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness * 1.0, audio_data.avg * 1.0)
 
@@ -87,6 +83,6 @@ class NeopixelRunner():
 
     def displayDefaultLights(self):
         for i in range(self.LED_COUNT):
-            self.strip.setPixelColor(i, Color(0, 0, 0))
+            self.strip.setPixelColor(i, Color(0, 25, 0))
         self.strip.show()
         time.sleep(self.PAUSE_TIME * 5)

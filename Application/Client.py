@@ -16,8 +16,8 @@ interface_list = settings.getInterfaces()
 
 
 def signal_handler(signal, frame):
-    for device in device_list:
-        device.turnOffLights()
+    for interface in interface_list:
+        interface.displayDefaultLights()
 
     sys.exit(0)
 
