@@ -7,6 +7,7 @@ from neopixel import *
 class Neopixel():
     def __init__(self, settings):
         print(settings)
+        print(settings[KEY.LED_COUNT])
 
         # LED strip configuration:
         self.LED_COUNT                          = settings[KEY.LED_COUNT]      # Number of LED pixels.
