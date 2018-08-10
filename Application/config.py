@@ -8,7 +8,7 @@ client = {
 }
 neopixel = [
     {
-        KEY.MAIN_PIN: '18',
+        KEY.MAIN_PIN: 18,
         KEY.LED_COUNT: 150
     }
 ]
