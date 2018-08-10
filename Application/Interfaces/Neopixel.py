@@ -6,6 +6,8 @@ from neopixel import *
 
 class Neopixel():
     def __init__(self, settings):
+        print(settings)
+
         # LED strip configuration:
         self.LED_COUNT                          = settings[KEY.LED_COUNT]      # Number of LED pixels.
         LED_PIN                                 = settings[KEY.MAIN_PIN]      # GPIO pin connected to the pixels (18 uses PWM!).
@@ -81,6 +83,6 @@ class Neopixel():
 
     def displayDefaultLights(self):
         for i in range(self.LED_COUNT):
-            self.strip.setPixelColor(i, Color(0, 25, 0))
+            self.strip.setPixelColor(i, Color(25, 25, 0))
         self.strip.show()
         time.sleep(self.PAUSE_TIME * 5)
