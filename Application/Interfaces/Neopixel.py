@@ -27,7 +27,7 @@ class Neopixel():
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
         # Create NeoPixel object with appropriate configuration.
-        self.strip = Adafruit_NeoPixel(150, 18, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+        self.strip = Adafruit_NeoPixel(self.LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
         self.strip.begin()
 
     def displayAudioLights(self, audio_data):
@@ -84,6 +84,6 @@ class Neopixel():
 
     def displayDefaultLights(self):
         for i in range(self.LED_COUNT):
-            self.strip.setPixelColor(i, Color(25, 25, 0))
+            self.strip.setPixelColor(i, Color(0, 0, 25))
         self.strip.show()
         time.sleep(self.PAUSE_TIME * 5)
