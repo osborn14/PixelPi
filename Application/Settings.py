@@ -3,7 +3,7 @@ import os, sys, platform
 
 #sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import Application.Common.SettingsConstants as KEY
-from Application.Interfaces import Neopixel
+from Application.Interfaces.Neopixel import Neopixel
 import Application.config as config
 
 
