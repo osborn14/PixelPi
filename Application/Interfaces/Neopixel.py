@@ -24,8 +24,8 @@ class Neopixel():
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
         # Create NeoPixel object with appropriate configuration.
-        self.strip = Adafruit_NeoPixel(150, 18, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
-        self.strip.begin()
+        strip = Adafruit_NeoPixel(150, 18, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+        strip.begin()
 
     def displayAudioLights(self, audio_data):
         # Strip brightness is the actual number (between 0 and 1) that determines the intensity of the displayed color
