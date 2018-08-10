@@ -14,7 +14,6 @@ class Neopixel():
         LED_BRIGHTNESS                          = 255     # Set to 0 for darkest and 255 for brightest
         LED_INVERT                              = False   # True to invert the signal (when using NPN transistor level shift)
         LED_CHANNEL                             = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
-        LED_STRIP                               = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
 
         # Defining some settings
         self.STRIP_LED_BRIGHTNESS_MULTIPLIER    = 1.4
@@ -25,7 +24,7 @@ class Neopixel():
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
         # Create NeoPixel object with appropriate configuration.
-        self.strip = Adafruit_NeoPixel(150, 18, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+        self.strip = Adafruit_NeoPixel(150, 18, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
         self.strip.begin()
 
     def displayAudioLights(self, audio_data):

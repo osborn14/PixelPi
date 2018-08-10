@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+              <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -49,11 +47,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Neopixel.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Neopixel.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+            <state relative-caret-position="405">
+              <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,9 +143,9 @@
         <option value="$PROJECT_DIR$/AppSetup/AppSetup.py" />
         <option value="$PROJECT_DIR$/Application/Settings/Settings.py" />
         <option value="$PROJECT_DIR$/Application/config.py" />
-        <option value="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" />
         <option value="$PROJECT_DIR$/Application/Client.py" />
         <option value="$PROJECT_DIR$/Application/Settings.py" />
+        <option value="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" />
       </list>
     </option>
   </component>
@@ -169,6 +170,12 @@
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Interfaces" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
@@ -448,24 +455,17 @@
     <entry file="file://$PROJECT_DIR$/Application/ImportedLibraries/neopixel.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="5" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="29" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -479,7 +479,17 @@
     <entry file="file://$PROJECT_DIR$/Application/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+          <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="46" selection-start-line="27" selection-start-column="46" selection-end-line="27" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
