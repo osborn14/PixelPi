@@ -4,7 +4,7 @@ from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
 from neopixel import *
 
 
-class NeopixelRunner():
+class Neopixel():
     def __init__(self, settings):
         # LED strip configuration:
         self.LED_COUNT                          = settings[KEY.LED_COUNT]      # Number of LED pixels.
