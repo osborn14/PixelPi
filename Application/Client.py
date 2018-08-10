@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-from Application import Settings
+from Application.Settings import Settings
 
 ## Create our settings file as a global variable
 settings = Settings()
