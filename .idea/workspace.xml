@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Application/Audio/SpectrumAnalyzer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,17 +19,33 @@
       <file leaf-file-name="Settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
+            <state relative-caret-position="1125">
+              <caret line="75" selection-start-line="75" selection-end-line="75" />
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/config.py">
+      <file leaf-file-name="SpectrumAnalyzer.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Application/Audio/SpectrumAnalyzer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+            <state relative-caret-position="1500">
+              <caret line="100" column="8" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="8" />
+              <folding>
+                <element signature="e#411#442#0" expanded="true" />
+                <marker date="1533870645465" expanded="true" signature="3448:3453" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -34,7 +53,7 @@
       <file leaf-file-name="Client.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="678">
+            <state relative-caret-position="801">
               <caret line="55" column="28" lean-forward="true" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
             </state>
           </provider>
@@ -49,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Neopixel.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Neopixel.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+            <state relative-caret-position="421">
+              <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="53" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -104,6 +123,7 @@
       <find>settings_file</find>
       <find>primary_colors</find>
       <find>runners_list</find>
+      <find>config</find>
     </findStrings>
     <replaceStrings>
       <replace>rawSettingsProcessor.getValueFromKey</replace>
@@ -116,7 +136,11 @@
       <replace>self.refresh_pause</replace>
       <replace>data_list_two</replace>
       <replace>interface_list</replace>
+      <replace>Config</replace>
     </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/Application</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -144,10 +168,11 @@
         <option value="$PROJECT_DIR$/AppSetup/client_requirements.txt" />
         <option value="$PROJECT_DIR$/AppSetup/AppSetup.py" />
         <option value="$PROJECT_DIR$/Application/Settings/Settings.py" />
-        <option value="$PROJECT_DIR$/Application/config.py" />
-        <option value="$PROJECT_DIR$/Application/Settings.py" />
         <option value="$PROJECT_DIR$/Application/Client.py" />
         <option value="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" />
+        <option value="$PROJECT_DIR$/Application/config.py" />
+        <option value="$PROJECT_DIR$/Application/Settings.py" />
+        <option value="$PROJECT_DIR$/Application/Audio/SpectrumAnalyzer.py" />
       </list>
     </option>
   </component>
@@ -172,6 +197,12 @@
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="Application" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Audio" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
@@ -245,6 +276,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30019" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32935324" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -258,7 +290,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32935324" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -299,6 +330,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" selection-start-line="4" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -316,7 +350,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/config.py">
+    <entry file="file://$PROJECT_DIR$/Application/Config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
@@ -356,13 +390,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -464,33 +491,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="678">
+        <state relative-caret-position="801">
           <caret line="55" column="28" lean-forward="true" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/config.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+        <state relative-caret-position="75">
+          <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
+        <state relative-caret-position="1125">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
+    <entry file="file://$PROJECT_DIR$/Application/Audio/SpectrumAnalyzer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
+        <state relative-caret-position="1500">
+          <caret line="100" column="8" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="8" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#411#442#0" expanded="true" />
+            <marker date="1533870645465" expanded="true" signature="3448:3453" ph="..." />
           </folding>
         </state>
       </provider>

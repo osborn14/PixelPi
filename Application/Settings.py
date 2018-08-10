@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-import os, sys, platform
-
-#sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import Application.Common.SettingsConstants as KEY
 from Application.Interfaces.Neopixel import Neopixel
-import Application.config as config
+import Application.Config as Config
 
 
 class Settings(object):
@@ -26,9 +22,9 @@ class Settings(object):
         #
         # self.settings_file_output = settings_file.readlines()
         # settings_file.close
-        self.client_settings = config.client
+        self.client_settings = Config.client
 
-        for settings in config.neopixel:
+        for settings in Config.neopixel:
             self.interface_list.append(Neopixel(settings))
 
     def getUniversalClientSettings(self):
@@ -77,26 +73,3 @@ class FiftyFiftySettings():
 #     def __init__(self, device_name, device_code, device_type):
 #         self.device_name =
 
-
-def getDeviceSettings(self):
-    if self.device_type == 'NP' or self.device_type == 'N1':
-        return NeopixelRunner(self)
-    if self.device_type == '50':
-        return FiftyFiftyRunner(self)
-
-
-class RawSettingsProcessor():
-    def __init__(self, raw_settings_list):
-        self.raw_settings_dict = {}
-
-        for setting in raw_settings_list:
-            split_line  = setting.split(":")
-            temp_key    = split_line[0].rstrip()
-            temp_value  = split_line[1].rstrip('\n')
-
-            self.raw_settings_dict[temp_key] = temp_value
-
-
-    def getValueFromKey(self, key):
-        # TODO: Throw error here if key doesn't exist
-        return self.raw_settings_dict[key]
