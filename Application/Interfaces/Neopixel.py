@@ -1,8 +1,7 @@
 import time
-
 import Application.Common.SettingsConstants as KEY
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
-from Application.ImportedLibraries.neopixel import *
+from Application.ImportedLibraries.python.neopixel import *
 
 
 class NeopixelRunner():
