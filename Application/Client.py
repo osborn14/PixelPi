@@ -4,9 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-from Application.Interfaces import Neopixel
-from Application.Settings import Settings
-from Application.Networking.ServerConnection import AudioServerConnection
+from Application import Settings
 
 ## Create our settings file as a global variable
 settings = Settings()
