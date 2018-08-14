@@ -98,9 +98,9 @@ class AudioStream(object):
     def exit_app(self):
         print('stream closed')
         self.p.close(self.stream)
-        
+
     def onClick(self, event):
-    self.pause = True
+        self.pause = True
 
 
 if __name__ == '__main__':
