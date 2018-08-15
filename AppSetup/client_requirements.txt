@@ -1,0 +1,5 @@
+Twisted==16.0.0
+Autobahn
+rgbmatrix
+neopixel
+pigpio
