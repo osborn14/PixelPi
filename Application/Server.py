@@ -1,4 +1,4 @@
-import sys, json, pymysql
+import sys, json, threading, time #, pymysql
 
 from twisted.internet import reactor
 from twisted.python import log
@@ -68,7 +68,7 @@ def removeTask(id):
         return False
 
 def sendJsonToSingleClient(json):
-    for cd in connected_interface_list:
+    for cd in connected_device_list:
         if 'NP' == cd.category:
             print("Message sent! - NP")
             cd.client.sendMessage(payload)
@@ -99,9 +99,9 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 if str(msg['device code'])[:2] == 'AD':
                     print("Android device connected!")
                     print(msg['device code'])
-                    connected_interface_list.append(Device('AD',  msg['device code'], self, 'Admin'))
+                    connected_device_list.append(Device('AD',  msg['device code'], self, 'Admin'))
                 else:
-                    connected_interface_list.append(Device('NP',  msg['device code'], self, 'Neopixel client'))
+                    connected_device_list.append(Device('NP',  msg['device code'], self, 'Neopixel client'))
 
                     device_tasks = viewTasks(msg['device code'])
                     for t in device_tasks['tasks']:
@@ -117,14 +117,14 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             elif msg['cmd'] == 'DISPLAY':
                 if 'task id' in msg:
                     addTask('NP01', json.dumps(payload.decode('utf8')))
-                for cd in connected_interface_list:
+                for cd in connected_device_list:
                     if 'NP01' == cd.name:
                         cd.client.sendMessage(payload)
                         print("Message sent! - NP")
 
             elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
                 all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
-                for cd in connected_interface_list:
+                for cd in connected_device_list:
                     if cd.category != 'AD':
                         print("Name added!" + cd.name)
 
@@ -192,6 +192,15 @@ class BroadcastPreparedServerFactory(BroadcastServerFactory):
             c.sendPreparedMessage(preparedMsg)
             print("prepared message sent to {}".format(c.peer))
 
+def broadcastRepeatedly():
+    i = 0
+    while(True):
+        msg = "Message: " + str(i)
+        for cd in connected_device_list:
+            cd.client.sendMessage()
+
+        i += 1
+        time.sleep(.01)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'debug':
@@ -200,22 +209,22 @@ if __name__ == '__main__':
     else:
         debug = False
         
-    try:
-        db = pymysql.connect("localhost","root","root","PixelPi" )
-        cursor = db.cursor()
-        
-    except:
-        db = pymysql.connect("localhost", "root", "root" )
-        cursor = db.cursor()
-        
-        cursor.execute("CREATE DATABASE PixelPi")
-        cursor.execute("USE PixelPi;")
-        cursor.execute("""CREATE TABLE Tasks(
-id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-device_name VARCHAR(4) NOT NULL,
-command TEXT NOT NULL);""")
-           
-        db.commit()
+#     try:
+#         db = pymysql.connect("localhost","root","root","PixelPi" )
+#         cursor = db.cursor()
+#
+#     except:
+#         db = pymysql.connect("localhost", "root", "root" )
+#         cursor = db.cursor()
+#
+#         cursor.execute("CREATE DATABASE PixelPi")
+#         cursor.execute("USE PixelPi;")
+#         cursor.execute("""CREATE TABLE Tasks(
+# id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+# device_name VARCHAR(4) NOT NULL,
+# command TEXT NOT NULL);""")
+#
+#         db.commit()
         
 
     connected_device_list = list()
@@ -229,5 +238,9 @@ command TEXT NOT NULL);""")
     webdir = File(".")
     web = Site(webdir)
     print("Starting...")
+
+    connection_to_audio_server_thread = threading.Thread(target=broadcastRepeatedly)
+    connection_to_audio_server_thread.setDaemon(True)
+    connection_to_audio_server_thread.start()
 
     reactor.run()
