@@ -1,9 +1,21 @@
-from autobahn.twisted.websocket import WebSocketServerFactory, \
-    WebSocketServerProtocol, \
-    listenWS
+import json
+
+from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol
+from twisted.internet import reactor
+
+from Application.Database.ClientTaskDatabase import ClientTaskDatabase
+
+database = ClientTaskDatabase()
+connected_device_list = list()
+
+class Device():
+    def __init__(self, category, name, client, description):
+        self.category = category;
+        self.name = name
+        self.client = client
+        self.description = description
 
 class BroadcastServerProtocol(WebSocketServerProtocol):
-
     def onOpen(self):
         self.factory.register(self)
 
@@ -21,7 +33,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             if msg['cmd'] == 'AUTHENTICATE':
                 print('un' + msg['username'])
                 print('pw' + msg['password'])
-                login_status = authenticateUser(msg['username'], msg['password'])
+                login_status = database.authenticateUser(msg['username'], msg['password'])
                 print(str(login_status))
                 self.sendMessage(json.dumps({'cmd': 'AUTHENTICATE', 'status': str(login_status)}).encode('utf8'))
 
@@ -33,7 +45,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 else:
                     connected_device_list.append(Device('NP', msg['device code'], self, 'Neopixel client'))
 
-                    device_tasks = viewTasks(msg['device code'])
+                    device_tasks = database.viewTasks(msg['device code'])
                     for t in device_tasks['tasks']:
                         print(t['json'])
                         self.sendMessage(t['json'].encode('utf8'))
@@ -45,7 +57,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
             elif msg['cmd'] == 'DISPLAY':
                 if 'task id' in msg:
-                    addTask('NP01', json.dumps(payload.decode('utf8')))
+                    database.addTask('NP01', json.dumps(payload.decode('utf8')))
                 for cd in connected_device_list:
                     if 'NP01' == cd.name:
                         cd.client.sendMessage(payload)
@@ -58,7 +70,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                         print("Name added!" + cd.name)
 
                         device_dict = {'device code': cd.name}
-                        dict(device_dict, **viewTasks(cd.name))
+                        dict(device_dict, **database.viewTasks(cd.name))
                         all_devices_dict['devices'].append(device_dict)
 
                 self.sendMessage(json.dumps(all_devices_dict).encode('utf8'))
@@ -68,6 +80,12 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
     def connectionLost(self, reason):
         WebSocketServerProtocol.connectionLost(self, reason)
         self.factory.unregister(self)
+
+    @classmethod
+    def broadcast_audio_data(cls, msg):
+        payload = json.dumps(msg, ensure_ascii=False).encode('utf8')
+        for c in set(cls.connections):
+            reactor.callFromThread(cls.sendMessage, c, payload)
 
 
 class BroadcastServerFactory(WebSocketServerFactory):

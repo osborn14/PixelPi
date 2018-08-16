@@ -1,6 +1,6 @@
 import pymysql
 
-class DatabaseConnection():
+class ClientTaskDatabase():
     def __init__(self):
         try:
             self.db = pymysql.connect("localhost", "root", "root", "PixelPi")

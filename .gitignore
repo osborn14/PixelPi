@@ -2,4 +2,7 @@
 Application/Config.py
 
 # Don't load audio server for now
-Application/Audio/ProcessingSpectrumAnalyzer
+Application/Audio/ProcessingSpectrumAnalyzer/
+
+# Don't worry about pycache files
+__pycache__/
