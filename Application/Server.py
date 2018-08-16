@@ -189,7 +189,10 @@ class BroadcastPreparedServerFactory(BroadcastServerFactory):
         print("broadcasting prepared message '{}' ..".format(msg))
         preparedMsg = self.prepareMessage(msg)
         for c in self.clients:
-            c.sendPreparedMessage(preparedMsg)
+            c.sendPreparedMessage(
+
+
+                preparedMsg)
             print("prepared message sent to {}".format(c.peer))
 
 
