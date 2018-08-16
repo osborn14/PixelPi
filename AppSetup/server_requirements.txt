@@ -1,3 +1,5 @@
 Twisted==16.0.0
 Autobahn
 pymysql
+sudo apt-get install python3-twisted
+sudo apt-get install python3-autobahn

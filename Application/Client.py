@@ -2,15 +2,16 @@ import json, queue, threading, datetime, calendar, sys, os, signal, argparse
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# from autobahn.asyncio.websocket import WebSocketClientProtocol
+from autobahn.asyncio.websocket import WebSocketClientProtocol, \
+    WebSocketClientFactory
 
 from Application.Settings import Settings
 
 ## Create our settings file as a global variable
-settings = Settings()
+#settings = Settings()
 # os.environ['TZ'] = settings_file.time_zone
-client_settings = settings.getUniversalClientSettings()
-interface_list = settings.getInterfaces()
+#client_settings = settings.getUniversalClientSettings()
+#interface_list = settings.getInterfaces()
 
 
 def signal_handler(signal, frame):
@@ -75,11 +76,11 @@ class MyClientProtocol(WebSocketClientProtocol):
         print("WebSocket connection open.")
 
         ## Send server some basic details about the device upon connecting
-        device_name = settings_file.device_name
-        device_code = settings_file.device_code
-        device_type = settings_file.device_type
-        device_location = "temp"
-        self.sendMessage(json.dumps({'cmd' : 'REGISTER DEVICE', 'device_name':device_name ,'device code': device_code, 'device_type': device_type}).encode('utf8'))
+##        device_name = settings_file.device_name
+##        device_code = settings_file.device_code
+##        device_type = settings_file.device_type
+##        device_location = "temp"
+##        self.sendMessage(json.dumps({'cmd' : 'REGISTER DEVICE', 'device_name':device_name ,'device code': device_code, 'device_type': device_type}).encode('utf8'))
 
 
     def onMessage(self, payload, isBinary):
@@ -106,6 +107,8 @@ class MyClientProtocol(WebSocketClientProtocol):
                     display_queue.put(payload)
                     print("Text message received: {0}".format(payload.decode('utf8')))
             except:
+                if int(payload.decode('utf-8')) % 100 == 0:
+                    print(payload.decode('utf-8'))
                 print("Server sent invalid json!")
 
     def onClose(self, wasClean, code, reason):

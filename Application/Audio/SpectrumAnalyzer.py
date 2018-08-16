@@ -11,7 +11,7 @@
     note: with 2048 samples per chunk, I'm getting 20FPS
     when also running the spectrum, its about 15FPS
 """
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 import pyaudio
 from pyqtgraph.Qt import QtGui, QtCore
@@ -47,29 +47,29 @@ class AudioStream(object):
         x = np.arange(0, 2 * self.CHUNK, 2)
         xf = np.linspace(0, self.RATE, self.CHUNK)
         # create matplotlib figure and axes
-        self.fig, (ax1, ax2) = plt.subplots(2, figsize=(15, 7))
-        self.fig.canvas.mpl_connect('button_press_event', self.onClick)
+        #self.fig, (ax1, ax2) = plt.subplots(2, figsize=(15, 7))
+        #self.fig.canvas.mpl_connect('button_press_event', self.onClick)
         # create a line object with random data
-        self.line, = ax1.plot(x, np.random.rand(self.CHUNK), '-', lw=2)
+        #self.line, = ax1.plot(x, np.random.rand(self.CHUNK), '-', lw=2)
         # create semilogx line for spectrum
-        self.line_fft, = ax2.semilogx(xf, np.random.rand(self.CHUNK), '-', lw=2)
+        #self.line_fft, = ax2.semilogx(xf, np.random.rand(self.CHUNK), '-', lw=2)
         # format waveform axes
-        ax1.set_title('AUDIO WAVEFORM')
-        ax1.set_xlabel('samples')
-        ax1.set_ylabel('volume')
-        ax1.set_ylim(0, 255)
-        ax1.set_xlim(0, 2 * self.CHUNK)
-        plt.setp(
-            ax1, yticks=[0, 128, 255],
-            xticks=[0, self.CHUNK, 2 * self.CHUNK],
-        )
-        plt.setp(ax2, yticks=[0, 1],)
+        #ax1.set_title('AUDIO WAVEFORM')
+        #ax1.set_xlabel('samples')
+        #ax1.set_ylabel('volume')
+        #ax1.set_ylim(0, 255)
+        #ax1.set_xlim(0, 2 * self.CHUNK)
+        #plt.setp(
+        #    ax1, yticks=[0, 128, 255],
+        #    xticks=[0, self.CHUNK, 2 * self.CHUNK],
+        #)
+       # plt.setp(ax2, yticks=[0, 1],)
         # format spectrum axes
         ax2.set_xlim(20, self.RATE / 2)
         # show axes
-        thismanager = plt.get_current_fig_manager()
-        thismanager.window.setGeometry(5, 120, 1910, 1070)
-        plt.show(block=False)
+        #thismanager = plt.get_current_fig_manager()
+        #thismanager.window.setGeometry(5, 120, 1910, 1070)
+        #plt.show(block=False)
 
     def start_plot(self):
         print('stream started')
@@ -83,11 +83,11 @@ class AudioStream(object):
             self.line.set_ydata(data_np)
             # compute FFT and update line
             yf = fft(data_int)
-            self.line_fft.set_ydata(
-                            np.abs(yf[0:self.CHUNK]) / (128 * self.CHUNK))
+            print(yf)
+            #self.line_fft.set_ydata(np.abs(yf[0:self.CHUNK]) / (128 * self.CHUNK))
             # update figure canvas
-            self.fig.canvas.draw()
-            self.fig.canvas.flush_events()
+            #self.fig.canvas.draw()
+            #self.fig.canvas.flush_events()
             frame_count += 1
 
         else:

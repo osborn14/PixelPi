@@ -80,6 +80,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
         print("Client connecting: {}".format(request.peer))
+        connected_device_list.append(Device('AD',  'ad01', self, 'Admin'))
 
     def onMessage(self, payload, isBinary):
         print("Message received")
@@ -199,10 +200,10 @@ class BroadcastPreparedServerFactory(BroadcastServerFactory):
 def broadcastRepeatedly():
     i = 0
     while(True):
-        msg = "Message: " + str(i)
+        
+        msg = str(i)
         for cd in connected_device_list:
-            cd.client.sendMessage()
-
+            cd.client.sendMessage(msg.encode('utf8'))
         i += 1
         time.sleep(.01)
 
