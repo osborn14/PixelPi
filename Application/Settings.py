@@ -22,10 +22,16 @@ class Settings(object):
         #
         # self.settings_file_output = settings_file.readlines()
         # settings_file.close
+
+        self.server_settings = Config.server
+
         self.client_settings = Config.client
 
         for settings in Config.neopixel:
             self.interface_list.append(Neopixel(settings))
+
+    def getServerSettings(self):
+        return self.server_settings
 
     def getUniversalClientSettings(self):
         return self.client_settings

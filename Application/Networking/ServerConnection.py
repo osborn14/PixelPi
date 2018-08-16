@@ -1,12 +1,14 @@
 import time, socket
-from Application.Common import AudioData
+
+import Application.Common.SettingsConstants as KEY
+from Application.Common.AudioData import AudioData
 
 class AudioServerConnection():
     def __init__(self, settings):
-        self.server_ip = settings.SERVER_IP_ADDRESS
-        self.port_one = settings.AUDIO_SERVER_PORT_ONE
-        self.port_two = settings.AUDIO_SERVER_PORT_TWO
-        self.no_display_tolerance = settings.NO_DISPLAY_TOLERANCE
+        self.server_ip = settings[KEY.AUDIO_SERVER_IP_ADDRESS]
+        self.port_one = settings[KEY.AUDIO_SERVER_PORT_ONE]
+        self.port_two = settings[KEY.AUDIO_SERVER_PORT_TWO]
+        self.no_display_tolerance = settings[KEY.NO_DISPLAY_TOLERANCE]
 
         ## The first server provides us with the audio spectrum analysis, broken into 16 pieces
         self.sock1 = self.connectToServer(self.server_ip, self.port_one)
