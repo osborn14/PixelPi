@@ -17,6 +17,6 @@ class AudioData():
         audio_data_json[NETWORK.SPECTRUM_HEIGHTS] = self.spectrum_heights
         audio_data_json[NETWORK.SPECTRUM_PRIMARY_COLORS] = self.server_primary_colors
         audio_data_json[NETWORK.SPECTRUM_SECONDARY_COLORS] = self.server_secondary_colors
-        audio_data_json[NETWORK.DISPLAY_MODE] = self.display_mode
+        audio_data_json[NETWORK.AUDIO_DISPLAY_MODE] = self.display_mode
 
         return audio_data_json

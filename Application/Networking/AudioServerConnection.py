@@ -9,9 +9,11 @@ class AudioServerConnection():
         self.port_one = settings[KEY.AUDIO_SERVER_PORT_ONE]
         self.port_two = settings[KEY.AUDIO_SERVER_PORT_TWO]
         self.no_display_tolerance = settings[KEY.NO_DISPLAY_TOLERANCE]
-
+        
         ## The first server provides us with the audio spectrum analysis, broken into 16 pieces
         self.sock1 = self.connectToServer(self.server_ip, self.port_one)
+        
+        print("After first connection")
         
         ## The second server will give us all the main and secondary rgb information, along with display mode
         self.sock2 = self.connectToServer(self.server_ip, self.port_two)
@@ -22,7 +24,7 @@ class AudioServerConnection():
 
         self.start_time = time.time()
 
-    def getAudioServerData(self):
+    def getAudioServerData(self):        
         # Get the values from the first server
         expected_array_list_size1 = 19
         data_list_one = self.receiveAndCleanData(self.sock1, expected_array_list_size1)
@@ -59,12 +61,12 @@ class AudioServerConnection():
 
                 if time.time() - self.start_time > 60:
                     # Has it been 60 seconds with no activity?  If so, note that music is off for now
-                    audio_data.music_is_not_playing = True
+                    audio_data.music_is_playing = False
 
             else:
                 self.start_time = time.time()
-                audio_data.music_is_not_playing = False
-
+                audio_data.music_is_playing = True
+                
         return audio_data
 
     def connectToServer(self, ip, port):
@@ -102,3 +104,20 @@ class AudioServerConnection():
             return None
 
         return data_list
+    
+    def getDataListtoPrint(self, main_height, data_list, lower_limit, upper_limit):
+        counter_from_zero = 0
+
+        for i in range(lower_limit, upper_limit):
+             
+            if main_height[counter_from_zero] - 3 > data_list[i]:
+                main_height[counter_from_zero] = main_height[counter_from_zero] - 3
+            else:
+                main_height[counter_from_zero] = data_list[i]
+
+            if main_height[counter_from_zero] < 1:
+                main_height[counter_from_zero] = 1
+
+            counter_from_zero += 1
+
+        return main_height

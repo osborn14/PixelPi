@@ -1,4 +1,4 @@
-CMD = "Command"
+COMMAND = "Command"
 DISPLAY = "Display"
 MODE = "Mode"
 AUDIO = "Audio"

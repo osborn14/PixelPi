@@ -1,5 +1,5 @@
 SERVER_IP_ADDRESS       = "Server IP Address"
-AUDIO_SERVER_IP_ADDRESS = "192.168.0.105"
+AUDIO_SERVER_IP_ADDRESS = "Audio Server IP Address"
 AUDIO_SERVER_PORT_ONE   = "Audio Server Port One"
 AUDIO_SERVER_PORT_TWO   = "Audio Server Port Two"
 NO_DISPLAY_TOLERANCE    = "No Display Tolerance"

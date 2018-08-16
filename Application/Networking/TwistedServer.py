@@ -3,9 +3,9 @@ import json
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from twisted.internet import reactor
 
-from Application.Database.ClientTaskDatabase import ClientTaskDatabase
+#from Application.Database.ClientTaskDatabase import ClientTaskDatabase
 
-database = ClientTaskDatabase()
+#database = ClientTaskDatabase()
 connected_device_list = list()
 
 class Device():
@@ -82,10 +82,9 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
         self.factory.unregister(self)
 
     @classmethod
-    def broadcast_audio_data(cls, msg):
-        payload = json.dumps(msg, ensure_ascii=False).encode('utf8')
-        for c in set(cls.connections):
-            reactor.callFromThread(cls.sendMessage, c, payload)
+    def broadcast_audio_data(cls, payload):
+        for cd in connected_device_list:
+            reactor.callFromThread(cls.sendMessage, cd.client, payload)
 
 
 class BroadcastServerFactory(WebSocketServerFactory):

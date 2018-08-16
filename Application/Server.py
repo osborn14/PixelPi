@@ -21,13 +21,14 @@ def broadcastAudioData():
     audio_server_connection = AudioServerConnection(server_settings)
     while(True):
         audio_data = audio_server_connection.getAudioServerData()
+        print(audio_data.spectrum_heights)
         if audio_data.music_is_playing:
             msg = dict()
-            msg[NETWORK.CMD] = NETWORK.DISPLAY
+            msg[NETWORK.COMMAND] = NETWORK.DISPLAY
             msg[NETWORK.MODE] = NETWORK.AUDIO
             msg[NETWORK.AUDIO_DATA] = audio_data.getAudioJSON()
-
-            factory.protocol.broadcast_audio_data(json.dumps(msg).encode('utf8'))
+            
+            factory.protocol.broadcast_audio_data(json.dumps(msg, ensure_ascii=False).encode('utf8'))
 
         time.sleep(.05)
 

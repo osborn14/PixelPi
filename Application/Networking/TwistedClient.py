@@ -1,3 +1,6 @@
+import json
+import Application.Common.NetworkCommands as NETWORK
+
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
 class MyClientProtocol(WebSocketClientProtocol):
@@ -17,32 +20,33 @@ class MyClientProtocol(WebSocketClientProtocol):
 
 
     def onMessage(self, payload, isBinary):
-        print("Message receicved!")
+        print("Message received!")
         if isBinary:
             print("Binary message received: {0} bytes".format(len(payload)))
         else:
-            try:
-                print(payload.decode('utf-8'))
-                server_message = json.loads(payload.decode('utf-8'))
-                print(type(server_message))
+            #try:
+            print(payload.decode('utf-8'))
+            msg = json.loads(payload.decode('utf-8'))
                 ## Consider ids for removing orders
                 ## Or, send a remove all command and send all again
 
-                if server_message['cmd'] == 'DISPLAY':
+            if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
+                if msg[NETWORK.MODE] == NETWORK.AUDIO:
+                    print("Send JSON to queue to be printed!")
+                    
                     ## Put the display mode into the proper category
-                    if server_message['mode'] == 'simple':
-                        for m in display_mode_list:
-                            if type(m)  == Mode:
-                                display_mode_list.remove(m)
-                        display_mode_list.append(Mode(prepareArrayforDisplay(server_message['rgb array'])))
-                    elif server_message['mode'] == 'timer':
-                        display_mode_list.append(Timer(server_message['timer day'], server_message['timer hour'], server_message['timer minute'], prepareArrayforDisplay(server_message['rgb array'])))
-                    display_queue.put(payload)
-                    print("Text message received: {0}".format(payload.decode('utf8')))
-            except:
-                if int(payload.decode('utf-8')) % 100 == 0:
-                    print(payload.decode('utf-8'))
-                print("Server sent invalid json!")
+                elif msg['mode'] == 'simple':
+                    for m in display_mode_list:
+                        if type(m)  == Mode:
+                            display_mode_list.remove(m)
+                    display_mode_list.append(Mode(prepareArrayforDisplay(msg['rgb array'])))
+                elif msg['mode'] == 'timer':
+                    display_mode_list.append(Timer(msg['timer day'], msg['timer hour'], msg['timer minute'], prepareArrayforDisplay(msg['rgb array'])))
+                
+                #display_queue.put(payload)
+                print("Text message received: {0}".format(payload.decode('utf8')))
+            #except:
+                #print("Server sent invalid json!")
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))

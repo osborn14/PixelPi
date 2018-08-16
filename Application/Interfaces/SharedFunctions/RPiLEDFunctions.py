@@ -161,22 +161,6 @@ def calculateTempStripLEDBrightness(strip_led_brightness, strip_led_brightness_m
     
     return temp_strip_led_brightness
 
-def getDataListtoPrint(main_height, data_list, lower_limit, upper_limit):
-    counter_from_zero = 0
-
-    for i in range(lower_limit, upper_limit):
-         
-        if main_height[counter_from_zero] - 3 > data_list[i]:
-            main_height[counter_from_zero] = main_height[counter_from_zero] - 3
-        else:
-            main_height[counter_from_zero] = data_list[i]
-
-        if main_height[counter_from_zero] < 1:
-            main_height[counter_from_zero] = 1
-
-        counter_from_zero += 1
-
-    return main_height
 
 def getAverageofListValues(datalist, lower_item, upper_item):
     avg = 0
