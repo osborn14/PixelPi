@@ -1,14 +1,14 @@
-import sys, json, threading, time #, pymysql
+import sys, json, threading, time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Application.Settings import Settings
-from Application.Networking.ServerConnection import AudioServerConnection
+from Application.Database.ServerMySQL import DatabaseConnection
+from Application.Networking.AudioServerConnection import AudioServerConnection
 from Application.Common.AudioData import AudioData
 import Application.Common.NetworkCommands as NETWORK
 
 from Application.Networking.TwistedServer import BroadcastServerProtocol, BroadcastServerFactory
-
 
 settings = Settings()
 server_settings = settings.getServerSettings()
@@ -19,58 +19,6 @@ class Device():
         self.name = name
         self.client = client
         self.description = description
-
-def addTask(device_name, payload):
-    return_dictionary = {'task id': 'n/a'}
-    try:
-        sql = "INSERT INTO Tasks(device_name, command)\
-           VALUES ('%s', '%s')" % \
-           (device_name, payload)
-           
-        cursor.execute(sql)
-        db.commit()
-
-        cursor.excute('SELECT LAST_INSERT_ID()')
-        return_dictionary['task id'] = cursor.fetchone()
-        
-    except:
-        print("An unexpected error occurred")
-
-    return return_dictionary
-
-def viewTasks(device_name):
-    try:
-        sql = "Select id, device_name, command FROM Tasks\
-           WHERE device_name = '%s'" % \
-           (device_name)
-           
-        cursor.execute(sql)
-        sql_results = cursor.fetchall()
-        sql_results_dict = {'tasks': []}
-
-        for row in sql_results:
-            temp_dict = {'json': row[2]}
-            sql_results_dict['tasks'].append(temp_dict)
-        
-        return sql_results_dict
-        
-    except:
-        print("An unexpected error occurred")
-        return None
-    
-def removeTask(id):
-    try:
-        sql = "DELETE FROM Tasks\
-           WHERE id = '%s'" % \
-           (id)
-           
-        cursor.execute(sql)
-        db.commit()
-        return True
-        
-    except:
-        return False
-
 
 
 def broadcastAudioData():
@@ -95,23 +43,8 @@ if __name__ == '__main__':
     else:
         debug = False
         
-#     try:
-#         db = pymysql.connect("localhost","root","root","PixelPi" )
-#         cursor = db.cursor()
 #
-#     except:
-#         db = pymysql.connect("localhost", "root", "root" )
-#         cursor = db.cursor()
-#
-#         cursor.execute("CREATE DATABASE PixelPi")
-#         cursor.execute("USE PixelPi;")
-#         cursor.execute("""CREATE TABLE Tasks(
-# id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-# device_name VARCHAR(4) NOT NULL,
-# command TEXT NOT NULL);""")
-#
-#         db.commit()
-        
+    database_connection = DatabaseConnection()
 
     connected_device_list = list()
         

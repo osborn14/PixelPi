@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Application/Common/NetworkCommands.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Database/PyMySQL" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Networking/TwistedClient.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Application/Networking/TwistedServer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Common/AudioData.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Common/AudioData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Common/SettingsConstants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Common/SettingsConstants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Database/PyMySQL" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Database/PyMySQL" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Database/ServerMySQL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Networking/ServerConnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/AudioServerConnection.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Application/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Application/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,37 +16,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="32" column="25" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#50#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-735">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PyMySQL" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Database/PyMySQL">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="ServerMySQL.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Database/ServerMySQL.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="14" selection-start-column="14" selection-end-column="14" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="TwistedServer.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TwistedServer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state relative-caret-position="255">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -72,10 +55,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerConnection.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
+      <file leaf-file-name="AudioServerConnection.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Application/Networking/AudioServerConnection.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-460">
+            <state relative-caret-position="90">
               <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
@@ -150,6 +133,8 @@
       <find>BroadcastServerFactory</find>
       <find>connected_interface_list</find>
       <find>Network</find>
+      <find>cursor</find>
+      <find>db</find>
       <find>BroadcastServerProtocol</find>
     </findStrings>
     <replaceStrings>
@@ -165,6 +150,8 @@
       <replace>Config</replace>
       <replace>interface_list</replace>
       <replace>connected_device_list</replace>
+      <replace>self.cursor</replace>
+      <replace>self.db</replace>
       <replace>NETWORK</replace>
     </replaceStrings>
     <dirStrings>
@@ -204,9 +191,12 @@
         <option value="$PROJECT_DIR$/Application/Networking/ServerConnection.py" />
         <option value="$PROJECT_DIR$/Application/Common/NetworkCommands.py" />
         <option value="$PROJECT_DIR$/Application/Networking/Server.py" />
-        <option value="$PROJECT_DIR$/Application/Server.py" />
         <option value="$PROJECT_DIR$/Application/Client.py" />
         <option value="$PROJECT_DIR$/Application/Networking/TwistedClient.py" />
+        <option value="$PROJECT_DIR$/Application/Database/PyMySQL" />
+        <option value="$PROJECT_DIR$/Application/Database/SeverMySQL" />
+        <option value="$PROJECT_DIR$/Application/Database/ServerMySQL.py" />
+        <option value="$PROJECT_DIR$/Application/Server.py" />
       </list>
     </option>
   </component>
@@ -373,13 +363,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AppSetup/server_requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1095">
@@ -619,13 +602,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -633,23 +609,6 @@
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Database/PyMySQL">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-735">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -667,12 +626,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/ServerConnection.py">
+    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-460">
-          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -684,12 +643,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
+    <entry file="file://$PROJECT_DIR$/Application/Database/SeverMySQL">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        <state relative-caret-position="180">
+          <caret line="12" column="25" lean-forward="true" selection-end-line="70" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Database/ServerMySQL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/AudioServerConnection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="33" selection-start-line="6" selection-start-column="33" selection-end-line="6" selection-end-column="33" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
