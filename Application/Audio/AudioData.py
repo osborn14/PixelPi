@@ -1,4 +1,5 @@
 import Application.Keys.Network as NETWORK
+import Application.Keys.Audio as AUDIO
 
 class AudioData():
     def __init__(self):
@@ -11,20 +12,20 @@ class AudioData():
 
     def getAudioJSON(self):
         audio_data_json = {}
-        audio_data_json[NETWORK.SPECTRUM_AVG] = self.spectrum_avg
-        audio_data_json[NETWORK.SPECTRUM_HEIGHTS] = self.spectrum_heights
-        audio_data_json[NETWORK.SPECTRUM_PRIMARY_COLORS] = self.server_primary_colors
-        audio_data_json[NETWORK.SPECTRUM_SECONDARY_COLORS] = self.server_secondary_colors
-        audio_data_json[NETWORK.AUDIO_DISPLAY_MODE] = self.display_mode
+        audio_data_json[AUDIO.SPECTRUM_AVG] = self.spectrum_avg
+        audio_data_json[AUDIO.SPECTRUM_HEIGHTS] = self.spectrum_heights
+        audio_data_json[AUDIO.SPECTRUM_PRIMARY_COLORS] = self.server_primary_colors
+        audio_data_json[AUDIO.SPECTRUM_SECONDARY_COLORS] = self.server_secondary_colors
+        audio_data_json[AUDIO.AUDIO_DISPLAY_MODE] = self.display_mode
 
         return audio_data_json
     
     def setAudioDataFromJSON(self, json):
-        self.spectrum_heights = json[NETWORK.SPECTRUM_HEIGHTS]
-        self.spectrum_avg = json[NETWORK.SPECTRUM_AVG]
-        self.display_mode = json[NETWORK.AUDIO_DISPLAY_MODE]
-        self.server_primary_colors = json[NETWORK.SPECTRUM_PRIMARY_COLORS]
-        self.server_secondary_colors = json[NETWORK.SPECTRUM_SECONDARY_COLORS]
+        self.spectrum_heights = json[AUDIO.SPECTRUM_HEIGHTS]
+        self.spectrum_avg = json[AUDIO.SPECTRUM_AVG]
+        self.display_mode = json[AUDIO.AUDIO_DISPLAY_MODE]
+        self.server_primary_colors = json[AUDIO.SPECTRUM_PRIMARY_COLORS]
+        self.server_secondary_colors = json[AUDIO.SPECTRUM_SECONDARY_COLORS]
         
     def setSpectrumToZero(self):
         self.spectrum_heights = [0] * 16

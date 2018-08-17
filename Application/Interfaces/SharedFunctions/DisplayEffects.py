@@ -1,16 +1,41 @@
+import datetime
+
 class Mode():
-    def __init__(self, rgb):
+    def __init__(self, interface_type, rgb):
+        self.interface_type = interface_type
         self.rgb_values = rgb
+
+    def getRgbValues(self):
+        return self.rgb_values
 
 
 class Timer(Mode):
     def __init__(self, day, hour, minute, rgb_array):
         super().__init__(self.rgb)
-        self.day = day
-        self.hour = hour
-        self.minute = minute
+        self.start_day = day
+        self.start_hour = hour
+        self.start_minute = minute
+        self.end_day
+        self.end_hour
+        self.end_minute
         self.rgb_array = rgb_array
         self.activated = False
+
+    def shouldBeActive(self):
+        today = datetime.today()
+        starting_datetime = datetime(today.year, today.month, self.start_day, self.start_hour, self.start_minute)
+        ending_datetime = datetime(today.year, today.month, self.end_day, self.end_hour, self.end_minute)
+
+        if starting_datetime < today < ending_datetime:
+            return True
+        else:
+            return False
+
+    def getRgbValues(self):
+        if not self.shouldBeActive():
+            self.activated = False
+
+        return self.rgb_values
 
 
 class Sparkle(Mode):

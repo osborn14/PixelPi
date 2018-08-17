@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from Application.Networking.TwistedClient import MyClientProtocol
 from Application.Settings.Settings import Settings
 from Application.Audio.AudioData import AudioData
-import Application.Keys.Settings as KEY
+import Application.Keys.Settings as SETTINGS
 import Application.Keys.Network as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
@@ -16,6 +16,7 @@ settings = Settings()
 client_settings = settings.getUniversalClientSettings()
 interface_list = settings.getInterfaces()
 
+display_list = list()
 
 def signal_handler(signal, frame):
     for interface in interface_list:
@@ -86,8 +87,14 @@ def signal_handler(signal, frame):
 #             # else:
 #             interface.displayDefaultLights()
 
+def processDisplayJson(json):
+    print(json)
+
 def displayLights():
     while True:
+        if not NETWORK.display_queue.empty():
+            processDisplayJson(NETWORK.display_queue.get())
+
         if not NETWORK.audio_queue.empty():
             last_played_time = time.time()
             audio_data = AudioData()
@@ -108,10 +115,25 @@ def displayLights():
                     
                 for interface in interface_list:
                     interface.displayAudioLights(audio_data)
-                       
+
+        # elif len(display_list) > 0:
+        #     for d in display_list:
+        #         for
+        #             if d.identification[SETTINGS.DEVICE_CODE]
+
         else:
             for interface in interface_list:
-                interface.displayDefaultLights()
+                if interface.display_task is not None:
+                    interface.displayHomeLights()
+
+                elif len(interface.timer_tasks) > 0:
+                    for t in interface.timer_tasks:
+                        if t.shouldBeActive():
+                            interface.display_task = t
+
+                else:
+                    interface.displayDefaultLights()
+
 
 if __name__ == '__main__':
     
@@ -130,11 +152,11 @@ if __name__ == '__main__':
         # Trollius >= 0.3 was renamed
         import trollius as asyncio
 
-    factory = WebSocketClientFactory(u"ws://" + client_settings[KEY.SERVER_IP_ADDRESS] + ":" + str(9000))
+    factory = WebSocketClientFactory(u"ws://" + client_settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
     factory.protocol = MyClientProtocol
     
     loop = asyncio.get_event_loop()
-    coro = loop.create_connection(factory, client_settings[KEY.SERVER_IP_ADDRESS], 9000)
+    coro = loop.create_connection(factory, client_settings[SETTINGS.SERVER_IP_ADDRESS], 9000)
     loop.run_until_complete(coro)
     loop.run_forever()
     loop.close()

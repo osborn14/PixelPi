@@ -24,7 +24,9 @@ class Neopixel():
         self.FADE_START                         = 8
         self.FADE_END                           = 17
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
-        
+
+        self.display_task = None
+        self.timer_tasks = list()
         self.strip_led_brightness = 0
         self.main_height = [0] * 16
 
@@ -69,10 +71,10 @@ class Neopixel():
         time.sleep(self.PAUSE_TIME)
 
 
-    def displayHomeLights(self, rgb_values_array):
-        i = 0
+    def displayHomeLights(self):
+
         while True:
-            for rgb in rgb_values_array:
+            for rgb in self.display_task.color:
                 ## N1, or WS 2811 Neopixels display in GRB, so the order of colors need to be switched
                 # if self.SETTINGS.device_type == 'N1':
                 #     color_array = [rgb[1], rgb[0], rgb[2]]
@@ -81,8 +83,6 @@ class Neopixel():
                 color_array = rgb
 
                 self.strip.setPixelColor(i, Color(color_array[0], color_array[1], color_array[2]))
-
-            i = i + 1
 
             # Display strip
             self.strip.show()
