@@ -7,8 +7,6 @@ class AudioData():
         self.display_mode = 0
         self.server_primary_colors = [0, 0, 0]
         self.server_secondary_colors = [0, 0, 0]
-        # self.primary_colors = [0, 0, 0]
-        # self.secondary_colors = [0, 0, 0]
         self.music_is_playing = False
 
     def getAudioJSON(self):
@@ -20,3 +18,11 @@ class AudioData():
         audio_data_json[NETWORK.AUDIO_DISPLAY_MODE] = self.display_mode
 
         return audio_data_json
+    
+    def setAudioDataFromJSON(self, json):
+        print(json[NETWORK.SPECTRUM_HEIGHTS])
+        self.spectrum_heights = json[NETWORK.SPECTRUM_HEIGHTS]
+        self.spectrum_avg = json[NETWORK.SPECTRUM_AVG]
+        self.display_mode = json[NETWORK.AUDIO_DISPLAY_MODE]
+        self.server_primary_colors = json[NETWORK.SPECTRUM_PRIMARY_COLORS]
+        self.server_secondary_colors = json[NETWORK.SPECTRUM_SECONDARY_COLORS]

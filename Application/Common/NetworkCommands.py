@@ -1,3 +1,9 @@
+import queue
+
+def init():
+    global audio_queue
+    audio_queue = queue.Queue(3)
+
 COMMAND = "Command"
 DISPLAY = "Display"
 MODE = "Mode"

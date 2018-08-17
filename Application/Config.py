@@ -8,8 +8,9 @@ server = {
 }
 
 client = {
-    KEY.SERVER_IP_ADDRESS: '192.168.0.108',
+    KEY.SERVER_IP_ADDRESS: '127.0.0.1',
     KEY.NO_DISPLAY_TOLERANCE: 1.4
+    
 }
 neopixel = [
     {

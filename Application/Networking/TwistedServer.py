@@ -84,6 +84,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
     @classmethod
     def broadcast_audio_data(cls, payload):
         for cd in connected_device_list:
+            print("Message sent!")
             reactor.callFromThread(cls.sendMessage, cd.client, payload)
 
 

@@ -25,21 +25,32 @@ class Neopixel():
         self.FADE_START                         = 8
         self.FADE_END                           = 17
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
+        
+        self.strip_led_brightness = 0
 
         # Create NeoPixel object with appropriate configuration.
         self.strip = Adafruit_NeoPixel(self.LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
         self.strip.begin()
 
     def displayAudioLights(self, audio_data):
+        #print(audio_data.getAudioJSON())
+        
+        if audio_data.display_mode == 2 or audio_data.display_mode == 3:
+            lower_main_rgb = audio_data.server_secondary_colors
+        else:
+            lower_main_rgb = self.blendColors(audio_data.server_primary_colors, [255, 255, 255])
+        
+        lower_main_rgb = [0, 0, 0]
+        
         # Strip brightness is the actual number (between 0 and 1) that determines the intensity of the displayed color
-        self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness * 1.0, audio_data.avg * 1.0)
+        self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness * 1.0, audio_data.spectrum_avg * 1.0)
 
         # Temp strip brightness takes the strip brightness and multiplies it by a certain factor, so the displayed color is brighter
         # at lower noise volumes
         temp_strip_led_brightness = led_fx.calculateTempStripLEDBrightness(self.strip_led_brightness * 1.0, self.STRIP_LED_BRIGHTNESS_MULTIPLIER * 1.0, 25) * self.LED_DIMMER
 
-        for i in range(len(audio_data.primary_colors)):
-            audio_data.primary_colors[i] = audio_data.primary_colors[i] * temp_strip_led_brightness / 255.0
+        for i in range(len(audio_data.server_primary_colors)):
+            audio_data.server_primary_colors[i] = audio_data.server_primary_colors[i] * temp_strip_led_brightness / 255.0
 
         for bar_i in range(0, len(audio_data.spectrum_heights)):
 
@@ -48,7 +59,7 @@ class Neopixel():
                 upper_transition_range = audio_data.spectrum_heights[bar_i] - self.FADE_START
 
             temp_rgb = led_fx.getFadedColors(self.FADE_START, self.FADE_END, upper_transition_range, audio_data.spectrum_heights[bar_i],
-                                             0, audio_data.primary_colors, audio_data.primary_colors)
+                                             0, audio_data.server_primary_colors, lower_main_rgb)
 
             starting_x = int(bar_i * self.BAR_RANGE)
             ending_x = int((bar_i + 1) * self.BAR_RANGE)
@@ -57,6 +68,7 @@ class Neopixel():
                 display_color = Color(int(temp_rgb[0]), int(temp_rgb[1]), int(temp_rgb[2]))
                 self.strip.setPixelColor(individual_pixel, display_color)
 
+        self.strip.show()
         time.sleep(self.PAUSE_TIME)
 
 
@@ -87,3 +99,10 @@ class Neopixel():
             self.strip.setPixelColor(i, Color(0, 0, 25))
         self.strip.show()
         time.sleep(self.PAUSE_TIME * 5)
+        
+    def blendColors(self, main_rgb, tip_rgb):
+        blended_rgb = [0] * 3
+        for i in range(len(main_rgb)):
+            blended_rgb[i] = (main_rgb[i] + tip_rgb[i])/2.0
+
+        return blended_rgb  

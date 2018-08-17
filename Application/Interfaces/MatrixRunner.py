@@ -11,6 +11,8 @@ class MatrixRunner(SampleBase):
     def __init__(self, matrix_settings):
         # TODO: Pass in valid arguments
         super(MatrixRunner, self).__init__(*args, **kwargs)
+        
+        os.environ['TZ'] = settings_file.time_zone
 
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()

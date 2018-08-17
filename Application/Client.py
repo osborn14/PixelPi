@@ -1,17 +1,20 @@
-import json, queue, threading, datetime, calendar, sys, os, signal, argparse
+import json, queue, threading, time, datetime, calendar, sys, os, signal, argparse
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Application.Networking.TwistedClient import MyClientProtocol
 from Application.Settings import Settings
+from Application.Common.AudioData import AudioData
+import Application.Common.SettingsConstants as KEY
+import Application.Common.NetworkCommands as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
 
-## Create our settings file as a global variable
-#settings = Settings()
-# os.environ['TZ'] = settings_file.time_zone
-#client_settings = settings.getUniversalClientSettings()
-#interface_list = settings.getInterfaces()
+# Create our settings file as a global variable
+NETWORK.init()
+settings = Settings()
+client_settings = settings.getUniversalClientSettings()
+interface_list = settings.getInterfaces()
 
 
 def signal_handler(signal, frame):
@@ -83,6 +86,34 @@ def signal_handler(signal, frame):
 #             # else:
 #             interface.displayDefaultLights()
 
+def displayLights():
+    print("In thread")
+    while True:
+        print(NETWORK.audio_queue.qsize())
+        print(NETWORK.audio_queue.empty())
+        
+        if not NETWORK.audio_queue.empty():
+            last_played_time = time.time()
+            
+            while True:
+                audio_data = AudioData()
+                if not NETWORK.audio_queue.empty():
+                    last_played_time = time.time()
+                    
+                    audio_dict = NETWORK.audio_queue.get()
+                    print("Settings audio data")
+                    audio_data.setAudioDataFromJSON(audio_dict[NETWORK.AUDIO_DATA])
+                    
+                elif last_played_time - time.time() >= 15:
+                    break;
+                    
+                for interface in interface_list:
+                    print("Displaying some data!")
+                    interface.displayAudioLights(audio_data)
+                       
+        else:
+            for interface in interface_list:
+                interface.displayDefaultLights()
 
 if __name__ == '__main__':
     
@@ -90,10 +121,10 @@ if __name__ == '__main__':
     # opt_parse()
     # display_mode_list = list()
         
-    # display_queue = queue.Queue()
-    # connection_to_audio_server_thread = threading.Thread(target=displayLightsFromAudio)
-    # connection_to_audio_server_thread.setDaemon(True)
-    # connection_to_audio_server_thread.start()
+    
+    connection_to_audio_server_thread = threading.Thread(target=displayLights)
+    connection_to_audio_server_thread.setDaemon(True)
+    connection_to_audio_server_thread.start()
 
     try:
         import asyncio
@@ -101,13 +132,11 @@ if __name__ == '__main__':
         # Trollius >= 0.3 was renamed
         import trollius as asyncio
 
-    factory = WebSocketClientFactory(u"ws://" + "127.0.0.1" + ":" + str(9000))
+    factory = WebSocketClientFactory(u"ws://" + client_settings[KEY.SERVER_IP_ADDRESS] + ":" + str(9000))
     factory.protocol = MyClientProtocol
-
-
-
+    
     loop = asyncio.get_event_loop()
-    coro = loop.create_connection(factory, "127.0.0.1", 9000)
+    coro = loop.create_connection(factory, client_settings[KEY.SERVER_IP_ADDRESS], 9000)
     loop.run_until_complete(coro)
     loop.run_forever()
     loop.close()
