@@ -6,3 +6,5 @@ Application/Audio/ProcessingSpectrumAnalyzer/
 
 # Don't worry about pycache files
 __pycache__/
+*.py[cod]
+*$py.class
