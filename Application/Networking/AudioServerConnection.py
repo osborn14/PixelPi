@@ -29,7 +29,7 @@ class AudioServerConnection():
         expected_array_list_size1 = 19
         data_list_one = self.receiveAndCleanData(self.sock1, expected_array_list_size1)
         if not data_list_one:
-            data_list_one = [1] * 18
+            data_list_one = [1] * 16
             self.last_displayed_value = 0
             self.sock1 = self.connectToServer(self.server_ip, self.port_one)
     
@@ -51,9 +51,11 @@ class AudioServerConnection():
             # audio_data.display_mode = data_list_two[0]
             # audio_data.primary_colors = [data_list_two[1], data_list_two[2], data_list_two[3]]
             # audio_data.secondary_colors = [data_list_two[4], data_list_two[5], data_list_two[6]]
-
+            
             audio_data.spectrum_avg = data_list_one[1]
-            audio_data.spectrum_heights = self.getDataListtoPrint(audio_data.spectrum_heights, data_list_one, 2, 18)
+            audio_data.spectrum_heights = self.getDataListtoPrint(audio_data.spectrum_heights, data_list_one, 1, 17)
+            
+            print(audio_data.spectrum_heights)
 
             if audio_data.spectrum_avg < self.no_display_tolerance:
                 # Remove any small static that the server sends over

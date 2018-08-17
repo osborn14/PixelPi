@@ -21,7 +21,6 @@ def broadcastAudioData():
     audio_server_connection = AudioServerConnection(server_settings)
     while(True):
         audio_data = audio_server_connection.getAudioServerData()
-        print(audio_data.spectrum_heights)
         if audio_data.music_is_playing:
             msg = dict()
             msg[NETWORK.COMMAND] = NETWORK.DISPLAY
