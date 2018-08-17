@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="" />
+    <list default="true" id="fc815a9f-29d6-436b-9306-4cf606d737cc" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Client.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Common/AudioData.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Audio/AudioData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Common/DisplayEffects.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Interfaces/SharedFunctions/DisplayEffects.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Common/NetworkCommands.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/NetworkCommands.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Common/SettingsConstants.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings/SettingsConstants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Interfaces/FiftyFiftyRunner.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Interfaces/FiftyFiftyRunner.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Interfaces/Neopixel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Networking/AudioServerConnection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/AudioServerConnection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Networking/TwistedClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Networking/TwistedClient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Application/Settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Application/Settings/Settings.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,17 +28,8 @@
       <file leaf-file-name="Server.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="23" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+            <state relative-caret-position="600">
+              <caret line="40" column="48" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -38,47 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TwistedServer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-13">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NetworkCommands.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Common/NetworkCommands.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" selection-start-line="2" selection-end-line="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsConstants.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TwistedClient.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="285">
+              <caret line="53" selection-start-line="53" selection-end-line="56" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -86,20 +55,59 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LICENSE.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LICENSE.md">
+      <file leaf-file-name="NetworkCommands.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Networking/NetworkCommands.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="42" selection-start-column="42" selection-end-column="42" />
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AudioData.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
+      <file leaf-file-name="SettingsConstants.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Settings/SettingsConstants.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="20" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="20" />
+            <state relative-caret-position="75">
+              <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TwistedClient.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="30" lean-forward="true" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Client.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Client.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Neopixel.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="611">
+              <caret line="65" column="51" lean-forward="true" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RPiLEDFunctions.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Application/Interfaces/SharedFunctions/RPiLEDFunctions.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1923">
+              <caret line="183" column="24" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -137,6 +145,7 @@
       <find>cursor</find>
       <find>db</find>
       <find>BroadcastServerProtocol</find>
+      <find>applyGradientEffects</find>
     </findStrings>
     <replaceStrings>
       <replace>rawSettingsProcessor.getValueFromKey</replace>
@@ -152,8 +161,8 @@
       <replace>interface_list</replace>
       <replace>connected_device_list</replace>
       <replace>self.cursor</replace>
-      <replace>self.db</replace>
       <replace>NETWORK</replace>
+      <replace>self.db</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/Application</dir>
@@ -197,8 +206,9 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/Application/Database/ServerMySQL.py" />
         <option value="$PROJECT_DIR$/Application/Networking/TwistedServer.py" />
-        <option value="$PROJECT_DIR$/Application/Server.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/Application/Server.py" />
+        <option value="$PROJECT_DIR$/Application/Settings/Server.py" />
       </list>
     </option>
   </component>
@@ -226,12 +236,43 @@
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Interfaces" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="Application" type="462c0819:PsiDirectoryNode" />
+              <item name="Networking" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="AppSetup" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
               <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="bin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PixelPi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PixelPi" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="python3.3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -245,18 +286,18 @@
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Application" />
-      <recent name="$PROJECT_DIR$/Application/Runners/SharedFunctions" />
-      <recent name="$PROJECT_DIR$/Application/Display/Runners/SharedFunctions" />
-      <recent name="$PROJECT_DIR$/Application/Display/Runners" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/AppSetup" />
       <recent name="$PROJECT_DIR$/Application/ImportedLibraries" />
       <recent name="$PROJECT_DIR$/Application" />
       <recent name="$PROJECT_DIR$/Application/Settings" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Application/Settings" />
+      <recent name="$PROJECT_DIR$/Application" />
+      <recent name="$PROJECT_DIR$/Application/Audio" />
+      <recent name="$PROJECT_DIR$/Application/Networking" />
+      <recent name="$PROJECT_DIR$/Application/Interfaces/SharedFunctions" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -336,39 +377,20 @@
           <url>file://$PROJECT_DIR$/Application/Interfaces/SharedFunctions/Weather.py</url>
           <line>1</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/bin/easy_install-3.3</url>
+          <line>3</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Application/Settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="75" selection-start-line="75" selection-end-line="75" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Audio/SpectrumAnalyzer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="84" column="29" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3300">
-          <caret line="229" column="22" selection-start-line="229" selection-start-column="22" selection-end-line="229" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AppSetup/client_requirements.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Config.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
@@ -382,7 +404,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
+    <entry file="file://$PROJECT_DIR$/Application/Audio/AudioData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="29" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="29" />
@@ -399,7 +421,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/SettingsConstants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
@@ -413,7 +435,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" selection-start-line="4" selection-end-line="5" />
@@ -423,7 +445,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/SettingsConstants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
@@ -437,21 +459,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Config.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1545">
           <caret line="107" column="78" selection-start-line="107" selection-start-column="78" selection-end-line="107" selection-end-column="78" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/SettingsConstants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="25" lean-forward="true" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
@@ -483,13 +505,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Interfaces/SharedFunctions/RPiLEDFunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Settings/client_settings.txt" />
     <entry file="file://$PROJECT_DIR$/Application/Interfaces/MatrixRunner.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -515,13 +530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Interfaces/FiftyFiftyRunner.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="24" column="106" selection-start-line="24" selection-start-column="75" selection-end-line="24" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Application/Interfaces/NeopixelRunner.py" />
     <entry file="file://$PROJECT_DIR$/Application/neopixel.py" />
     <entry file="file://$PROJECT_DIR$/Application/ImportedLibraries/neopixel.py" />
@@ -542,37 +550,20 @@
     <entry file="file://$PROJECT_DIR$/AppSetup/client_requirements.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Config.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Settings.py">
+    <entry file="file://$PROJECT_DIR$/Application/Settings/Settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
           <caret line="32" column="25" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="25" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="794">
-          <caret line="74" column="1" lean-forward="true" selection-start-line="74" selection-start-column="1" selection-end-line="74" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -583,45 +574,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/AudioData.py">
+    <entry file="file://$PROJECT_DIR$/Application/Audio/AudioData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="20" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/SettingsConstants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="23" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Database/ClientTaskDatabase.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -635,20 +591,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Common/NetworkCommands.py">
+    <entry file="file://$PROJECT_DIR$/venv/bin/easy_install-3.3">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        <state>
+          <folding>
+            <element signature="e#172#181#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
+    <entry file="file://$PROJECT_DIR$/venv/bin/pip3">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        <state relative-caret-position="135">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Database/ClientTaskDatabase.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedServer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="53" selection-start-line="53" selection-end-line="56" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Settings/SettingsConstants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -659,10 +641,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/NetworkCommands.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/SharedFunctions/DisplayEffects.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/FiftyFiftyRunner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="27" column="29" lean-forward="true" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="48" selection-start-line="40" selection-start-column="44" selection-end-line="40" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/SharedFunctions/RPiLEDFunctions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1923">
+          <caret line="183" column="24" selection-start-line="183" selection-start-column="4" selection-end-line="183" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Interfaces/Neopixel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="611">
+          <caret line="65" column="51" lean-forward="true" selection-start-line="65" selection-start-column="51" selection-end-line="65" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Application/Networking/TwistedClient.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="30" lean-forward="true" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="45" />
         </state>
       </provider>
     </entry>

@@ -1,6 +1,6 @@
-import Application.Common.SettingsConstants as KEY
+import Application.Settings.SettingsConstants as KEY
 from Application.Interfaces.Neopixel import Neopixel
-import Application.Config as Config
+import Application.Settings.Config as Config
 
 
 class Settings(object):

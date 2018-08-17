@@ -1,7 +1,8 @@
 import os, pigpio
 
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
-from Application.Common import SettingsConstants as KEY
+from Application.Settings import SettingsConstants as KEY
+
 
 class FiftyFiftyRunner():
     def __init__(self, fifty_fifty_settings):

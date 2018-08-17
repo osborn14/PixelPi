@@ -1,4 +1,4 @@
-import Application.Common.NetworkCommands as NETWORK
+import Application.Networking.NetworkCommands as NETWORK
 
 class AudioData():
     def __init__(self):

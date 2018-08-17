@@ -1,7 +1,7 @@
 import time, socket
 
-import Application.Common.SettingsConstants as KEY
-from Application.Common.AudioData import AudioData
+import Application.Settings.SettingsConstants as KEY
+from Application.Audio.AudioData import AudioData
 
 class AudioServerConnection():
     def __init__(self, settings):

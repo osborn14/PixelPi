@@ -1,12 +1,12 @@
-import json, queue, threading, time, datetime, calendar, sys, os, signal, argparse
+import threading, time, sys, os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Application.Networking.TwistedClient import MyClientProtocol
-from Application.Settings import Settings
-from Application.Common.AudioData import AudioData
-import Application.Common.SettingsConstants as KEY
-import Application.Common.NetworkCommands as NETWORK
+from Application.Settings.Settings import Settings
+from Application.Audio.AudioData import AudioData
+import Application.Settings.SettingsConstants as KEY
+import Application.Networking.NetworkCommands as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
 

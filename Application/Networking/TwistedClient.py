@@ -1,5 +1,5 @@
-import json, queue
-import Application.Common.NetworkCommands as NETWORK
+import json
+import Application.Networking.NetworkCommands as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 

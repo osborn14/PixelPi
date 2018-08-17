@@ -1,5 +1,5 @@
 import time
-import Application.Common.SettingsConstants as KEY
+import Application.Settings.SettingsConstants as KEY
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
 from neopixel import *
 

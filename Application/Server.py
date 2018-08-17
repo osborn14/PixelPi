@@ -2,10 +2,9 @@ import os, sys, json, threading, time
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Application.Settings import Settings
+from Application.Settings.Settings import Settings
 from Application.Networking.AudioServerConnection import AudioServerConnection
-from Application.Common.AudioData import AudioData
-import Application.Common.NetworkCommands as NETWORK
+import Application.Networking.NetworkCommands as NETWORK
 
 from Application.Networking.TwistedServer import BroadcastServerProtocol, BroadcastServerFactory
 from autobahn.twisted.websocket import listenWS
