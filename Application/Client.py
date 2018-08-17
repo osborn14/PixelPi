@@ -87,28 +87,26 @@ def signal_handler(signal, frame):
 #             interface.displayDefaultLights()
 
 def displayLights():
-    print("In thread")
     while True:
-        print(NETWORK.audio_queue.qsize())
-        print(NETWORK.audio_queue.empty())
-        
         if not NETWORK.audio_queue.empty():
             last_played_time = time.time()
+            audio_data = AudioData()
             
             while True:
-                audio_data = AudioData()
                 if not NETWORK.audio_queue.empty():
                     last_played_time = time.time()
                     
                     audio_dict = NETWORK.audio_queue.get()
-                    print("Settings audio data")
                     audio_data.setAudioDataFromJSON(audio_dict[NETWORK.AUDIO_DATA])
-                    
+                
                 elif last_played_time - time.time() >= 15:
                     break;
+                
+                else:
+                    audio_data.setSpectrumToZero()
+                    
                     
                 for interface in interface_list:
-                    print("Displaying some data!")
                     interface.displayAudioLights(audio_data)
                        
         else:

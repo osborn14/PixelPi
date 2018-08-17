@@ -20,9 +20,12 @@ class AudioData():
         return audio_data_json
     
     def setAudioDataFromJSON(self, json):
-        print(json[NETWORK.SPECTRUM_HEIGHTS])
         self.spectrum_heights = json[NETWORK.SPECTRUM_HEIGHTS]
         self.spectrum_avg = json[NETWORK.SPECTRUM_AVG]
         self.display_mode = json[NETWORK.AUDIO_DISPLAY_MODE]
         self.server_primary_colors = json[NETWORK.SPECTRUM_PRIMARY_COLORS]
         self.server_secondary_colors = json[NETWORK.SPECTRUM_SECONDARY_COLORS]
+        
+    def setSpectrumToZero(self):
+        self.spectrum_heights = [0] * 16
+        self.spectrum_avg = 0

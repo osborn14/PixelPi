@@ -198,18 +198,14 @@ def getTipColor(DisplayMode, main_rgb, tip_rgb):
 
 
 def getDataListtoPrint(main_height, data_list):
-    counter_from_zero = 0
-
     for i in range(len(main_height)):
          
-        if main_height[counter_from_zero] - 3 > data_list[i]:
-            main_height[counter_from_zero] = main_height[counter_from_zero] - 3
+        if main_height[i] - 3 > data_list[i]:
+            main_height[i] = main_height[i] - 3
         else:
-            main_height[counter_from_zero] = data_list[i]
+            main_height[i] = data_list[i]
 
-        if main_height[counter_from_zero] < 1:
-            main_height[counter_from_zero] = 1
-
-        counter_from_zero += 1
+        #if main_height[i] < 0:
+         #   main_height[i] = 0
 
     return main_height
