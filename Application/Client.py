@@ -5,8 +5,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from Application.Networking.TwistedClient import MyClientProtocol
 from Application.Settings.Settings import Settings
 from Application.Audio.AudioData import AudioData
-import Application.Settings.SettingsConstants as KEY
-import Application.Networking.NetworkCommands as NETWORK
+import Application.Keys.Settings as KEY
+import Application.Keys.Network as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
 
@@ -99,7 +99,7 @@ def displayLights():
                     audio_dict = NETWORK.audio_queue.get()
                     audio_data.setAudioDataFromJSON(audio_dict[NETWORK.AUDIO_DATA])
                 
-                elif last_played_time - time.time() >= 15:
+                elif time.time() - last_played_time >= 15:
                     break;
                 
                 else:

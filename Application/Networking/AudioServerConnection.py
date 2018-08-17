@@ -1,6 +1,6 @@
 import time, socket
 
-import Application.Settings.SettingsConstants as KEY
+import Application.Keys.Settings as KEY
 from Application.Audio.AudioData import AudioData
 
 class AudioServerConnection():

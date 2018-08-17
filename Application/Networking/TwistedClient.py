@@ -1,5 +1,5 @@
 import json
-import Application.Networking.NetworkCommands as NETWORK
+import Application.Keys.Network as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 

@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from Application.Settings.Settings import Settings
 from Application.Networking.AudioServerConnection import AudioServerConnection
-import Application.Networking.NetworkCommands as NETWORK
+import Application.Keys.Network as NETWORK
 
 from Application.Networking.TwistedServer import BroadcastServerProtocol, BroadcastServerFactory
 from autobahn.twisted.websocket import listenWS

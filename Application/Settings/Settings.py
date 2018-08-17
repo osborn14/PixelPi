@@ -1,4 +1,4 @@
-import Application.Settings.SettingsConstants as KEY
+import Application.Keys.Settings as KEY
 from Application.Interfaces.Neopixel import Neopixel
 import Application.Settings.Config as Config
 
