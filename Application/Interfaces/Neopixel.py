@@ -35,8 +35,8 @@ class Neopixel():
         self.strip.begin()
 
     def displayAudioLights(self, audio_data):
-        print("audio data from server", audio_data.spectrum_heights)
-        print("self.main_height      ", self.main_height)
+        #print("audio data from server", audio_data.spectrum_heights)
+        #print("self.main_height      ", self.main_height)
         
         self.main_height = led_fx.getDataListtoPrint(self.main_height, audio_data.spectrum_heights)
         
