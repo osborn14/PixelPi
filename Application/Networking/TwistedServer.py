@@ -30,6 +30,13 @@ class Device():
 
         return device_dict
 
+    def checkForTargetInterface(self, target_identifier):
+        for interface in self.interface_list:
+            if interface.unique_identifier == target_identifier:
+                return True
+
+        return False
+
 class BroadcastServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
         self.factory.register(self)
@@ -38,7 +45,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
         print("Client connecting: {}".format(request.peer))
 
     def onMessage(self, payload, isBinary):
-        print("Message received")
+        print("Message received!")
 
         if not isBinary:
             msg = json.loads(payload.decode('utf8'))
@@ -55,11 +62,15 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
             elif msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
                 if SETTINGS.TASK_ID not in msg:
-                    database.addTask('NP01', json.dumps(payload.decode('utf8')))
-                for cd in registered_device_list:
-                    if 'NP01' == cd.name:
-                        cd.client.sendMessage(payload)
-                        print("Message sent! - NP")
+                    # TODO: Move tasks to object
+                    database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
+
+                for device in registered_device_list:
+                    if device.checkForTargetInterface(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER]):
+                        msg[NETWORK.MODE] = NETWORK.HOME
+
+                        device.client.sendMessage(json.dumps(msg, ensure_ascii=False).encode('utf8'))
+                        print("Message sent!")
 
             # elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
             #     all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
@@ -88,7 +99,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
         # self.factory.broadcast(payload.decode("utf-8"))
 
     def connectionLost(self, reason):
-        # TODO: Check for ip or something rather than just self
+        # TODO: Check for ip or something rather than just self.  Maybe use self or client .peer?
         for device in registered_device_list:
             if device.client == self:
                 registered_device_list.remove(device)

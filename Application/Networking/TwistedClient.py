@@ -7,7 +7,6 @@ from autobahn.asyncio.websocket import WebSocketClientProtocol
 settings = Settings()
 interface_list = settings.getInterfaces()
 
-
 class MyClientProtocol(WebSocketClientProtocol):
 
     def onConnect(self, response):
@@ -39,7 +38,7 @@ class MyClientProtocol(WebSocketClientProtocol):
                     NETWORK.audio_queue.put(msg)
                     
                     ## Put the display mode into the proper category
-                elif msg['mode'] == 'simple':
+                elif msg[NETWORK.MODE] == NETWORK.HOME:
                     for m in display_mode_list:
                         if type(m)  == Mode:
                             display_mode_list.remove(m)

@@ -19,7 +19,6 @@ class ClientTaskDatabase():
 
         self.db.commit()
 
-
     def addTask(self, device_name, payload):
         return_dictionary = {'task id': 'n/a'}
         try:

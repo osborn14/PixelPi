@@ -9,10 +9,11 @@ def init():
     display_queue = queue.Queue(25)
 
 REGISTER_DEVICE = "Register Device"
-TARGET_DEVICE_IDENTIFIER = "Targer Device Identifier"
+TARGET_INTERFACE_IDENTIFIER = "Targer Interface Identifier"
 COMMAND = "Command"
 DISPLAY = "Display"
 MODE = "Mode"
+HOME = "HOME"
 AUDIO = "Audio"
 AUDIO_DATA = "Audio Data"
 
