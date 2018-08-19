@@ -1,16 +1,16 @@
 import time
-import Application.Keys.Settings as KEY
+import Application.Keys.Settings as SETTINGS
+from Application.Interfaces.Interface import Interface
 from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
 from neopixel import *
 
-class Neopixel():
+class Neopixel(Interface):
     def __init__(self, settings):
-        print(settings)
-        print(settings[KEY.LED_COUNT])
+        super.__init__(settings)
 
         # LED strip configuration:
-        self.LED_COUNT                          = settings[KEY.LED_COUNT]      # Number of LED pixels.
-        LED_PIN                                 = settings[KEY.MAIN_PIN]      # GPIO pin connected to the pixels (18 uses PWM!).
+        self.LED_COUNT                          = settings[SETTINGS.LED_COUNT]      # Number of LED pixels.
+        LED_PIN                                 = settings[SETTINGS.MAIN_PIN]      # GPIO pin connected to the pixels (18 uses PWM!).
         LED_FREQ_HZ                             = 800000  # LED signal frequency in hertz (usually 800khz)
         LED_DMA                                 = 10       # DMA channel to use for generating signal (try 10)
         LED_BRIGHTNESS                          = 255     # Set to 0 for darkest and 255 for brightest

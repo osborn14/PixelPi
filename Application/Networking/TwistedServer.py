@@ -1,5 +1,6 @@
 import json
 
+from Application.Interfaces.Interface import Interface
 from Application.Database.ClientTaskDatabase import ClientTaskDatabase
 
 import Application.Keys.Network as NETWORK
@@ -9,44 +10,25 @@ from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerPr
 from twisted.internet import reactor
 
 database = ClientTaskDatabase()
+
 registered_device_list = list()
+
 
 class Device():
     def __init__(self, client, device_dict):
         self.client = client
-        self.device_dict = device_dict
-
-        self.unique_identifier = device_dict[SETTINGS.UNIQUE_IDENTIFIER]
-        self.code = device_dict[SETTINGS.CODE]
         self.description = device_dict[SETTINGS.DESCRIPTION]
+        self.interface_list = map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE])
 
-        if device_dict[SETTINGS.CODE] == SETTINGS.CODE_ADMIN:
-            client_list = list()
-            for device in registered_device_list:
-
-
-
-            client.sendMessage()
-
-        # if device_dict[SETTINGS.DEVICE_CODE] == SETTINGS.CODE_NEOPIXEL:
-        #
-        #     device_tasks = database.viewTasks(self.device_code)
-        #     for t in device_tasks['tasks']:
-        #         print(t['json'])
-        #         self.sendMessage(t['json'].encode('utf8'))
-
-    def getRegisteredDevices(self):
-        device_tasks = database.viewTasks(self.unique_identifier)
+    def getDeviceInfo(self):
+        interface_list_with_tasks = map(lambda interface: interface.getInterfaceJson(), self.interface_list)
 
         device_dict = {
-            SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
-            SETTINGS.CODE: self.code,
             SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.TASKS: device_tasks
+            SETTINGS.INTERFACE: interface_list_with_tasks
         }
 
         return device_dict
-
 
 class BroadcastServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
@@ -62,42 +44,34 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             msg = json.loads(payload.decode('utf8'))
             print(msg)
 
-
-
             if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
                 device = Device(msg[SETTINGS.DEVICE])
 
                 registered_device_list.append(device)
 
                 if device.code == SETTINGS.CODE_ADMIN:
-                    registered_devices_dicts = list()
-
-                    for device in registered_device_list:
-                        registered_devices_dicts.append(device.getRegisteredDevices())
-
+                    registered_devices_dicts = map(lambda device: device.getRegisteredDevices(), registered_device_list)
                     self.sendMessage(json.dumps(registered_devices_dicts))
 
-
-
-            elif msg['cmd'] == 'DISPLAY':
-                if 'task id' in msg:
+            elif msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
+                if SETTINGS.TASK_ID not in msg:
                     database.addTask('NP01', json.dumps(payload.decode('utf8')))
                 for cd in registered_device_list:
                     if 'NP01' == cd.name:
                         cd.client.sendMessage(payload)
                         print("Message sent! - NP")
 
-            elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
-                all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
-                for cd in registered_device_list:
-                    if cd.category != 'AD':
-                        print("Name added!" + cd.name)
-
-                        device_dict = {'device code': cd.name}
-                        dict(device_dict, **database.viewTasks(cd.name))
-                        all_devices_dict['devices'].append(device_dict)
-
-                self.sendMessage(json.dumps(all_devices_dict).encode('utf8'))
+            # elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
+            #     all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
+            #     for cd in registered_device_list:
+            #         if cd.category != 'AD':
+            #             print("Name added!" + cd.name)
+            #
+            #             device_dict = {'device code': cd.name}
+            #             dict(device_dict, **database.viewTasks(cd.name))
+            #             all_devices_dict['devices'].append(device_dict)
+            #
+            #     self.sendMessage(json.dumps(all_devices_dict).encode('utf8'))
 
 
                 # if msg['cmd'] == 'AUTHENTICATE':
@@ -114,6 +88,11 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
         # self.factory.broadcast(payload.decode("utf-8"))
 
     def connectionLost(self, reason):
+        # TODO: Check for ip or something rather than just self
+        for device in registered_device_list:
+            if device.client == self:
+                registered_device_list.remove(device)
+
         WebSocketServerProtocol.connectionLost(self, reason)
         self.factory.unregister(self)
 

@@ -14,10 +14,11 @@ class ClientTaskDatabase():
             self.cursor.execute("USE PixelPi;")
             self.cursor.execute("""CREATE TABLE Tasks(
                 id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                device_name VARCHAR(4) NOT NULL,
+                interface_identifier VARCHAR(4) NOT NULL,
                 command TEXT NOT NULL);""")
 
         self.db.commit()
+
 
     def addTask(self, device_name, payload):
         return_dictionary = {'task id': 'n/a'}
@@ -37,11 +38,11 @@ class ClientTaskDatabase():
 
         return return_dictionary
 
-    def viewTasks(self, device_name):
+    def viewTasks(self, interface_identifier):
         try:
-            sql = "Select id, device_name, command FROM Tasks\
+            sql = "Select id, interface_identifier, command FROM Tasks\
                WHERE device_name = '%s'" % \
-                  (device_name)
+                  interface_identifier
 
             self.cursor.execute(sql)
             sql_results = self.cursor.fetchall()

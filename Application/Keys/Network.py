@@ -9,7 +9,7 @@ def init():
     display_queue = queue.Queue(25)
 
 REGISTER_DEVICE = "Register Device"
-
+TARGET_DEVICE_IDENTIFIER = "Targer Device Identifier"
 COMMAND = "Command"
 DISPLAY = "Display"
 MODE = "Mode"
