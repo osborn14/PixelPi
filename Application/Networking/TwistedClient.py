@@ -1,7 +1,14 @@
 import json
+from Application.Settings.Settings import Settings
 import Application.Keys.Network as NETWORK
 
 from autobahn.asyncio.websocket import WebSocketClientProtocol
+
+settings = Settings()
+interface_list = settings.getInterfaces()
+
+def getInterfaceDict(interface):
+
 
 class MyClientProtocol(WebSocketClientProtocol):
 
@@ -11,12 +18,15 @@ class MyClientProtocol(WebSocketClientProtocol):
     def onOpen(self):
         print("WebSocket connection open.")
 
+        for interface in interface_list:
+
+
         ## Send server some basic details about the device upon connecting
-##        device_name = settings_file.device_name
-##        device_code = settings_file.device_code
-##        device_type = settings_file.device_type
-##        device_location = "temp"
-##        self.sendMessage(json.dumps({'cmd' : 'REGISTER DEVICE', 'device_name':device_name ,'device code': device_code, 'device_type': device_type}).encode('utf8'))
+        device_name = settings_file[]
+        device_code = settings_file.device_code
+        device_type = settings_file.device_type
+        device_location = "temp"
+        self.sendMessage(json.dumps({'cmd' : 'REGISTER DEVICE', 'device_name':device_name ,'device code': device_code, 'device_type': device_type}).encode('utf8'))
 
 
     def onMessage(self, payload, isBinary):

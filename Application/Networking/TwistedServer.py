@@ -1,19 +1,52 @@
 import json
 
+from Application.Database.ClientTaskDatabase import ClientTaskDatabase
+
+import Application.Keys.Network as NETWORK
+import Application.Keys.Settings as SETTINGS
+
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from twisted.internet import reactor
 
-#from Application.Database.ClientTaskDatabase import ClientTaskDatabase
-
-#database = ClientTaskDatabase()
-connected_device_list = list()
+database = ClientTaskDatabase()
+registered_device_list = list()
 
 class Device():
-    def __init__(self, category, name, client, description):
-        self.category = category;
-        self.name = name
+    def __init__(self, client, device_dict):
         self.client = client
-        self.description = description
+        self.device_dict = device_dict
+
+        self.unique_identifier = device_dict[SETTINGS.UNIQUE_IDENTIFIER]
+        self.code = device_dict[SETTINGS.CODE]
+        self.description = device_dict[SETTINGS.DESCRIPTION]
+
+        if device_dict[SETTINGS.CODE] == SETTINGS.CODE_ADMIN:
+            client_list = list()
+            for device in registered_device_list:
+
+
+
+            client.sendMessage()
+
+        # if device_dict[SETTINGS.DEVICE_CODE] == SETTINGS.CODE_NEOPIXEL:
+        #
+        #     device_tasks = database.viewTasks(self.device_code)
+        #     for t in device_tasks['tasks']:
+        #         print(t['json'])
+        #         self.sendMessage(t['json'].encode('utf8'))
+
+    def getRegisteredDevices(self):
+        device_tasks = database.viewTasks(self.unique_identifier)
+
+        device_dict = {
+            SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
+            SETTINGS.CODE: self.code,
+            SETTINGS.DESCRIPTION: self.description,
+            SETTINGS.TASKS: device_tasks
+        }
+
+        return device_dict
+
 
 class BroadcastServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
@@ -21,7 +54,6 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
         print("Client connecting: {}".format(request.peer))
-        connected_device_list.append(Device('AD', 'ad01', self, 'Admin'))
 
     def onMessage(self, payload, isBinary):
         print("Message received")
@@ -30,42 +62,34 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             msg = json.loads(payload.decode('utf8'))
             print(msg)
 
-            if msg['cmd'] == 'AUTHENTICATE':
-                print('un' + msg['username'])
-                print('pw' + msg['password'])
-                login_status = database.authenticateUser(msg['username'], msg['password'])
-                print(str(login_status))
-                self.sendMessage(json.dumps({'cmd': 'AUTHENTICATE', 'status': str(login_status)}).encode('utf8'))
-
-            if msg['cmd'] == 'REGISTER DEVICE':
-                if str(msg['device code'])[:2] == 'AD':
-                    print("Android device connected!")
-                    print(msg['device code'])
-                    connected_device_list.append(Device('AD', msg['device code'], self, 'Admin'))
-                else:
-                    connected_device_list.append(Device('NP', msg['device code'], self, 'Neopixel client'))
-
-                    device_tasks = database.viewTasks(msg['device code'])
-                    for t in device_tasks['tasks']:
-                        print(t['json'])
-                        self.sendMessage(t['json'].encode('utf8'))
 
 
-            ##            elif msg['cmd'] == 'CLEAR':
-            ##                removeTask(msg['id'])
-            ##                sendJsonToSingleClient(msg)
+            if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
+                device = Device(msg[SETTINGS.DEVICE])
+
+                registered_device_list.append(device)
+
+                if device.code == SETTINGS.CODE_ADMIN:
+                    registered_devices_dicts = list()
+
+                    for device in registered_device_list:
+                        registered_devices_dicts.append(device.getRegisteredDevices())
+
+                    self.sendMessage(json.dumps(registered_devices_dicts))
+
+
 
             elif msg['cmd'] == 'DISPLAY':
                 if 'task id' in msg:
                     database.addTask('NP01', json.dumps(payload.decode('utf8')))
-                for cd in connected_device_list:
+                for cd in registered_device_list:
                     if 'NP01' == cd.name:
                         cd.client.sendMessage(payload)
                         print("Message sent! - NP")
 
             elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
                 all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
-                for cd in connected_device_list:
+                for cd in registered_device_list:
                     if cd.category != 'AD':
                         print("Name added!" + cd.name)
 
@@ -75,6 +99,18 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
                 self.sendMessage(json.dumps(all_devices_dict).encode('utf8'))
 
+
+                # if msg['cmd'] == 'AUTHENTICATE':
+                #     print('un' + msg['username'])
+                #     print('pw' + msg['password'])
+                #     login_status = database.authenticateUser(msg['username'], msg['password'])
+                #     print(str(login_status))
+                #     self.sendMessage(json.dumps({'cmd': 'AUTHENTICATE', 'status': str(login_status)}).encode('utf8'))
+
+                ##            elif msg['cmd'] == 'CLEAR':
+                ##                removeTask(msg['id'])
+                ##                sendJsonToSingleClient(msg)
+
         # self.factory.broadcast(payload.decode("utf-8"))
 
     def connectionLost(self, reason):
@@ -83,7 +119,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     @classmethod
     def broadcast_audio_data(cls, payload):
-        for cd in connected_device_list:
+        for cd in registered_device_list:
             print("Message sent!")
             reactor.callFromThread(cls.sendMessage, cd.client, payload)
 

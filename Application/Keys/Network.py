@@ -8,6 +8,7 @@ def init():
     audio_queue = queue.Queue(3)
     display_queue = queue.Queue(25)
 
+REGISTER_DEVICE = "Register Device"
 
 COMMAND = "Command"
 DISPLAY = "Display"
