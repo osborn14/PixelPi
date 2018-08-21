@@ -70,11 +70,11 @@ class Neopixel(Interface):
         self.strip.show()
         time.sleep(self.PAUSE_TIME)
 
-
     def displayHomeLights(self):
+        rgb_to_display = self.display_task.display_effect.getRgbToDisplay()
 
         while True:
-            for rgb in self.display_task.color:
+            for rgb in rgb_to_display:
                 ## N1, or WS 2811 Neopixels display in GRB, so the order of colors need to be switched
                 # if self.SETTINGS.device_type == 'N1':
                 #     color_array = [rgb[1], rgb[0], rgb[2]]

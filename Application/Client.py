@@ -123,13 +123,8 @@ def displayLights():
 
         else:
             for interface in interface_list:
-                if interface.display_task is not None:
-                    interface.displayHomeLights()
-
-                elif len(interface.timer_tasks) > 0:
-                    for t in interface.timer_tasks:
-                        if t.shouldBeActive():
-                            interface.display_task = t
+                if interface.checkForTaskToDisplay():
+                     interface.displayHomeLights()
 
                 else:
                     interface.displayDefaultLights()

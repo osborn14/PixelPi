@@ -21,11 +21,11 @@ class Device():
         self.interface_list = map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE])
 
     def getDeviceInfo(self):
-        interface_list_with_tasks = map(lambda interface: interface.getInterfaceJson(), self.interface_list)
+        interface_json_list = map(lambda interface: interface.getInterfaceJson(), self.interface_list)
 
         device_dict = {
             SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.INTERFACE: interface_list_with_tasks
+            SETTINGS.INTERFACE: interface_json_list
         }
 
         return device_dict
@@ -36,6 +36,7 @@ class Device():
                 return True
 
         return False
+
 
 class BroadcastServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
@@ -99,11 +100,6 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
         # self.factory.broadcast(payload.decode("utf-8"))
 
     def connectionLost(self, reason):
-        # TODO: Check for ip or something rather than just self.  Maybe use self or client .peer?
-        for device in registered_device_list:
-            if device.client == self:
-                registered_device_list.remove(device)
-
         WebSocketServerProtocol.connectionLost(self, reason)
         self.factory.unregister(self)
 
@@ -123,11 +119,11 @@ class BroadcastServerFactory(WebSocketServerFactory):
     def __init__(self, url, debug=False, debugCodePaths=False):
         WebSocketServerFactory.__init__(self, url)
         self.clients = []
-        self.tickcount = 0
-        self.tick()
+        #self.tickcount = 0
+        #self.tick()
 
-    def tick(self):
-        self.tickcount += 1
+    #def tick(self):
+        #self.tickcount += 1
 
     ##        self.broadcast("tick %d from server" % self.tickcount)
     ##        reactor.callLater(1, self.tick)
@@ -138,6 +134,10 @@ class BroadcastServerFactory(WebSocketServerFactory):
             self.clients.append(client)
 
     def unregister(self, client):
+        for device in registered_device_list:
+            if device.client == client:
+                registered_device_list.remove(device)
+
         if client in self.clients:
             print("unregistered client {}".format(client.peer))
             self.clients.remove(client)
@@ -145,21 +145,19 @@ class BroadcastServerFactory(WebSocketServerFactory):
     def broadcast(self, msg):
         print("broadcasting message '{}' ..".format(msg))
         for c in self.clients:
-            print(c)
-            ##            if msg['send to'] == c.
             c.sendMessage(msg)
             print("message sent to {}".format(c.peer))
 
 
-class BroadcastPreparedServerFactory(BroadcastServerFactory):
+#class BroadcastPreparedServerFactory(BroadcastServerFactory):
     """
     Functionally same as above, but optimized broadcast using
     prepareMessage and sendPreparedMessage.
     """
 
-    def broadcast(self, msg):
-        print("broadcasting prepared message '{}' ..".format(msg))
-        preparedMsg = self.prepareMessage(msg)
-        for c in self.clients:
-            c.sendPreparedMessage(preparedMsg)
-            print("prepared message sent to {}".format(c.peer))
+    # def broadcast(self, msg):
+    #     print("broadcasting prepared message '{}' ..".format(msg))
+    #     preparedMsg = self.prepareMessage(msg)
+    #     for c in self.clients:
+    #         c.sendPreparedMessage(preparedMsg)
+    #         print("prepared message sent to {}".format(c.peer))
