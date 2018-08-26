@@ -11,6 +11,8 @@ def init():
 REGISTER_DEVICE = "Register Device"
 TARGET_INTERFACE_IDENTIFIER = "Targer Interface Identifier"
 COMMAND = "Command"
+MODE = "Mode"
+UPDATE = "Update"
 DISPLAY = "Display"
 DISPLAY_EFFECT = "Display Effect"
 ON_OFF_CONTROL = "On Off Control"

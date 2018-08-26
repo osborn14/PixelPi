@@ -8,15 +8,15 @@ server = {
 }
 
 client = {
-    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
-    SETTINGS.
-
-    SETTINGS.CODE_NEOPIXEL: [
-        {
-            SETTINGS.MAIN_PIN: 18,
-            SETTINGS.LED_COUNT: 150
-        }
-    ]
+    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1'
 }
 
-
+neopixel = [
+    {
+        SETTINGS.UNIQUE_IDENTIFIER: "NP01",
+        SETTINGS.CODE: "NP",
+        SETTINGS.DESCRIPTION: "Neopixel for testing!",
+        SETTINGS.MAIN_PIN: 18,
+        SETTINGS.LED_COUNT: 150
+    }
+]

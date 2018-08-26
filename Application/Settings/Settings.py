@@ -27,6 +27,7 @@ class Settings(object):
 
         self.client_settings = Config.client
 
+        # TODO: Make neopixel a subset of client
         for settings in Config.neopixel:
             self.interface_list.append(Neopixel(settings))
 

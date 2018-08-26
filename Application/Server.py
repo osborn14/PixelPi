@@ -26,6 +26,8 @@ def broadcastAudioData():
             msg[NETWORK.MODE] = NETWORK.AUDIO
             msg[NETWORK.AUDIO_DATA] = audio_data.getAudioJSON()
             
+            #print("Should be printing...")
+            
             factory.protocol.broadcast_audio_data(json.dumps(msg, ensure_ascii=False).encode('utf8'))
 
         time.sleep(.05)

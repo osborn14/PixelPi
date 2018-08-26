@@ -52,7 +52,7 @@ class AudioServerConnection():
             # audio_data.primary_colors = [data_list_two[1], data_list_two[2], data_list_two[3]]
             # audio_data.secondary_colors = [data_list_two[4], data_list_two[5], data_list_two[6]]
             
-            print(data_list_one)
+            #print(data_list_one)
             
             audio_data.spectrum_heights = data_list_one[1:17]
             audio_data.spectrum_avg = sum(audio_data.spectrum_heights) / len(audio_data.spectrum_heights)

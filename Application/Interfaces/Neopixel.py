@@ -6,7 +6,7 @@ from neopixel import *
 
 class Neopixel(Interface):
     def __init__(self, settings):
-        super.__init__(settings)
+        super().__init__(settings)
 
         # LED strip configuration:
         self.LED_COUNT                          = settings[SETTINGS.LED_COUNT]      # Number of LED pixels.
@@ -25,7 +25,6 @@ class Neopixel(Interface):
         self.FADE_END                           = 17
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
-        self.display_task = None
         self.timer_tasks = list()
         self.strip_led_brightness = 0
         self.main_height = [0] * 16
@@ -71,7 +70,7 @@ class Neopixel(Interface):
         time.sleep(self.PAUSE_TIME)
 
     def displayHomeLights(self):
-        rgb_to_display = self.display_task.display_effect.getRgbToDisplay()
+        rgb_to_display = super.display_task.display_effect.getRgbToDisplay()
 
         while True:
             for rgb in rgb_to_display:

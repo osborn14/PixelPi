@@ -1,7 +1,7 @@
 import json
 
 from Application.Interfaces.Interface import Interface
-from Application.Database.ClientTaskDatabase import ClientTaskDatabase
+#from Application.Database.ClientTaskDatabase import ClientTaskDatabase
 
 import Application.Keys.Network as NETWORK
 import Application.Keys.Settings as SETTINGS
@@ -9,19 +9,19 @@ import Application.Keys.Settings as SETTINGS
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from twisted.internet import reactor
 
-database = ClientTaskDatabase()
+#database = ClientTaskDatabase()
 
 registered_device_list = list()
-
+temp_neopixel_client = None
 
 class Device():
     def __init__(self, client, device_dict):
         self.client = client
-        self.description = device_dict[SETTINGS.DESCRIPTION]
-        self.interface_list = map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE])
+        self.description = device_dict[SETTINGS.DEVICE][SETTINGS.DESCRIPTION]
+        self.interface_list = list(map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE]))
 
     def getDeviceInfo(self):
-        interface_json_list = map(lambda interface: interface.getInterfaceJson(), self.interface_list)
+        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), self.interface_list))
 
         device_dict = {
             SETTINGS.DESCRIPTION: self.description,
@@ -29,6 +29,13 @@ class Device():
         }
 
         return device_dict
+    
+    def checkForAdminInterface(self):
+        for interface in self.interface_list:
+            if interface.code == SETTINGS.CODE_ADMIN:
+                return True
+            
+        return False
 
     def checkForTargetInterface(self, target_identifier):
         for interface in self.interface_list:
@@ -44,6 +51,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     def onConnect(self, request):
         print("Client connecting: {}".format(request.peer))
+        
 
     def onMessage(self, payload, isBinary):
         print("Message received!")
@@ -53,18 +61,26 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             print(msg)
 
             if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
-                device = Device(msg[SETTINGS.DEVICE])
+                device = Device(self, msg)
 
-                registered_device_list.append(device)
+                #registered_device_list.append(device)
 
-                if device.code == SETTINGS.CODE_ADMIN:
-                    registered_devices_dicts = map(lambda device: device.getRegisteredDevices(), registered_device_list)
-                    self.sendMessage(json.dumps(registered_devices_dicts))
+                if device.checkForAdminInterface():
+                    registered_devices_dicts = list(map(lambda device: device.getDeviceInfo(), registered_device_list))
+                    
+                    
+                    dict_describing_devices = {
+                        NETWORK.COMMAND: NETWORK.UPDATE,
+                        SETTINGS.DEVICE_LIST: registered_devices_dicts
+                    }
+                    
+                    print(dict_describing_devices)
+                    self.sendMessage(json.dumps(dict_describing_devices, ensure_ascii=False).encode('utf8'))
 
             elif msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
-                if SETTINGS.TASK_ID not in msg:
+                #if SETTINGS.TASK_ID not in msg:
                     # TODO: Move tasks to object
-                    database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
+                    # database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
 
                 for device in registered_device_list:
                     if device.checkForTargetInterface(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER]):
@@ -105,9 +121,16 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     @classmethod
     def broadcast_audio_data(cls, payload):
-        for cd in registered_device_list:
-            print("Message sent!")
-            reactor.callFromThread(cls.sendMessage, cd.client, payload)
+        print("In broadcast audio")
+        try:
+            print(t)
+            reactor.callFromThread(cls.sendMessage, t, payload)
+        except:
+            i = 0
+        
+        #for cd in registered_device_list:
+            #print("Message sent!")
+            #reactor.callFromThread(cls.sendMessage, cd.client, payload)
 
 
 class BroadcastServerFactory(WebSocketServerFactory):
@@ -129,6 +152,8 @@ class BroadcastServerFactory(WebSocketServerFactory):
     ##        reactor.callLater(1, self.tick)
 
     def register(self, client):
+        t = client
+        print(t)
         if client not in self.clients:
             print("registered client {}".format(client.peer))
             self.clients.append(client)

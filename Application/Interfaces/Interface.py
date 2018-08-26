@@ -3,15 +3,16 @@ import Application.Keys.Settings as SETTINGS
 
 
 class Interface():
-    def __init__(self, settings, tasks):
+    def __init__(self, settings):
         self.unique_identifier = settings[SETTINGS.UNIQUE_IDENTIFIER]
+        # TODO: Code shouldn't be needed on clients end because of config
         self.code = settings[SETTINGS.CODE]
         self.description = settings[SETTINGS.DESCRIPTION]
-        self.display_task
+        self.display_task = None
         self.tasks = list()
 
     def getInterfaceJson(self):
-        task_dict = map(lambda  t: t.shouldBeActive, self.tasks)
+        task_dict = list(map(lambda  t: t.shouldBeActive, self.tasks))
 
         interface_settings_dict = {
             SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
@@ -33,6 +34,8 @@ class Interface():
                 return True
 
         return False
+    
+    #def getDisplayTask(self):
 
     def displayAudioLights(self):
         raise NotImplementedError
