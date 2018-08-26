@@ -1,6 +1,6 @@
 import os, pigpio
 
-from Application.Interfaces.SharedFunctions import RPiLEDFunctions as led_fx
+from Application.Interfaces.Common import RPiLEDFunctions as led_fx
 from Application.Keys import Settings as KEY
 
 

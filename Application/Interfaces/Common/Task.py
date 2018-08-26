@@ -8,6 +8,7 @@ class Task():
     def __init__(self, settings):
         self.settings = settings
         # TODO: Probably need to search for an object here instead of simply storing a json
+        self.task_id = settings[SETTINGS.TASK_ID]
         self.display_effect = settings[NETWORK.MODE]
         self.on_off_control = settings[NETWORK.ON_OFF_CONTROL]
 
@@ -22,6 +23,17 @@ class Task():
             return True
         elif self.on_off_control == NETWORK.TIMER:
             return self.on_off_control_object.shouldBeOn()
+
+    def getRgbValue(self):
+        NotImplementedError
+
+
+class Simple():
+    def __init__(self, settings):
+        self.Rgb = settings[NETWORK.RGB]
+
+    def getRgbValue(self):
+        return self.Rgb
 
 
 class Timer():

@@ -12,7 +12,7 @@ INTERFACE               = "Interface"
 UNIQUE_IDENTIFIER       = "Unique Identifier"
 CATEGORY                = "Category"
 DESCRIPTION             = "Description"
-TASKS                   = "Tasks"
+TASK                    = "Task"
 TASK_ID                 = "Task Id"
 #TODO: Code shouldn't exist.  It's already in network, and needs to be removed entirely on the clients end
 CODE = "Code"

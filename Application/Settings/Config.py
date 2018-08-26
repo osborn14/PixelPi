@@ -8,7 +8,8 @@ server = {
 }
 
 client = {
-    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1'
+    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
+    SETTINGS.DESCRIPTION: "Raspsberry Pi 3b+"
 }
 
 neopixel = [

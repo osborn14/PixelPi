@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from Application.Networking.TwistedClient import MyClientProtocol
 from Application.Settings.Settings import Settings
 from Application.Audio.AudioData import AudioData
+from Application.Interfaces.Common.Task import Task
 import Application.Keys.Settings as SETTINGS
 import Application.Keys.Network as NETWORK
 
@@ -15,8 +16,6 @@ NETWORK.init()
 settings = Settings()
 client_settings = settings.getUniversalClientSettings()
 interface_list = settings.getInterfaces()
-
-display_list = list()
 
 def signal_handler(signal, frame):
     for interface in interface_list:
@@ -87,8 +86,14 @@ def signal_handler(signal, frame):
 #             # else:
 #             interface.displayDefaultLights()
 
-def processDisplayJson(json):
-    print(json)
+def processDisplayJson(msg):
+    for interface in interface_list:
+        if interface.unique_identifier == msg[SETTINGS.UNIQUE_IDENTIFIER]:
+
+            if msg[SETTINGS.TASK][NETWORK.ON_OFF_CONTROL]:
+            interface.task_list.append(Task(msg))
+
+    print(msg)
 
 def displayLights():
     while True:
@@ -111,8 +116,7 @@ def displayLights():
                 
                 else:
                     audio_data.setSpectrumToZero()
-                    
-                    
+
                 for interface in interface_list:
                     interface.displayAudioLights(audio_data)
 
@@ -124,7 +128,7 @@ def displayLights():
         else:
             for interface in interface_list:
                 if interface.checkForTaskToDisplay():
-                     interface.displayHomeLights()
+                    interface.displayHomeLights()
 
                 else:
                     interface.displayDefaultLights()

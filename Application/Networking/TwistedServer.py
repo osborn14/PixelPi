@@ -1,6 +1,7 @@
 import json
 
 from Application.Interfaces.Interface import Interface
+from Application.Interfaces.Common.Task import Task
 #from Application.Database.ClientTaskDatabase import ClientTaskDatabase
 
 import Application.Keys.Network as NETWORK
@@ -21,7 +22,9 @@ class Device():
         self.interface_list = list(map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE]))
 
     def getDeviceInfo(self):
-        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), self.interface_list))
+        # We want to get all non-admin interface jsons
+        non_admin_interface_list = filter(lambda interface: True if not interface.code == SETTINGS.CODE_ADMIN else False, self.interface_list)
+        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), non_admin_interface_list))
 
         device_dict = {
             SETTINGS.DESCRIPTION: self.description,
@@ -33,16 +36,25 @@ class Device():
     def checkForAdminInterface(self):
         for interface in self.interface_list:
             if interface.code == SETTINGS.CODE_ADMIN:
-                return True
+                return interface.unique_identifier
             
-        return False
+        return None
 
     def checkForTargetInterface(self, target_identifier):
         for interface in self.interface_list:
             if interface.unique_identifier == target_identifier:
-                return True
+                return interface.unique_identifier
 
-        return False
+        return None
+
+    def updateInterfaceTaskList(self, interface_id, task_list):
+        for interface in self.interface_list:
+            if interface.unique_identifier == interface_id:
+                interface.task_list = task_list
+
+
+
+def createDeviceListFromJson(json):
 
 
 class BroadcastServerProtocol(WebSocketServerProtocol):
@@ -63,12 +75,11 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
                 device = Device(self, msg)
 
-                #registered_device_list.append(device)
+                registered_device_list.append(device)
 
                 if device.checkForAdminInterface():
                     registered_devices_dicts = list(map(lambda device: device.getDeviceInfo(), registered_device_list))
-                    
-                    
+
                     dict_describing_devices = {
                         NETWORK.COMMAND: NETWORK.UPDATE,
                         SETTINGS.DEVICE_LIST: registered_devices_dicts
@@ -81,11 +92,37 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 #if SETTINGS.TASK_ID not in msg:
                     # TODO: Move tasks to object
                     # database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
+                msg[SETTINGS.TASK_ID] == 1
 
                 for device in registered_device_list:
-                    if device.checkForTargetInterface(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER]):
-                        msg[NETWORK.MODE] = NETWORK.HOME
+                    target_interface_id = NETWORK.TARGET_INTERFACE_IDENTIFIER
 
+                    if device.checkForTargetInterface(msg[target_interface_id]):
+                        if msg[NETWORK.ON_OFF_CONTROL] == NETWORK.MANUAL:
+                            # Get me a single interface that has the appropriate interface id
+                            target_interface = next(
+                                filter(lambda interface: interface.unique_identifier == target_interface_id,
+                                       device.interface_list), None)
+                            # Find all manual tasks associated with the interface
+                            manual_task_list = next(filter(lambda task: task.on_off_control == NETWORK.MANUAL,
+                                                           target_interface.task_list), None)
+
+                            # Interfaces can only have one manual task at a time. Remove any other old ones
+                            if len(manual_task_list) > 0:
+                                remove_list = list(map(lambda task: task.task_id, manual_task_list))
+                                remove_task_command = {
+                                    NETWORK.COMMAND: NETWORK.REMOVE,
+                                    NETWORK.REMOVE_LIST: remove_list
+                                }
+
+                                device.client.sendMessage(json.dumps(remove_task_command, ensure_ascii=False).encode('utf8'))
+                                no_manual_task_list = filter(lambda task: task.on_off_control != NETWORK.MANUAL, target_interface.task_list)
+
+                            task_list = no_manual_task_list.append(Task(msg))
+                            device.updateInterfaceTaskList(target_interface.unique_identifier, task_list)
+
+
+                        msg[NETWORK.MODE] = NETWORK.HOME
                         device.client.sendMessage(json.dumps(msg, ensure_ascii=False).encode('utf8'))
                         print("Message sent!")
 
@@ -152,8 +189,6 @@ class BroadcastServerFactory(WebSocketServerFactory):
     ##        reactor.callLater(1, self.tick)
 
     def register(self, client):
-        t = client
-        print(t)
         if client not in self.clients:
             print("registered client {}".format(client.peer))
             self.clients.append(client)

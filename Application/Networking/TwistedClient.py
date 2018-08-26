@@ -1,6 +1,7 @@
 import json
 from Application.Settings.Settings import Settings
 import Application.Keys.Network as NETWORK
+import Application.Keys.Settings as SETTINGS
 
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
@@ -16,8 +17,14 @@ class MyClientProtocol(WebSocketClientProtocol):
         print("WebSocket connection open.")
 
         # Send server some basic details about the device upon connecting
-        interface_descriptions = map(lambda i: i.getInterfaceJson(), interface_list)
-        self.sendMessage(json.dumps(interface_descriptions))
+        interface_descriptions = map(lambda interface: interface.getInterfaceJson(), interface_list)
+
+        register_msg = {
+            NETWORK.COMMAND: NETWORK.UPDATE,
+            SETTINGS.DEVICE_LIST: interface_descriptions
+        }
+
+        self.sendMessage(json.dumps(register_msg))
 
     def onMessage(self, payload, isBinary):
         #print("Message received!")
@@ -36,15 +43,19 @@ class MyClientProtocol(WebSocketClientProtocol):
                         old_value_in_queue = NETWORK.audio_queue.get()
                         
                     NETWORK.audio_queue.put(msg)
-                    
-                    ## Put the display mode into the proper category
+
                 elif msg[NETWORK.MODE] == NETWORK.HOME:
-                    for m in display_mode_list:
-                        if type(m)  == Mode:
-                            display_mode_list.remove(m)
-                    display_mode_list.append(Mode(prepareArrayforDisplay(msg['rgb array'])))
-                elif msg['mode'] == 'timer':
-                    display_mode_list.append(Timer(msg['timer day'], msg['timer hour'], msg['timer minute'], prepareArrayforDisplay(msg['rgb array'])))
+                    NETWORK.display_queue.put(msg)
+
+
+
+
+                #     for m in display_mode_list:
+                #         if type(m)  == Mode:
+                #             display_mode_list.remove(m)
+                #     display_mode_list.append(Mode(prepareArrayforDisplay(msg['rgb array'])))
+                # elif msg['mode'] == 'timer':
+                #     display_mode_list.append(Timer(msg['timer day'], msg['timer hour'], msg['timer minute'], prepareArrayforDisplay(msg['rgb array'])))
                 
                 #display_queue.put(payload)
                 #print("Text message received: {0}".format(payload.decode('utf8')))

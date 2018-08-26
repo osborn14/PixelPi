@@ -9,10 +9,10 @@ class Interface():
         self.code = settings[SETTINGS.CODE]
         self.description = settings[SETTINGS.DESCRIPTION]
         self.display_task = None
-        self.tasks = list()
+        self.task_list = list()
 
     def getInterfaceJson(self):
-        task_dict = list(map(lambda  t: t.shouldBeActive, self.tasks))
+        task_dict = list(map(lambda task: task.shouldBeActive, self.task_list))
 
         interface_settings_dict = {
             SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
@@ -24,12 +24,14 @@ class Interface():
         return interface_settings_dict
 
     def checkForTaskToDisplay(self):
-        for task in self.tasks:
+        # Manual tasks always take priority over automatic tasks
+        for task in self.task_list:
             if task.on_off_control == NETWORK.MANUAL:
                 self.display_task = task
                 return True
 
-            elif task.shouldBeActive():
+        for task in self.task_list:
+            if task.shouldBeActive():
                 self.display_task = task
                 return True
 
@@ -38,4 +40,7 @@ class Interface():
     #def getDisplayTask(self):
 
     def displayAudioLights(self):
+        raise NotImplementedError
+
+    def displayHomeLights(self):
         raise NotImplementedError
