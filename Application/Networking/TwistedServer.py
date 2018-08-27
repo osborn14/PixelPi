@@ -19,16 +19,15 @@ class Device():
     def __init__(self, client, device_dict):
         self.client = client
         self.description = device_dict[SETTINGS.DEVICE][SETTINGS.DESCRIPTION]
-        self.interface_list = list(map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE]))
+        self.interface_list = list(map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE_LIST]))
 
     def getDeviceInfo(self):
-        # We want to get all non-admin interface jsons
-        non_admin_interface_list = filter(lambda interface: True if not interface.code == SETTINGS.CODE_ADMIN else False, self.interface_list)
-        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), non_admin_interface_list))
+        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), self.interface_list))
+        #print(list(non_admin_interface_list))
 
         device_dict = {
             SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.INTERFACE: interface_json_list
+            SETTINGS.INTERFACE_LIST: interface_json_list
         }
 
         return device_dict
@@ -36,6 +35,7 @@ class Device():
     def checkForAdminInterface(self):
         for interface in self.interface_list:
             if interface.code == SETTINGS.CODE_ADMIN:
+                print(self.description)
                 return interface.unique_identifier
             
         return None
@@ -54,9 +54,6 @@ class Device():
 
 
 
-def createDeviceListFromJson(json):
-
-
 class BroadcastServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
         self.factory.register(self)
@@ -73,39 +70,44 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             print(msg)
 
             if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
-                device = Device(self, msg)
+                new_device = Device(self, msg)
+                registered_device_list.append(new_device)
+                print(len(registered_device_list))
 
-                registered_device_list.append(device)
-
-                if device.checkForAdminInterface():
-                    registered_devices_dicts = list(map(lambda device: device.getDeviceInfo(), registered_device_list))
+                if new_device.checkForAdminInterface():
+                    # We want to get all non-admin interface jsons
+                    non_admin_devices = list(filter(lambda device: False if device.checkForAdminInterface() else True, registered_device_list))
+                    non_admin_devices_dicts = list(map(lambda device: device.getDeviceInfo(), non_admin_devices))
 
                     dict_describing_devices = {
                         NETWORK.COMMAND: NETWORK.UPDATE,
-                        SETTINGS.DEVICE_LIST: registered_devices_dicts
+                        SETTINGS.DEVICE_LIST: non_admin_devices_dicts
                     }
                     
                     print(dict_describing_devices)
                     self.sendMessage(json.dumps(dict_describing_devices, ensure_ascii=False).encode('utf8'))
+                else:
+                    # Notify admin of new user here
+                    print("New user joined!")
 
             elif msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
                 #if SETTINGS.TASK_ID not in msg:
                     # TODO: Move tasks to object
                     # database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
-                msg[SETTINGS.TASK_ID] == 1
+                msg[SETTINGS.TASK_ID] = 1
 
                 for device in registered_device_list:
-                    target_interface_id = NETWORK.TARGET_INTERFACE_IDENTIFIER
-
-                    if device.checkForTargetInterface(msg[target_interface_id]):
+                    target_interface_id = msg[SETTINGS.UNIQUE_IDENTIFIER]
+                    
+                    if device.checkForTargetInterface(target_interface_id):
                         if msg[NETWORK.ON_OFF_CONTROL] == NETWORK.MANUAL:
                             # Get me a single interface that has the appropriate interface id
                             target_interface = next(
                                 filter(lambda interface: interface.unique_identifier == target_interface_id,
                                        device.interface_list), None)
                             # Find all manual tasks associated with the interface
-                            manual_task_list = next(filter(lambda task: task.on_off_control == NETWORK.MANUAL,
-                                                           target_interface.task_list), None)
+                            manual_task_list = list(filter(lambda task: task.on_off_control == NETWORK.MANUAL,
+                                                           target_interface.task_list))
 
                             # Interfaces can only have one manual task at a time. Remove any other old ones
                             if len(manual_task_list) > 0:
@@ -116,8 +118,8 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                                 }
 
                                 device.client.sendMessage(json.dumps(remove_task_command, ensure_ascii=False).encode('utf8'))
-                                no_manual_task_list = filter(lambda task: task.on_off_control != NETWORK.MANUAL, target_interface.task_list)
-
+                                
+                            no_manual_task_list = list(filter(lambda task: task.on_off_control != NETWORK.MANUAL, target_interface.task_list))
                             task_list = no_manual_task_list.append(Task(msg))
                             device.updateInterfaceTaskList(target_interface.unique_identifier, task_list)
 

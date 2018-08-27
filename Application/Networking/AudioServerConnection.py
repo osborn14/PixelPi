@@ -69,7 +69,10 @@ class AudioServerConnection():
                 self.start_time = time.time()
                 audio_data.music_is_playing = True
                 
-        return audio_data
+            return audio_data
+        
+        else:
+            return None
 
     def connectToServer(self, ip, port):
         try:

@@ -18,7 +18,7 @@ class Interface():
             SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
             SETTINGS.CODE: self.code,
             SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.TASKS: task_dict
+            SETTINGS.TASK_LIST: task_dict
         }
 
         return interface_settings_dict

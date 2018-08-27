@@ -9,7 +9,7 @@ class Task():
         self.settings = settings
         # TODO: Probably need to search for an object here instead of simply storing a json
         self.task_id = settings[SETTINGS.TASK_ID]
-        self.display_effect = settings[NETWORK.MODE]
+        self.display_effect = settings[NETWORK.DISPLAY_EFFECT]
         self.on_off_control = settings[NETWORK.ON_OFF_CONTROL]
 
         if self.on_off_control  == NETWORK.TIMER:
@@ -24,15 +24,16 @@ class Task():
         elif self.on_off_control == NETWORK.TIMER:
             return self.on_off_control_object.shouldBeOn()
 
-    def getRgbValue(self):
+    def getRgbToDisplay(self):
         NotImplementedError
 
 
-class Simple():
+class Simple(Task):
     def __init__(self, settings):
-        self.Rgb = settings[NETWORK.RGB]
+        super().__init__(settings)
+        self.Rgb = list(map(lambda color: int(color), settings[NETWORK.RGB]))
 
-    def getRgbValue(self):
+    def getRgbToDisplay(self):
         return self.Rgb
 
 

@@ -6,6 +6,7 @@ import Application.Keys.Settings as SETTINGS
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
 settings = Settings()
+client_settings = settings.getUniversalClientSettings()
 interface_list = settings.getInterfaces()
 
 class MyClientProtocol(WebSocketClientProtocol):
@@ -17,14 +18,20 @@ class MyClientProtocol(WebSocketClientProtocol):
         print("WebSocket connection open.")
 
         # Send server some basic details about the device upon connecting
-        interface_descriptions = map(lambda interface: interface.getInterfaceJson(), interface_list)
-
+        interface_descriptions = list(map(lambda interface: interface.getInterfaceJson(), interface_list))
+        
+        print(client_settings)
         register_msg = {
-            NETWORK.COMMAND: NETWORK.UPDATE,
-            SETTINGS.DEVICE_LIST: interface_descriptions
+            NETWORK.COMMAND: NETWORK.REGISTER_DEVICE,
+            SETTINGS.DEVICE: {
+                SETTINGS.DESCRIPTION: client_settings[SETTINGS.DESCRIPTION]
+            },
+            SETTINGS.INTERFACE_LIST: interface_descriptions
         }
+        
+        print(register_msg)
 
-        self.sendMessage(json.dumps(register_msg))
+        self.sendMessage(json.dumps(register_msg, ensure_ascii=False).encode('utf8'))
 
     def onMessage(self, payload, isBinary):
         #print("Message received!")

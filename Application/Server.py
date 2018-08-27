@@ -20,7 +20,7 @@ def broadcastAudioData():
     audio_server_connection = AudioServerConnection(server_settings)
     while(True):
         audio_data = audio_server_connection.getAudioServerData()
-        if audio_data.music_is_playing:
+        if audio_data and audio_data.music_is_playing:
             msg = dict()
             msg[NETWORK.COMMAND] = NETWORK.DISPLAY
             msg[NETWORK.MODE] = NETWORK.AUDIO
