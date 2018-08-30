@@ -12,7 +12,7 @@ class Interface():
         self.task_list = list()
 
     def getInterfaceJson(self):
-        task_dict = list(map(lambda task: task.shouldBeActive, self.task_list))
+        task_dict = list(map(lambda task: task.getTaskJson(), self.task_list))
 
         interface_settings_dict = {
             SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,

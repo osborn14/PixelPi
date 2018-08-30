@@ -87,17 +87,28 @@ def signal_handler(signal, frame):
 #             interface.displayDefaultLights()
 
 def processServerJson(msg):
+    print("Processing server json!")
     for interface in interface_list:
         if interface.unique_identifier == msg[SETTINGS.UNIQUE_IDENTIFIER]:
             if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
                 if msg[NETWORK.DISPLAY_EFFECT] == NETWORK.SIMPLE:
                     interface.task_list.append(Simple(msg))
+                    
+            if msg[NETWORK.COMMAND] == NETWORK.REMOVE:
+                for remove_id in msg[NETWORK.REMOVE_LIST]:
+                    interface.task_list = list(filter(lambda task: task.task_id != remove_id, interface.task_list))
 
     print(msg)
 
 def displayLights():
     while True:
+        time.sleep(1)
+        if not NETWORK.remove_queue.empty():
+            print("Retrieved from remove queue!")
+            processServerJson(NETWORK.remove_queue.get())
+        
         if not NETWORK.display_queue.empty():
+            print("Retrieved from display queue!")
             processServerJson(NETWORK.display_queue.get())
 
         if not NETWORK.audio_queue.empty():

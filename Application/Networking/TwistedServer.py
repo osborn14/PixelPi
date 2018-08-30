@@ -114,19 +114,27 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                                 remove_list = list(map(lambda task: task.task_id, manual_task_list))
                                 remove_task_command = {
                                     NETWORK.COMMAND: NETWORK.REMOVE,
+                                    SETTINGS.UNIQUE_IDENTIFIER: target_interface.unique_identifier,
                                     NETWORK.REMOVE_LIST: remove_list
                                 }
 
                                 device.client.sendMessage(json.dumps(remove_task_command, ensure_ascii=False).encode('utf8'))
-                                
+                            
                             no_manual_task_list = list(filter(lambda task: task.on_off_control != NETWORK.MANUAL, target_interface.task_list))
-                            task_list = no_manual_task_list.append(Task(msg))
+                            if no_manual_task_list:
+                                
+                                task_list = no_manual_task_list.append(Task(msg))
+                            else:
+                                task_list = [Task(msg)]
+                                
+                            print("New task list", task_list)
                             device.updateInterfaceTaskList(target_interface.unique_identifier, task_list)
 
 
                         msg[NETWORK.MODE] = NETWORK.HOME
+                        print(device.client)
                         device.client.sendMessage(json.dumps(msg, ensure_ascii=False).encode('utf8'))
-                        print("Message sent!")
+                        print("Message sent!", msg)
 
             # elif msg['cmd'] == 'VIEW AVAILABLE CLIENTS':
             #     all_devices_dict = {'cmd': 'VIEW AVAILABLE CLIENTS', 'devices': []}
@@ -160,16 +168,9 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
 
     @classmethod
     def broadcast_audio_data(cls, payload):
-        print("In broadcast audio")
-        try:
-            print(t)
-            reactor.callFromThread(cls.sendMessage, t, payload)
-        except:
-            i = 0
-        
-        #for cd in registered_device_list:
-            #print("Message sent!")
-            #reactor.callFromThread(cls.sendMessage, cd.client, payload)
+        for cd in registered_device_list:
+            print("Message sent!")
+            reactor.callFromThread(cls.sendMessage, cd.client, payload)
 
 
 class BroadcastServerFactory(WebSocketServerFactory):

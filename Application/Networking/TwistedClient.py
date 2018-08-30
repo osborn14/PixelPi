@@ -1,4 +1,4 @@
-import json
+import json, sys
 from Application.Settings.Settings import Settings
 import Application.Keys.Network as NETWORK
 import Application.Keys.Settings as SETTINGS
@@ -41,10 +41,12 @@ class MyClientProtocol(WebSocketClientProtocol):
             #try:
             #print(payload.decode('utf-8'))
             msg = json.loads(payload.decode('utf-8'))
+            print(msg)
                 ## Consider ids for removing orders
                 ## Or, send a remove all command and send all again
 
             if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
+                print("Display command!")
                 if msg[NETWORK.MODE] == NETWORK.AUDIO:                    
                     if NETWORK.audio_queue.full():
                         old_value_in_queue = NETWORK.audio_queue.get()
@@ -52,7 +54,12 @@ class MyClientProtocol(WebSocketClientProtocol):
                     NETWORK.audio_queue.put(msg)
 
                 elif msg[NETWORK.MODE] == NETWORK.HOME:
+                    print("Put in display queue")
                     NETWORK.display_queue.put(msg)
+                    
+            elif msg[NETWORK.COMMAND] == NETWORK.REMOVE:
+                NETWORK.remove_queue.put(msg)
+                
 
 
 

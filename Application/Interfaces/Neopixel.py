@@ -76,27 +76,21 @@ class Neopixel(Interface):
         if not isinstance(rgb_to_display[0], list):
             rgb_to_display = [rgb_to_display]            
         
-
-        while True:
-
-            x = 0
-            while(x <= self.LED_COUNT):
-                for rgb in rgb_to_display:
+        x = 0
+        while(x <= self.LED_COUNT):
+            for rgb in rgb_to_display:
                 ## N1, or WS 2811 Neopixels display in GRB, so the order of colors need to be switched
                 # if self.SETTINGS.device_type == 'N1':
                 #     color_array = [rgb[1], rgb[0], rgb[2]]
                 # else:
 
-                    color_array = rgb
+                color_array = rgb
                     
-                    self.strip.setPixelColor(x, Color(color_array[0], color_array[1], color_array[2]))
-                    x+=1
+                self.strip.setPixelColor(x, Color(color_array[0], color_array[1], color_array[2]))
+                x+=1
 
-            # Display strip
-            self.strip.show()
-
-            #if i >= self.LED_COUNT:
-            # break;
+        # Display strip
+        self.strip.show()
 
 
     def displayDefaultLights(self):

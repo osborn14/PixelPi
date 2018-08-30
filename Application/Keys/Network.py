@@ -2,11 +2,10 @@ import queue
 
 
 def init():
-    global display_queue
-    global audio_queue
+    global audio_queue, display_queue, remove_queue
 
     audio_queue = queue.Queue(3)
-    display_queue = queue.Queue(25)
+    display_queue = remove_queue = queue.Queue(25)
 
 REGISTER_DEVICE = "Register Device"
 TARGET_INTERFACE_IDENTIFIER = "Target Interface Identifier"
@@ -15,7 +14,7 @@ MODE = "Mode"
 UPDATE = "Update"
 DISPLAY = "Display"
 REMOVE = "Remove"
-REMOVE_LIST = "Remove List"
+REMOVE_LIST = "Remove Task Id List"
 RGB = "Rgb"
 DISPLAY_EFFECT = "Display Effect"
 ON_OFF_CONTROL = "On Off Control"
