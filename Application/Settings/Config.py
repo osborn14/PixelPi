@@ -8,16 +8,31 @@ server = {
 }
 
 client = {
-    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
-    SETTINGS.DESCRIPTION: "Raspsberry Pi 3b+"
+    SETTINGS.UNIVERSAL_SETTINGS: {
+        SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
+        SETTINGS.DESCRIPTION: "Raspsberry Pi 3b+"
+    },
+    SETTINGS.NEOPIXEL: [
+        {
+            SETTINGS.UNIQUE_IDENTIFIER: "NP01",
+            SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
+            SETTINGS.DESCRIPTION: "Neopixel for testing!",
+            SETTINGS.MAIN_PIN: 18,
+            SETTINGS.LED_COUNT: 150
+        }
+    ],
+    SETTINGS.FIFTY_FIFTY: [
+        {
+            SETTINGS.UNIQUE_IDENTIFIER: "5001",
+            SETTINGS.CODE: SETTINGS.CODE_FIFTY_FIFTY,
+            SETTINGS.DESCRIPTION: "FiftyFifty for testing!",
+            SETTINGS.STRIP_TYPE: SETTINGS.STRIP_PRIMARY,
+            SETTINGS.RED_PIN: 18,
+            SETTINGS.GREEN_PIN: 0,
+            SETTINGS.BLUE_PIN: 0,
+        }
+    ]
 }
 
-neopixel = [
-    {
-        SETTINGS.UNIQUE_IDENTIFIER: "NP01",
-        SETTINGS.CODE: "NP",
-        SETTINGS.DESCRIPTION: "Neopixel for testing!",
-        SETTINGS.MAIN_PIN: 18,
-        SETTINGS.LED_COUNT: 150
-    }
-]
+
+

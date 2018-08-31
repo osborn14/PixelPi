@@ -35,6 +35,7 @@ class Interface():
                 self.display_task = task
                 return True
 
+        self.display_task = None
         return False
     
     #def getDisplayTask(self):
@@ -42,5 +43,5 @@ class Interface():
     def displayAudioLights(self):
         raise NotImplementedError
 
-    def displayHomeLights(self):
+    def displayNormalLights(self):
         raise NotImplementedError

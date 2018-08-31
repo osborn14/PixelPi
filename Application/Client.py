@@ -138,13 +138,9 @@ def displayLights():
 
         else:
             for interface in interface_list:
-                if interface.checkForTaskToDisplay():
-                    interface.displayHomeLights()
+                interface.displayNormalLights()
 
-                else:
-                    interface.displayDefaultLights()
-                
-                time.sleep(.1)
+            time.sleep(.1)
 
 
 if __name__ == '__main__':

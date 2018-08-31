@@ -26,7 +26,6 @@ class Neopixel(Interface):
         self.BAR_RANGE                          = float(self.LED_COUNT / 16)
 
         self.timer_tasks = list()
-        self.strip_led_brightness = 0
         self.main_height = [0] * 16
 
         # Create NeoPixel object with appropriate configuration.
@@ -63,14 +62,17 @@ class Neopixel(Interface):
             ending_x = int((bar_i + 1) * self.BAR_RANGE)
                         
             for individual_pixel in range(starting_x, ending_x):
-                display_color = Color(display_rgb[1], display_rgb[0], display_rgb[2])
+                display_color = Color(display_rgb[0], display_rgb[1], display_rgb[2])
                 self.strip.setPixelColor(individual_pixel, display_color)
 
         self.strip.show()
         time.sleep(self.PAUSE_TIME)
 
-    def displayHomeLights(self):
-        rgb_to_display = self.display_task.getRgbToDisplay()
+    def displayNormalLights(self):
+        if self.checkForTaskToDisplay():
+            rgb_to_display = self.display_task.getRgbToDisplay()
+        else:
+            rgb_to_display = [0, 0, 0]
         
         # Our display loops will expect an array of arrays, so make sure thats always the case
         if not isinstance(rgb_to_display[0], list):
@@ -79,14 +81,7 @@ class Neopixel(Interface):
         x = 0
         while(x <= self.LED_COUNT):
             for rgb in rgb_to_display:
-                ## N1, or WS 2811 Neopixels display in GRB, so the order of colors need to be switched
-                # if self.SETTINGS.device_type == 'N1':
-                #     color_array = [rgb[1], rgb[0], rgb[2]]
-                # else:
-
-                color_array = rgb
-                    
-                self.strip.setPixelColor(x, Color(color_array[0], color_array[1], color_array[2]))
+                self.strip.setPixelColor(x, Color(rgb[0], rgb[1], rgb[2]))
                 x+=1
 
         # Display strip
