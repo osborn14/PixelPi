@@ -18,12 +18,17 @@ class Neopixel(Interface):
         LED_CHANNEL                             = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
         # Defining some settings
-        self.STRIP_LED_BRIGHTNESS_MULTIPLIER    = 1.4
         self.LED_DIMMER                         = 0.75
         self.PAUSE_TIME                         = 1 / 20
-        self.FADE_START                         = 8
-        self.FADE_END                           = 17
-        self.BAR_RANGE                          = float(self.LED_COUNT / 16)
+        # self.BAR_RANGE                          = float(self.LED_COUNT / 16)
+        self.BAR_RANGE = self.LED_COUNT / 16
+
+        rgb_order_dict = {
+            SETTINGS.RED: 0,
+            SETTINGS.GREEN: 1,
+            SETTINGS.BLUE: 2
+        }
+        self.rgb_order = list(map(lambda rgb: rgb_order_dict[rgb], settings[SETTINGS.RGB_ORDER]))
 
         self.timer_tasks = list()
         self.main_height = [0] * 16
@@ -48,13 +53,6 @@ class Neopixel(Interface):
         display_rgb = [0] * 3
 
         for bar_i in range(len(self.main_height)):
-
-            #upper_transition_range = 0
-            #if self.main_height[bar_i] >= self.FADE_START:
-                #upper_transition_range = self.main_height[bar_i] - self.FADE_START
-
-            #temp_rgb = led_fx.getFadedColors(self.FADE_START, self.FADE_END, upper_transition_range, self.main_height[bar_i], 0, audio_data.server_primary_colors, lower_main_rgb)
-            
             for i in range(len(audio_data.server_primary_colors)):
                 display_rgb[i] = int(audio_data.server_primary_colors[i] * self.main_height[bar_i] / 32)
             
@@ -62,26 +60,24 @@ class Neopixel(Interface):
             ending_x = int((bar_i + 1) * self.BAR_RANGE)
                         
             for individual_pixel in range(starting_x, ending_x):
-                display_color = Color(display_rgb[0], display_rgb[1], display_rgb[2])
+                display_color = Color(rgb[self.rgb_order[0]], rgb[self.rgb_order[1]], rgb[self.rgb_order[2]])
                 self.strip.setPixelColor(individual_pixel, display_color)
 
         self.strip.show()
         time.sleep(self.PAUSE_TIME)
 
     def displayNormalLights(self):
-        if self.checkForTaskToDisplay():
-            rgb_to_display = self.display_task.getRgbToDisplay()
-        else:
-            rgb_to_display = [0, 0, 0]
+        rgb_to_display = self.getRgbToDisplay()
         
-        # Our display loops will expect an array of arrays, so make sure thats always the case
+        # Our display loops will expect an array of arrays, so make sure that's always the case
         if not isinstance(rgb_to_display[0], list):
             rgb_to_display = [rgb_to_display]            
         
         x = 0
-        while(x <= self.LED_COUNT):
+        while x <= self.LED_COUNT:
             for rgb in rgb_to_display:
-                self.strip.setPixelColor(x, Color(rgb[0], rgb[1], rgb[2]))
+                display_color = Color(rgb[self.rgb_order[0]], rgb[self.rgb_order[1]], rgb[self.rgb_order[2]])
+                self.strip.setPixelColor(x, display_color)
                 x+=1
 
         # Display strip

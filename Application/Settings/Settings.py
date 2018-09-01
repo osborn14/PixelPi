@@ -29,22 +29,41 @@ class Settings(object):
     def getInterfaces(self):
         interface_list = list()
 
-        try:
-            neopixel_settings_list = self.client_settings[SETTINGS.NEOPIXEL]
+        if SETTINGS.NEOPIXEL in self.client_settings:
+            neopixel_optional_settings = {
+                SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
+                SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4
+            }
+
+            neopixel_settings_list = list(
+                map(lambda settings: self.getSettingsWithDefault(settings, neopixel_optional_settings),
+                    self.client_settings[SETTINGS.NEOPIXEL]))
+
             neopixel_list = list(map(lambda settings: interface_list.append(Neopixel(settings)), neopixel_settings_list))
             interface_list = interface_list + neopixel_list
-        except KeyError:
-            pass
 
-        try:
-            fifty_fifty_settings_list = self.client_settings[SETTINGS.FIFTY_FIFTY]
+        if SETTINGS.FIFTY_FIFTY in self.client_settings:
+            fifty_fifty_optional_settings = {
+                SETTINGS.CODE: SETTINGS.CODE_FIFTY_FIFTY,
+                SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4
+            }
+
+            fifty_fifty_settings_list = list(
+                map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_optional_settings),
+                    self.client_settings[SETTINGS.FIFTY_FIFTY]))
+
             fifty_fifty_list = list(map(lambda settings: interface_list.append(FiftyFifty(settings)), fifty_fifty_settings_list))
             interface_list = interface_list + fifty_fifty_list
-        except KeyError:
-            pass
 
         if len(interface_list) == 0:
             print("No interfaces detected!")
             sys.exit()
 
         return interface_list
+
+    def getSettingsWithDefault(self, settings, defaults):
+        for key, value in defaults.items():
+            if key not in settings:
+                settings[key] = value
+
+        return settings

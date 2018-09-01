@@ -38,12 +38,8 @@ class MyClientProtocol(WebSocketClientProtocol):
         if isBinary:
             print("Binary message received: {0} bytes".format(len(payload)))
         else:
-            #try:
-            #print(payload.decode('utf-8'))
             msg = json.loads(payload.decode('utf-8'))
             print(msg)
-                ## Consider ids for removing orders
-                ## Or, send a remove all command and send all again
 
             if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
                 print("Display command!")
@@ -59,25 +55,9 @@ class MyClientProtocol(WebSocketClientProtocol):
                     
             elif msg[NETWORK.COMMAND] == NETWORK.REMOVE:
                 NETWORK.remove_queue.put(msg)
-                
-
-
-
-
-                #     for m in display_mode_list:
-                #         if type(m)  == Mode:
-                #             display_mode_list.remove(m)
-                #     display_mode_list.append(Mode(prepareArrayforDisplay(msg['rgb array'])))
-                # elif msg['mode'] == 'timer':
-                #     display_mode_list.append(Timer(msg['timer day'], msg['timer hour'], msg['timer minute'], prepareArrayforDisplay(msg['rgb array'])))
-                
-                #display_queue.put(payload)
-                #print("Text message received: {0}".format(payload.decode('utf8')))
-            #except:
-                #print("Server sent invalid json!")
 
     def onClose(self, wasClean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
-        sys.exit()
+        #sys.exit()
         
         

@@ -8,11 +8,11 @@ from samplebase import SampleBase
 from rgbmatrix import RGBMatrix, graphics, RGBMatrixOptions
 
 class MatrixRunner(SampleBase):
-    def __init__(self, matrix_settings):
+    def __init__(self, settings):
         # TODO: Pass in valid arguments
         super(MatrixRunner, self).__init__(*args, **kwargs)
         
-        os.environ['TZ'] = settings_file.time_zone
+        os.environ['TZ'] = settings.time_zone
 
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
@@ -29,8 +29,10 @@ class MatrixRunner(SampleBase):
         self.first_time = True
         self.refresh_pause = .5
         self.dimmer_minimum = 0.02
-        
-    def displayDefault(self):
+
+    def displayAudioLights(self, audio_data):
+
+    def displayNormalLights(self):
         if time.time() - self.fetch_weather_time >= 1800 or self.first_time == True:
             self.fetch_weather_time = time.time()
             weather_data = getWeatherData()
@@ -104,8 +106,5 @@ class MatrixRunner(SampleBase):
         self.matrix.SwapOnVSync(self.offscreen_canvas)
         time.sleep(self.refresh_pause)
 
-    def displayAudioLights(self):
 
-
-    def displayLights(self):
         

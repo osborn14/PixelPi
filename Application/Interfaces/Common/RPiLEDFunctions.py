@@ -67,29 +67,42 @@ def calculateTransition(rgb, next_rgb):
 def getDisplayModeTwoColors(column_number, total_bars=16):
     columns_per_category = total_bars / 8
     column_category = column_number / columns_per_category
-    if column_category < 1:
-        rgb = [255, 0, 0]
-                    
-    elif column_category < 2:
-        rgb = [255, 165, 0]
-                    
-    elif column_category < 3:
-        rgb = [255, 215, 0]
-            
-    elif column_category < 4:
-        rgb = [34, 139, 34]
+    # if column_category < 1:
+    #     rgb = [255, 0, 0]
+    #
+    # elif column_category < 2:
+    #     rgb = [255, 165, 0]
+    #
+    # elif column_category < 3:
+    #     rgb = [255, 215, 0]
+    #
+    # elif column_category < 4:
+    #     rgb = [34, 139, 34]
+    #
+    # elif column_category < 5:
+    #     rgb = [0, 255, 0]
+    #
+    # elif column_category < 6:
+    #     rgb = [0, 0, 255]
+    #
+    # elif column_category < 7:
+    #     rgb = [25, 25, 112]
+    #
+    # elif column_category <= 8:
+    #     rgb = [75, 0, 130]
 
-    elif column_category < 5:
-        rgb = [0, 255, 0]
+    rgb_dict = {
+        0: [255, 0, 0],
+        1: [255, 165, 0],
+        2: [255, 215, 0],
+        3: [34, 139, 34],
+        4: [0, 255, 0],
+        5: [0, 0, 255],
+        6: [25, 25, 112],
+        7: [75, 0, 130]
+    }
 
-    elif column_category < 6:
-        rgb = [0, 0, 255]
-
-    elif column_category < 7:
-        rgb = [25, 25, 112]
-
-    elif column_category <= 8:
-        rgb = [75, 0, 130]
+    rgb = rgb_dict[column_category]
 
     return rgb
 

@@ -4,22 +4,18 @@ import Application.Keys.Settings as SETTINGS
 
 class Interface():
     def __init__(self, settings):
+        self.settings = settings
         self.unique_identifier = settings[SETTINGS.UNIQUE_IDENTIFIER]
-        # TODO: Code shouldn't be needed on clients end because of config
         self.code = settings[SETTINGS.CODE]
         self.description = settings[SETTINGS.DESCRIPTION]
         self.display_task = None
         self.task_list = list()
 
     def getInterfaceJson(self):
-        task_dict = list(map(lambda task: task.getTaskJson(), self.task_list))
+        task_list = list(map(lambda task: task.getTaskJson(), self.task_list))
 
-        interface_settings_dict = {
-            SETTINGS.UNIQUE_IDENTIFIER: self.unique_identifier,
-            SETTINGS.CODE: self.code,
-            SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.TASK_LIST: task_dict
-        }
+        interface_settings_dict = self.settings
+        interface_settings_dict[SETTINGS.TASK_LIST] = task_list
 
         return interface_settings_dict
 
@@ -37,6 +33,12 @@ class Interface():
 
         self.display_task = None
         return False
+
+    def getRgbToDisplay(self):
+        if self.checkForTaskToDisplay():
+            return self.display_task.getRgbToDisplay()
+        else:
+            return [0, 0, 0]
     
     #def getDisplayTask(self):
 

@@ -69,22 +69,6 @@ def signal_handler(signal, frame):
 #
 #             #DEVICE_RUNNER.displayLights(d.rgb_values)
 # ##        time.sleep(0.05)
-        
-
-
-#TODO: If there is no data received from server after 15 seconds, resume default display.
-# def displayLightsFromAudio():
-#     # audio_server_connection = AudioServerConnection()
-#
-#     while True:
-#         # audio_data = audio_server_connection.getAudioServerData()
-#
-#
-#         for interface in interface_list:
-#             # if audio_data.music_is_playing:
-#             #     interface.displayAudioLights(audio_data)
-#             # else:
-#             interface.displayDefaultLights()
 
 def processServerJson(msg):
     print("Processing server json!")
@@ -102,7 +86,6 @@ def processServerJson(msg):
 
 def displayLights():
     while True:
-        time.sleep(1)
         if not NETWORK.remove_queue.empty():
             print("Retrieved from remove queue!")
             processServerJson(NETWORK.remove_queue.get())
@@ -122,7 +105,7 @@ def displayLights():
                     audio_dict = NETWORK.audio_queue.get()
                     audio_data.setAudioDataFromJSON(audio_dict[NETWORK.AUDIO_DATA])
                 
-                elif time.time() - last_played_time >= 15:
+                elif time.time() - last_played_time >= 45:
                     break;
                 
                 else:
@@ -130,11 +113,6 @@ def displayLights():
 
                 for interface in interface_list:
                     interface.displayAudioLights(audio_data)
-
-        # elif len(display_list) > 0:
-        #     for d in display_list:
-        #         for
-        #             if d.identification[SETTINGS.DEVICE_CODE]
 
         else:
             for interface in interface_list:
@@ -162,12 +140,21 @@ if __name__ == '__main__':
 
     factory = WebSocketClientFactory(u"ws://" + client_settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
     factory.protocol = MyClientProtocol
-    
+
     loop = asyncio.get_event_loop()
     coro = loop.create_connection(factory, client_settings[SETTINGS.SERVER_IP_ADDRESS], 9000)
-    loop.run_until_complete(coro)
-    loop.run_forever()
-    loop.close()
+
+    while True:
+        loop.run_until_complete(coro)
+
+        try:
+            loop.run_forever()
+        except:
+            print("Connection to server lost!")
+        finally:
+            loop.close()
+
+        time.sleep(1)
 
 
 

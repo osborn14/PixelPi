@@ -23,7 +23,6 @@ class Device():
 
     def getDeviceInfo(self):
         interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), self.interface_list))
-        #print(list(non_admin_interface_list))
 
         device_dict = {
             SETTINGS.DESCRIPTION: self.description,
@@ -105,6 +104,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                             target_interface = next(
                                 filter(lambda interface: interface.unique_identifier == target_interface_id,
                                        device.interface_list), None)
+
                             # Find all manual tasks associated with the interface
                             manual_task_list = list(filter(lambda task: task.on_off_control == NETWORK.MANUAL,
                                                            target_interface.task_list))
@@ -121,8 +121,8 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                                 device.client.sendMessage(json.dumps(remove_task_command, ensure_ascii=False).encode('utf8'))
                             
                             no_manual_task_list = list(filter(lambda task: task.on_off_control != NETWORK.MANUAL, target_interface.task_list))
+
                             if no_manual_task_list:
-                                
                                 task_list = no_manual_task_list.append(Task(msg))
                             else:
                                 task_list = [Task(msg)]
