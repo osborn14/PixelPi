@@ -30,26 +30,25 @@ class Settings(object):
         interface_list = list()
 
         if SETTINGS.NEOPIXEL in self.client_settings:
-            neopixel_optional_settings = {
+            neopixel_default_settings = {
                 SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
-                SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4
             }
 
             neopixel_settings_list = list(
-                map(lambda settings: self.getSettingsWithDefault(settings, neopixel_optional_settings),
+                map(lambda settings: self.getSettingsWithDefault(settings, neopixel_default_settings),
                     self.client_settings[SETTINGS.NEOPIXEL]))
 
             neopixel_list = list(map(lambda settings: interface_list.append(Neopixel(settings)), neopixel_settings_list))
             interface_list = interface_list + neopixel_list
 
         if SETTINGS.FIFTY_FIFTY in self.client_settings:
-            fifty_fifty_optional_settings = {
+            fifty_fifty_default_settings = {
                 SETTINGS.CODE: SETTINGS.CODE_FIFTY_FIFTY,
                 SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4
             }
 
             fifty_fifty_settings_list = list(
-                map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_optional_settings),
+                map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_default_settings),
                     self.client_settings[SETTINGS.FIFTY_FIFTY]))
 
             fifty_fifty_list = list(map(lambda settings: interface_list.append(FiftyFifty(settings)), fifty_fifty_settings_list))
