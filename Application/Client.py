@@ -86,15 +86,17 @@ def processServerJson(msg):
 
 def displayLights():
     while True:
+        print("In while loop")
         if not NETWORK.remove_queue.empty():
             print("Retrieved from remove queue!")
             processServerJson(NETWORK.remove_queue.get())
         
-        if not NETWORK.display_queue.empty():
+        elif not NETWORK.display_queue.empty():
             print("Retrieved from display queue!")
             processServerJson(NETWORK.display_queue.get())
 
-        if not NETWORK.audio_queue.empty():
+        elif not NETWORK.audio_queue.empty():
+            print("Audio [playing")
             last_played_time = time.time()
             audio_data = AudioData()
             
