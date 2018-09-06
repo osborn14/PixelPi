@@ -60,7 +60,7 @@ class Neopixel(Interface):
             ending_x = int((bar_i + 1) * self.BAR_RANGE)
                         
             for individual_pixel in range(starting_x, ending_x):
-                display_color = Color(display_rgb[0], display_rgb[1], display_rgb[2])
+                display_color = Color(display_rgb[1], display_rgb[0], display_rgb[2])
                 self.strip.setPixelColor(individual_pixel, display_color)
 
         self.strip.show()
