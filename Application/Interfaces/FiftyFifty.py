@@ -1,10 +1,11 @@
 import os, pigpio
 
+from Application.Interfaces.Interface import Interface
 from Application.Interfaces.Common import RPiLEDFunctions as led_fx
 from Application.Keys import Settings as SETTINGS
 
 
-class FiftyFifty():
+class FiftyFifty(Interface):
     def __init__(self, settings):
         super().__init__(settings)
 

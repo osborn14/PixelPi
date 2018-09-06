@@ -8,6 +8,7 @@ from autobahn.asyncio.websocket import WebSocketClientProtocol
 settings = Settings()
 client_settings = settings.getUniversalClientSettings()
 interface_list = settings.getInterfaces()
+print("Interfaces: " +  str(len(interface_list)))
 
 class MyClientProtocol(WebSocketClientProtocol):
 

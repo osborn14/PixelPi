@@ -76,7 +76,7 @@ class Neopixel(Interface):
         x = 0
         while x <= self.LED_COUNT:
             for rgb in rgb_to_display:
-                display_color = Color(rgb[self.rgb_order[0]], rgb[self.rgb_order[1]], rgb[self.rgb_order[2]])
+                display_color = Color(rgb[0], rgb[1], rgb[2])
                 self.strip.setPixelColor(x, display_color)
                 x+=1
 

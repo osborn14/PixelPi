@@ -19,7 +19,7 @@ class Settings(object):
 
     def getUniversalClientSettings(self):
         try:
-            self.client_settings = Config.clent
+            self.client_settings = Config.client
         except NameError:
             print("No client settings found!")
             sys.exit()
@@ -33,13 +33,15 @@ class Settings(object):
             neopixel_default_settings = {
                 SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
             }
-
+            
             neopixel_settings_list = list(
                 map(lambda settings: self.getSettingsWithDefault(settings, neopixel_default_settings),
                     self.client_settings[SETTINGS.NEOPIXEL]))
 
-            neopixel_list = list(map(lambda settings: interface_list.append(Neopixel(settings)), neopixel_settings_list))
-            interface_list = interface_list + neopixel_list
+            neopixel_list = list(map(lambda settings: Neopixel(settings), neopixel_settings_list))
+            interface_list.extend(neopixel_list)
+            print(type(interface_list))
+            
 
         if SETTINGS.FIFTY_FIFTY in self.client_settings:
             fifty_fifty_default_settings = {
@@ -51,12 +53,14 @@ class Settings(object):
                 map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_default_settings),
                     self.client_settings[SETTINGS.FIFTY_FIFTY]))
 
-            fifty_fifty_list = list(map(lambda settings: interface_list.append(FiftyFifty(settings)), fifty_fifty_settings_list))
-            interface_list = interface_list + fifty_fifty_list
+            fifty_fifty_list = list(map(lambda settings: FiftyFifty(settings), fifty_fifty_settings_list))
+            interface_list.extend(fifty_fifty_list)
 
         if len(interface_list) == 0:
             print("No interfaces detected!")
             sys.exit()
+        
+        print(interface_list)
 
         return interface_list
 

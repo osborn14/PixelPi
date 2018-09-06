@@ -21,16 +21,16 @@ client = {
             SETTINGS.RGB_ORDER: [SETTINGS.GREEN, SETTINGS.RED, SETTINGS.BLUE]
         }
     ],
-    SETTINGS.FIFTY_FIFTY: [
-        {
-            SETTINGS.UNIQUE_IDENTIFIER: "5001",
-            SETTINGS.DESCRIPTION: "FiftyFifty for testing!",
-            SETTINGS.STRIP_TYPE: SETTINGS.STRIP_PRIMARY,
-            SETTINGS.RED_PIN: 18,
-            SETTINGS.GREEN_PIN: 0,
-            SETTINGS.BLUE_PIN: 0,
-        }
-    ]
+##    SETTINGS.FIFTY_FIFTY: [
+##        {
+##            SETTINGS.UNIQUE_IDENTIFIER: "5001",
+##            SETTINGS.DESCRIPTION: "FiftyFifty for testing!",
+##            SETTINGS.STRIP_TYPE: SETTINGS.STRIP_PRIMARY,
+##            SETTINGS.RED_PIN: 18,
+##            SETTINGS.GREEN_PIN: 0,
+##            SETTINGS.BLUE_PIN: 0,
+##        }
+##    ]
 }
 
 
