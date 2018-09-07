@@ -1,52 +1,4 @@
 #!/usr/bin/env python
-import socket
-import math
-
-class DisplayModeThree(object):
-    def __init__(self, main_height, tip_height, LED_MATRIX_WIDTH, individual_spectrum_length):
-        self.spectrums_per_matrix = int(LED_MATRIX_WIDTH / individual_spectrum_length)
-        self.spectrums_per_category = self.spectrums_per_matrix / 4
-
-        self.main_height = main_height
-        self.tip_height = tip_height
-        self.reversed_main_height = list(reversed(main_height))
-        self.reversed_tip_height = list(reversed(tip_height))
-        self.shortened_main_height = []
-        self.shortened_tip_height = []
-        for i in range(len(main_height)):
-            self.shortened_main_height.append(math.ceil(main_height[len(main_height) - i - 1]/ 3))
-            self.shortened_tip_height.append(math.ceil(tip_height[len(tip_height) - i - 1]/ 3))
-        self.reversed_shortened_main_height = list(reversed(self.shortened_main_height))
-        self.reversed_shortened_tip_height = list(reversed(self.shortened_tip_height))
-
-    def getMainHeight(self, single_column_in_bar_i):
-        chart_number = (single_column_in_bar_i + 1) / self.spectrums_per_category
-        
-        if chart_number <= 1:
-            temp_main_height = self.reversed_shortened_main_height  
-        elif chart_number <= 2:
-            temp_main_height = self.reversed_main_height
-        elif chart_number <= 3:
-            temp_main_height = self.main_height
-        elif chart_number <= 4:
-            temp_main_height = self.shortened_main_height
-
-        return temp_main_height
-
-    def getTipHeight(self, single_column_in_bar_i):
-        chart_number = (single_column_in_bar_i + 1) / self.spectrums_per_category
-        
-        if chart_number <= 1:
-            temp_tip_height = self.reversed_shortened_tip_height  
-        elif chart_number <= 2:
-            temp_tip_height = self.reversed_tip_height
-        elif chart_number <= 3:
-            temp_tip_height = self.tip_height
-        elif chart_number <= 4:
-            temp_tip_height = self.shortened_tip_height
-
-        return temp_tip_height
-
 
 def calculateIndividualTransition(main, nextmain):
     if main - nextmain < 5 and main - nextmain > -5:
@@ -210,15 +162,16 @@ def getTipColor(DisplayMode, main_rgb, tip_rgb):
     return tip_rgb
 
 
-def getDataListtoPrint(main_height, data_list):
-    for i in range(len(main_height)):
-         
-        if main_height[i] - 3 > data_list[i]:
-            main_height[i] = main_height[i] - 3
-        else:
-            main_height[i] = data_list[i]
+def getDataListtoPrint(prev_main_height, new_spectrum_heights):
+    for i in range(len(prev_main_height)):
+        prev_main_height[i] = prev_main_height[i] - 3 if prev_main_height[i] - 3 > new_spectrum_heights[i] else new_spectrum_heights[i]
+        prev_main_height[i] = 1 if prev_main_height[i] < 1 else prev_main_height[i]
+        # if prev_main_height[i] - 3 > new_spectrum_heights[i]:
+        #     prev_main_height[i] = prev_main_height[i] - 3
+        # else:
+        #     prev_main_height[i] = new_spectrum_heights[i]
 
         #if main_height[i] < 0:
          #   main_height[i] = 0
 
-    return main_height
+    return prev_main_height

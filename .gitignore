@@ -1,5 +1,5 @@
 # Don't overwrite personalized config file
-Application/Config.py
+Application/Settings/Config.py
 
 # Don't load audio server for now
 Application/Audio/ProcessingSpectrumAnalyzer/

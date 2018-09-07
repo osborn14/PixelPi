@@ -15,6 +15,7 @@ class FiftyFifty(Interface):
         self.strip_type = settings[SETTINGS.STRIP_TYPE]
         self.rgb_pins = [settings[SETTINGS.RED_PIN], settings[SETTINGS.GREEN_PIN], settings[SETTINGS.BLUE_PIN]]
         self.strip_led_brightness_multiplier = settings[SETTINGS.BRIGHTNESS_MULTIPLIER]
+        self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
 
     def displayAudioLights(self, audio_data):
         if self.strip_type == SETTINGS.STRIP_PRIMARY:
@@ -23,7 +24,7 @@ class FiftyFifty(Interface):
             server_rgb = audio_data.server_secondary_colors
 
         # Strip brightness is the number (between 0 and 1) that determines the intensity of the displayed color
-        self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness, audio_data.spectrum_avg)
+        self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness, audio_data.spectrum_avg) * self.audio_dimmer
 
         # Temp strip brightness takes the strip brightness and multiplies it by a certain factor,
         # so the displayed color is brighter at lower noise volumes
