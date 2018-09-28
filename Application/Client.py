@@ -2,8 +2,8 @@ import threading, time, sys, os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Application.Networking.TwistedClient import MyClientProtocol
-from Application.Settings.Settings import Settings
+import Application.Settings.Settings as Settings
+from Application.Networking.TwistedClient import TwistedClient
 from Application.Audio.AudioData import AudioData
 from Application.Interfaces.Common.Task import Task, Simple
 import Application.Keys.Settings as SETTINGS
@@ -13,7 +13,8 @@ from autobahn.asyncio.websocket import WebSocketClientFactory
 
 # Create our settings file as a global variable
 NETWORK.init()
-settings = Settings()
+
+settings = Settings.Settings()
 client_settings = settings.getUniversalClientSettings()
 interface_list = settings.getInterfaces()
 
@@ -30,45 +31,6 @@ def signal_handler(signal, frame):
 #     if args.c:
 #         signal.signal(signal.SIGINT, signal_handler)
 #
-#
-# def prepareArrayforDisplay(array):
-#     if settings_file.device_type == '50':
-#         return array[0]
-#     else:
-#         return array
-#
-#
-#
-# def displayLights():
-# #    display_mode_list.append(Mode([29, 29, 128]))
-# #    display_mode_list.append(Mode([0, 0, 0]))
-#     while True:
-#         for d in display_mode_list:
-#             if type(d) == Mode:
-#                 DEVICE_RUNNER.displayLights(d.rgb_values)
-#
-#             elif type(d) == Timer:
-#                 if d.activated:
-#                     DEVICE_RUNNER.displayLights(d.rgb_values)
-#                 else:
-#                     ## Untested code that get the current time to compare it to the user's desired task activation time.
-#                     ## If the current time matchs the activation time, the mode is activated
-#                     current_datetime = datetime.datetime.now()
-#                     current_hour = int(current_datetime.hour)
-#                     current_minute = int(current_datetime.minute)
-#                     current_day = str(current_datetime.day)
-#                     current_date = datetime.date.today()
-#                     day_of_the_week = calendar.day_name[current_date.weekday()]
-#                     if day_of_the_week == d.day and current_hour == d.hour and current_minute == d.minute:
-#                         d.activated = True
-#
-#                     # displayFromJsonArray(server_message['display colors'])
-#
-#             elif type(d) == Sparkle:
-#                 DEVICE_RUNNER.displayLights(d.getCurrentRgbValues())
-#
-#             #DEVICE_RUNNER.displayLights(d.rgb_values)
-# ##        time.sleep(0.05)
 
 def processServerJson(msg):
     print("Processing server json!")
@@ -133,30 +95,8 @@ if __name__ == '__main__':
     connection_to_audio_server_thread = threading.Thread(target=displayLights)
     connection_to_audio_server_thread.setDaemon(True)
     connection_to_audio_server_thread.start()
-
-    try:
-        import asyncio
-    except ImportError:
-        # Trollius >= 0.3 was renamed
-        import trollius as asyncio
-
-    factory = WebSocketClientFactory(u"ws://" + client_settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
-    factory.protocol = MyClientProtocol
-
-    loop = asyncio.get_event_loop()
-    coro = loop.create_connection(factory, client_settings[SETTINGS.SERVER_IP_ADDRESS], 9000)
-
-    while True:
-        loop.run_until_complete(coro)
-
-        try:
-            loop.run_forever()
-        except:
-            print("Connection to server lost!")
-        finally:
-            loop.close()
-
-        time.sleep(1)
+    
+    twisted_client = TwistedClient(client_settings, interface_list)
 
 
 

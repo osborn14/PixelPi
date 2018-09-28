@@ -1,17 +1,43 @@
-import json, sys
-from Application.Settings.Settings import Settings
+import json, sys, time
 import Application.Keys.Network as NETWORK
 import Application.Keys.Settings as SETTINGS
 
+from autobahn.asyncio.websocket import WebSocketClientFactory
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
-settings = Settings()
-client_settings = settings.getUniversalClientSettings()
-interface_list = settings.getInterfaces()
-print("Interfaces: " +  str(len(interface_list)))
+global client_settings
+global interface_list
+
+class TwistedClient():
+    def __init__(self, temp_client_settings, temp_interface_list):
+        client_settings = temp_client_settings
+        interface_list = temp_interface_list
+                
+        try:
+            import asyncio
+        except ImportError:
+            # Trollius >= 0.3 was renamed
+            import trollius as asyncio
+
+        factory = WebSocketClientFactory(u"ws://" + client_settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
+        factory.protocol = MyClientProtocol
+
+        loop = asyncio.get_event_loop()
+        coro = loop.create_connection(factory, client_settings[SETTINGS.SERVER_IP_ADDRESS], 9000)
+
+        while True:
+            loop.run_until_complete(coro)
+
+            try:
+                loop.run_forever()
+            except:
+                print("Connection to server lost!")
+            finally:
+                loop.close()
+
+            time.sleep(1)
 
 class MyClientProtocol(WebSocketClientProtocol):
-
     def onConnect(self, response):
         print("Server connected: {0}".format(response.peer))
 
@@ -19,16 +45,19 @@ class MyClientProtocol(WebSocketClientProtocol):
         print("WebSocket connection open.")
 
         # Send server some basic details about the device upon connecting
-        interface_descriptions = list(map(lambda interface: interface.getInterfaceJson(), interface_list))
+        #interface_descriptions = list(map(lambda interface: interface.getInterfaceJson(), interface_list))
         
         print(client_settings)
-        register_msg = {
-            NETWORK.COMMAND: NETWORK.REGISTER_DEVICE,
-            SETTINGS.DEVICE: {
-                SETTINGS.DESCRIPTION: client_settings[SETTINGS.DESCRIPTION]
-            },
-            SETTINGS.INTERFACE_LIST: interface_descriptions
-        }
+        register_msg = client_settings
+        register_msg[NETWORK.COMMAND] = NETWORK.REGISTER_DEVICE
+##        register_msg = {
+##            NETWORK.COMMAND: NETWORK.REGISTER_DEVICE,
+##            SETTINGS.DEVICE: {
+##                SETTINGS.DESCRIPTION: client_settings[SETTINGS.DESCRIPTION]
+##            },
+##            SETTINGS.INTERFACE_LIST: interface_descriptions
+            
+##        }
         
         print(register_msg)
 

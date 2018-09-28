@@ -1,12 +1,12 @@
-import os, math, time, datetime
+import os, math, time, datetime, calendar
 
 import Application.Keys.Settings as SETTINGS
 from Application.Interfaces.Interface import Interface
 from Application.Interfaces.Common.Weather import Weather, getWeatherData
 from Application.Interfaces.Common.Animation import Animation
-from Application.Interfaces.Common.RPiClockFunctions as clock_fx
-from Application.Interfaces.Common.RPiLEDFunctions as led_fx
-from Application.Interfaces.MatrixDisplayModes import Flat, Rainbow, Gradient, Singles
+import Application.Interfaces.Common.RPiClockFunctions as clock_fx
+import Application.Interfaces.Common.RPiLEDFunctions as led_fx
+from Application.Interfaces.MatrixDisplayModes import Flat#, Rainbow, Gradient, Singles
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 
@@ -23,13 +23,15 @@ class Matrix(Interface):
         options.rows = 32
         options.chain_length = self.chain_length
         options.parallel = 1
+        options.disable_hardware_pulsing = True
         options.hardware_mapping = 'adafruit-hat' if settings[SETTINGS.HAT] else 'regular'
-
-
+        
+        print("Before creating matrix")
         self.matrix = RGBMatrix(options = options)
-
-        self.font = graphics.Font().LoadFont("fonts/7x13B.bdf")
-        self.font_small = graphics.Font().LoadFont("fonts/6x10.bdf")
+        print("After creating matrix")
+        
+        self.font = graphics.Font().LoadFont(os.path.dirname(os.path.abspath(__file__)) + "/fonts/7x13B.bdf")
+        self.font_small = graphics.Font().LoadFont(os.path.dirname(os.path.abspath(__file__)) + "/fonts/6x10.bdf")
 
         os.environ['TZ'] = settings[SETTINGS.TIME_ZONE]
         self.military_time_bool = settings[SETTINGS.MILITARY_TIME]
@@ -38,10 +40,13 @@ class Matrix(Interface):
         self.adjusted_tip_height_list = [2] * 16
 
         self.fetch_weather_time = time.time()
+        self.weather_data = getWeatherData()
         self.colon_counter = 0
         self.first_time = True
         self.refresh_pause = .5
         self.dimmer_minimum = 0.02
+        
+        print("End settings")
 
     def getAdjustedSpectrumHeightList(self, prev_main_height_list, new_spectrum_height_list):
         for i in range(len(prev_main_height_list)):
@@ -67,7 +72,9 @@ class Matrix(Interface):
         #     lower_main_rgb = audio_data.server_secondary_colors
         # else:
         #     lower_main_rgb = [255, 255, 255]
-
+        
+        print("in display audio")
+        
         display_mode_dict = {
             0: Flat,
             1: Rainbow,
@@ -80,7 +87,8 @@ class Matrix(Interface):
 
         self.adjusted_main_height_list = self.getAdjustedSpectrumHeightList(self.adjusted_main_height_list, audio_data.spectrum_heights)
         self.adjusted_tip_height_list = self.getAdjustedSpectrumTipHeightList(self.adjusted_main_height_list, self.adjusted_tip_height_list)
-
+        
+        print("Before getting frame")
         offscreen_canvas = display_mode.getFrame(self.adjusted_main_height_list, self.adjusted_tip_height_list)
 
         # y_height_list = display_mode.calculateHeightList(self.adjusted_main_height_list, self.matrix_width)
@@ -157,7 +165,9 @@ class Matrix(Interface):
         # time.sleep(PAUSE_TIME)
 
     def displayNormalLights(self):
+        print("In displayNormalLights")
         offscreen_canvas = self.matrix.CreateFrameCanvas()
+        print("After creating offscreen canvas")
 
         if time.time() - self.fetch_weather_time >= 1800 or self.first_time == True:
             self.fetch_weather_time = time.time()
@@ -179,16 +189,16 @@ class Matrix(Interface):
         day_of_the_week_abbreviation = day_of_the_week[:3]
         todays_date = day_of_the_week_abbreviation + " " + current_month + "/" + current_day
 
-        dimmer = clock_fx.calculateDimmer(current_hour, current_minute, weather_data.sunrise_hour,
-                                          weather_data.sunrise_minute,
-                                          weather_data.hours_after_sunrise_to_full_brightness, weather_data.sunset_hour,
-                                          weather_data.sunset_minute, weather_data.hours_before_sunset_to_start_dimmer,
+        dimmer = clock_fx.calculateDimmer(current_hour, current_minute, self.weather_data.sunrise_hour,
+                                          self.weather_data.sunrise_minute,
+                                          self.weather_data.hours_after_sunrise_to_full_brightness, self.weather_data.sunset_hour,
+                                          self.weather_data.sunset_minute, self.weather_data.hours_before_sunset_to_start_dimmer,
                                           self.dimmer_minimum)
         isDay = clock_fx.getIsDay(dimmer, self.dimmer_minimum)
 
         ################ TESTING VARIABLES ###################
         isDay = isDay
-        weather_condition = weather_data.weather_condition
+        weather_condition = self.weather_data.weather_condition
         ####################### END ##########################
 
         animation_to_draw = []
@@ -196,6 +206,8 @@ class Matrix(Interface):
         color_scheme = clock_fx.getColorScheme(weather_condition, dimmer, isDay)
         MAIN_COLOR = color_scheme[0]
         SUB_COLOR = color_scheme[1]
+        
+        print("here 10")
 
         animation_to_draw = animation.drawWeather(weather_condition, dimmer, isDay)
 
@@ -217,18 +229,23 @@ class Matrix(Interface):
         current_time_str = current_hour_str + colon_or_space + current_minute_str + am_or_pm
 
         #offscreen_canvas.Clear()
+        
+        print("Here 11")
 
         for i in range(len(animation_to_draw)):
             pixel = animation_to_draw[i]
             offscreen_canvas.SetPixel(pixel.x, pixel.y, pixel.rgb[0], pixel.rgb[1], pixel.rgb[2])
-
-        graphics.DrawText(offscreen_canvas, self.font, 0, 22, SUB_COLOR, todays_date)
-        graphics.DrawText(offscreen_canvas, self.font, 0, 10, MAIN_COLOR, current_time_str)
-
+            
+        print("here 12")
+        #graphics.DrawText(offscreen_canvas, self.font, 0, 22, SUB_COLOR, todays_date)
+        #graphics.DrawText(offscreen_canvas, self.font, 0, 10, MAIN_COLOR, current_time_str)
+        print("here 13")
         ##            if weather_data.good_weather_fetch:
         static_text = str(weather_data.current_temperature) + "F " + weather_data.weather_condition
-        graphics.DrawText(offscreen_canvas, self.font_small, 0, 31, MAIN_COLOR, static_text)
-
+        #graphics.DrawText(offscreen_canvas, self.font_small, 0, 31, MAIN_COLOR, static_text)
+        
+        print("Before swap")
+        
         self.matrix.SwapOnVSync(offscreen_canvas)
         time.sleep(self.refresh_pause)
 

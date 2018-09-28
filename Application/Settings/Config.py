@@ -12,15 +12,25 @@ client = {
         SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
         SETTINGS.DESCRIPTION: "Raspsberry Pi 3b+"
     },
-    SETTINGS.NEOPIXEL: [
+    SETTINGS.INTERFACE_LIST: [
         {
-            SETTINGS.UNIQUE_IDENTIFIER: "NP01",
-            SETTINGS.DESCRIPTION: "Neopixel for testing!",
-            SETTINGS.MAIN_PIN: 18,
-            SETTINGS.LED_COUNT: 150,
-            SETTINGS.RGB_ORDER: [SETTINGS.GREEN, SETTINGS.RED, SETTINGS.BLUE]
-        }
-    ],
+            SETTINGS.INTERFACE: SETTINGS.MATRIX,
+            SETTINGS.UNIQUE_IDENTIFIER: "MA01",
+            SETTINGS.DESCRIPTION: "Matrix by tv",
+            SETTINGS.HAT: True,
+            SETTINGS.TIME_ZONE: "US/Eastern"
+        },
+    ]
+    
+##    SETTINGS.NEOPIXEL: [
+##        {
+##            SETTINGS.UNIQUE_IDENTIFIER: "NP01",
+##            SETTINGS.DESCRIPTION: "Neopixel for testing!",
+##            SETTINGS.MAIN_PIN: 18,
+##            SETTINGS.LED_COUNT: 150,
+##            SETTINGS.RGB_ORDER: [SETTINGS.GREEN, SETTINGS.RED, SETTINGS.BLUE]
+##        }
+##    ],
 ##    SETTINGS.FIFTY_FIFTY: [
 ##        {
 ##            SETTINGS.UNIQUE_IDENTIFIER: "5001",

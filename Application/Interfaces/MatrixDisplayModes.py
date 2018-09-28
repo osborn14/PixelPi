@@ -109,9 +109,9 @@ class Flat(MatrixDisplayMode):
         return self.offscreen_canvas
 
 
-class Rainbow(MatrixDisplayMode):
+#class Rainbow(MatrixDisplayMode):
 
-class Gradient(MatrixDisplayMode):
+#class Gradient(MatrixDisplayMode):
 
 class Singles(MatrixDisplayMode):
     def __init__(self, main_height_list, tip_height, LED_MATRIX_WIDTH, individual_spectrum_length):
