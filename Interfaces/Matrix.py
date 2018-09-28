@@ -1,12 +1,12 @@
 import os, math, time, datetime, calendar
 
-import Application.Keys.Settings as SETTINGS
-from Application.Interfaces.Interface import Interface
-from Application.Interfaces.Common.Weather import Weather, getWeatherData
-from Application.Interfaces.Common.Animation import Animation
-import Application.Interfaces.Common.RPiClockFunctions as clock_fx
-import Application.Interfaces.Common.RPiLEDFunctions as led_fx
-from Application.Interfaces.MatrixDisplayModes import Flat#, Rainbow, Gradient, Singles
+import Keys.Settings as SETTINGS
+from Interfaces.Interface import Interface
+from Interfaces.Common.Weather import Weather, getWeatherData
+from Interfaces.Common.Animation import Animation
+import Interfaces.Common.RPiClockFunctions as clock_fx
+import Interfaces.Common.RPiLEDFunctions as led_fx
+from Interfaces.MatrixDisplayModes import Flat#, Rainbow, Gradient, Singles
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 

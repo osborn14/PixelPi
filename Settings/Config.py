@@ -1,4 +1,4 @@
-import Application.Keys.Settings as SETTINGS
+import Keys.Settings as SETTINGS
 
 server = {
     SETTINGS.AUDIO_SERVER_IP_ADDRESS: '192.168.0.106',

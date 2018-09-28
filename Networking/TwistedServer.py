@@ -1,11 +1,11 @@
 import json
 
-from Application.Interfaces.Interface import Interface
-from Application.Interfaces.Common.Task import Task
+from Interfaces.Interface import Interface
+from Interfaces.Common.Task import Task
 #from Application.Database.ClientTaskDatabase import ClientTaskDatabase
 
-import Application.Keys.Network as NETWORK
-import Application.Keys.Settings as SETTINGS
+import Keys.Network as NETWORK
+import Keys.Settings as SETTINGS
 
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from twisted.internet import reactor
@@ -73,6 +73,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                 registered_device_list.append(new_device)
                 print(len(registered_device_list))
 
+                # First check if the new device is an admin
                 if new_device.checkForAdminInterface():
                     # We want to get all non-admin interface jsons
                     non_admin_devices = list(filter(lambda device: False if device.checkForAdminInterface() else True, registered_device_list))

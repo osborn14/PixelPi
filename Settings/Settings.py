@@ -1,10 +1,10 @@
 import sys
 
-import Application.Keys.Settings as SETTINGS
-from Application.Interfaces.Matrix import Matrix
-from Application.Interfaces.Neopixel import Neopixel
-from Application.Interfaces.FiftyFifty import FiftyFifty
-import Application.Settings.Config as Config
+import Keys.Settings as SETTINGS
+from Interfaces.Matrix import Matrix
+from Interfaces.Neopixel import Neopixel
+from Interfaces.FiftyFifty import FiftyFifty
+import Settings.Config as Config
 
 
 class Settings(object):

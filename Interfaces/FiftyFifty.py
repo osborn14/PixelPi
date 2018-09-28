@@ -1,8 +1,8 @@
 import os, pigpio
 
-from Application.Interfaces.Interface import Interface
-from Application.Interfaces.Common import RPiLEDFunctions as led_fx
-from Application.Keys import Settings as SETTINGS
+from Interface import Interface
+from Common import RPiLEDFunctions as led_fx
+from Keys import Settings as SETTINGS
 
 
 class FiftyFifty(Interface):

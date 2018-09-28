@@ -1,8 +1,8 @@
 import time
 
-import Application.Keys.Settings as SETTINGS
-from Application.Interfaces.Interface import Interface
-from Application.Interfaces.Common import RPiLEDFunctions as led_fx
+import Keys.Settings as SETTINGS
+from Interfaces.Interface import Interface
+from Interfaces.Common import RPiLEDFunctions as led_fx
 from neopixel import *
 
 

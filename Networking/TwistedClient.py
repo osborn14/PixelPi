@@ -1,6 +1,6 @@
 import json, sys, time
-import Application.Keys.Network as NETWORK
-import Application.Keys.Settings as SETTINGS
+import Keys.Network as NETWORK
+import Keys.Settings as SETTINGS
 
 from autobahn.asyncio.websocket import WebSocketClientFactory
 from autobahn.asyncio.websocket import WebSocketClientProtocol
@@ -73,7 +73,7 @@ class MyClientProtocol(WebSocketClientProtocol):
 
             if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
                 print("Display command!")
-                if msg[NETWORK.MODE] == NETWORK.AUDIO:                    
+                if msg[NETWORK.MODE] == NETWORK.AUDIO:
                     if NETWORK.audio_queue.full():
                         old_value_in_queue = NETWORK.audio_queue.get()
                         
