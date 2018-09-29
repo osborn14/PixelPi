@@ -1,6 +1,28 @@
+import time, json, threading
+
+import Keys.Network as NETWORK
+import Settings.Config as Config
+
+from Networking.AudioServerConnection import AudioServerConnection
+from Networking.Server import BroadcastServerFactory, BroadcastServerProtocol
+
+from autobahn.twisted.websocket import listenWS
+from twisted.internet import reactor
+from twisted.web.server import File, Site
 
 
-class Server():
+def gatherServer():
+    try:
+        server_settings = Config.server
+
+    except NameError:
+        print("No server detected...")
+        return None
+
+    return Server(server_settings)
+
+
+class Server:
     def __init__(self, settings):
         self.settings = settings
 
@@ -19,7 +41,7 @@ class Server():
         web = Site(webdir)
         print("Starting...")
 
-        reactor.run()
+        reactor.run(installSignalHandlers=False)
 
     def broadcastAudioData(self):
         audio_server_connection = AudioServerConnection(self.settings)
@@ -33,6 +55,11 @@ class Server():
 
                 # print("Should be printing...")
 
-                factory.protocol.broadcast_audio_data(json.dumps(msg, ensure_ascii=False).encode('utf8'))
+                self.twisted_factory.protocol.broadcast_audio_data(json.dumps(msg, ensure_ascii=False).encode('utf8'))
 
             time.sleep(.05)
+
+
+if __name__ == "__main__":
+    server = Server(Config.server)
+    server.run()

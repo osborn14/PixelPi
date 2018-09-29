@@ -1,13 +1,33 @@
-class Client:
-    def __init__(self, settings, interface_list):
-        self.settings = settings
-        self.interface_list = interface_list
+import sys, time, asyncio, threading
 
-        try:
-            import asyncio
-        except ImportError:
-            # Trollius >= 0.3 was renamed
-            import trollius as asyncio
+import Keys.Network as NETWORK
+import Keys.Settings as SETTINGS
+import Settings.Config as Config
+
+from Audio.AudioData import AudioData
+
+from Networking.Client import MyClientProtocol
+from autobahn.asyncio.websocket import WebSocketClientFactory
+
+
+def gatherClient(self):
+    try:
+        client_settings = Config.client
+
+    except NameError:
+        print("No client detected...")
+        return None
+
+    interface_dict_list = Config.client[SETTINGS.INTERFACE_LIST]
+    interface_obj_list = self.getInterfaces(interface_dict_list)
+
+    return Client(client_settings, interface_obj_list)
+
+
+class Client:
+    def __init__(self, settings):
+        self.settings = settings
+        interface_list = self.getInterfaces(settings)
 
         self.twisted_factory = WebSocketClientFactory(u"ws://" + settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
         self.twisted_factory.protocol = MyClientProtocol
@@ -85,3 +105,70 @@ class Client:
                             filter(lambda task: task.task_id != remove_id, interface.task_list))
 
         print(msg)
+
+    def getInterfaces(self, settings):
+        # TODO: Do check for required settings!
+        interface_list = list()
+
+        for interface in settings[SETTINGS.INTERFACE_LIST]:
+            if interface[SETTINGS.INTERFACE] == SETTINGS.MATRIX:
+                from Interfaces.Matrix import Matrix
+
+                matrix_default_settings = {
+                    SETTINGS.CODE: SETTINGS.CODE_MATRIX,
+                    SETTINGS.MILITARY_TIME: False
+                }
+
+                matrix_settings = self.getSettingsWithDefault(settings[SETTINGS.MATRIX],
+                                                              matrix_default_settings)
+                interface_list.append(Matrix(matrix_settings))
+
+            if interface[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL:
+                from Interfaces.Neopixel import Neopixel
+
+                # TODO: Create audio dimmer setting
+                neopixel_default_settings = {
+                    SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
+                    SETTINGS.AUDIO_DIMMER: 1
+                }
+
+                neopixel_settings_list = list(
+                    map(lambda settings: self.getSettingsWithDefault(settings, neopixel_default_settings),
+                        settings[SETTINGS.NEOPIXEL]))
+
+                neopixel_list = list(map(lambda settings: Neopixel(settings), neopixel_settings_list))
+                interface_list.extend(neopixel_list)
+
+            if interface[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
+                from Interfaces.FiftyFifty import FiftyFifty
+
+                fifty_fifty_default_settings = {
+                    SETTINGS.CODE: SETTINGS.CODE_FIFTY_FIFTY,
+                    SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4,
+                    SETTINGS.AUDIO_DIMMER: 1
+                }
+
+                fifty_fifty_settings_list = list(
+                    map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_default_settings),
+                        settings[SETTINGS.FIFTY_FIFTY]))
+
+                fifty_fifty_list = list(map(lambda settings: FiftyFifty(settings), fifty_fifty_settings_list))
+                interface_list.extend(fifty_fifty_list)
+
+        if len(interface_list) == 0:
+            print("No interfaces detected!")
+            sys.exit()
+
+        return interface_list
+
+    def getSettingsWithDefault(self, settings, defaults):
+        for key, value in defaults.items():
+            if key not in settings:
+                settings[key] = value
+
+        return settings
+
+
+if __name__ == "__main__":
+    client = Config.client
+    client.run()

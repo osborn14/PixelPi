@@ -1,11 +1,11 @@
-import queue
-
-
-def init():
-    global audio_queue, display_queue, remove_queue
-
-    audio_queue = queue.Queue(3)
-    display_queue = remove_queue = queue.Queue(25)
+# import queue
+#
+#
+# def init():
+#     global audio_queue, display_queue, remove_queue
+#
+#     audio_queue = queue.Queue(3)
+#     display_queue = remove_queue = queue.Queue(25)
 
 REGISTER_DEVICE = "Register Device"
 TARGET_INTERFACE_IDENTIFIER = "Target Interface Identifier"
