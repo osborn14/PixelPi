@@ -2,14 +2,19 @@ import json, sys, time
 import Keys.Network as NETWORK
 import Keys.Settings as SETTINGS
 
+from Audio.AudioData import AudioData
+
 from autobahn.asyncio.websocket import WebSocketClientFactory
 from autobahn.asyncio.websocket import WebSocketClientProtocol
 
 global client_settings
 global interface_list
 
-class TwistedClient():
+class Client():
     def __init__(self, temp_client_settings, temp_interface_list):
+
+
+
         client_settings = temp_client_settings
         interface_list = temp_interface_list
                 
@@ -36,6 +41,59 @@ class TwistedClient():
                 loop.close()
 
             time.sleep(1)
+
+    def displayLights(self):
+        while True:
+            print("In while loop")
+            if not NETWORK.remove_queue.empty():
+                print("Retrieved from remove queue!")
+                self.processServerJson(NETWORK.remove_queue.get())
+
+            elif not NETWORK.display_queue.empty():
+                print("Retrieved from display queue!")
+                self.processServerJson(NETWORK.display_queue.get())
+
+            elif not NETWORK.audio_queue.empty():
+                print("Audio [playing")
+                last_played_time = time.time()
+                audio_data = AudioData()
+
+                while True:
+                    if not NETWORK.audio_queue.empty():
+                        last_played_time = time.time()
+
+                        audio_dict = NETWORK.audio_queue.get()
+                        audio_data.setAudioDataFromJSON(audio_dict[NETWORK.AUDIO_DATA])
+
+                    elif time.time() - last_played_time >= 45:
+                        break;
+
+                    else:
+                        audio_data.setSpectrumToZero()
+
+                    for interface in interface_list:
+                        interface.displayAudioLights(audio_data)
+
+            else:
+                for interface in interface_list:
+                    interface.displayNormalLights()
+
+                time.sleep(.1)
+
+    def processServerJson(self, msg):
+        print("Processing server json!")
+        for interface in interface_list:
+            if interface.unique_identifier == msg[SETTINGS.UNIQUE_IDENTIFIER]:
+                if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
+                    if msg[NETWORK.DISPLAY_EFFECT] == NETWORK.SIMPLE:
+                        interface.task_list.append(Simple(msg))
+
+                if msg[NETWORK.COMMAND] == NETWORK.REMOVE:
+                    for remove_id in msg[NETWORK.REMOVE_LIST]:
+                        interface.task_list = list(filter(lambda task: task.task_id != remove_id, interface.task_list))
+
+        print(msg)
+
 
 class MyClientProtocol(WebSocketClientProtocol):
     def onConnect(self, response):
