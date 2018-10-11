@@ -5,6 +5,7 @@ import Keys.Settings as SETTINGS
 from Audio.AudioData import AudioData
 from Interfaces.Common.Task import Task, Simple
 
+from twisted.internet.protocol import ReconnectingClientFactory
 from autobahn.asyncio.websocket import WebSocketClientFactory, WebSocketClientProtocol
 
 NETWORK.init()
@@ -77,3 +78,14 @@ class MyClientProtocol(WebSocketClientProtocol):
         #sys.exit()
         
         
+class MyClientFactory(WebSocketClientFactory, ReconnectingClientFactory):
+
+    protocol = MyClientProtocol
+
+    def clientConnectionFailed(self, connector, reason):
+        print("Client connection failed .. retrying ..")
+        self.retry(connector)
+
+    def clientConnectionLost(self, connector, reason):
+        print("Client connection lost .. retrying ..")
+        self.retry(connector)

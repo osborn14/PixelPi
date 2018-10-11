@@ -2,9 +2,8 @@ import sys, os, threading
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import Keys.Settings as SETTINGS
-from Server import Server, gatherServer
-from Client import Client, gatherClient
+from Server import gatherServer
+from Client import gatherClient
 
 
 # def signal_handler(signal, frame):

@@ -1,4 +1,5 @@
 #TODO: Make settings into dicts, like in the config
+SERVER                  = "Server"
 SERVER_IP_ADDRESS       = "Server IP Address"
 CLIENT_NAME             = "Client Name"
 UNIVERSAL_SETTINGS      = "Universal Settings"

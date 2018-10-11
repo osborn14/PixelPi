@@ -55,6 +55,7 @@ class Matrix(Interface):
         return prev_main_height_list
 
     def getAdjustedSpectrumTipHeightList(self, adjusted_main_height_list, adjusted_tip_height_list):
+        #TODO: Use "zip" to iterate though both at the same time
         for i in range(len(adjusted_tip_height_list)):
             if adjusted_main_height_list[i] == 0 and adjusted_tip_height_list[i] == 1:
                 adjusted_tip_height_list[i] = 0

@@ -4,11 +4,10 @@ import Keys.Network as NETWORK
 import Keys.Settings as SETTINGS
 import Settings.Config as Config
 
+from Settings.Defaults import Defaults
 from Audio.AudioData import AudioData
 
-from Networking.Client import MyClientProtocol
-from autobahn.asyncio.websocket import WebSocketClientFactory
-
+from Networking.Client import MyClientFactory, MyClientProtocol
 
 def gatherClient(self):
     try:
@@ -29,7 +28,7 @@ class Client:
         self.settings = settings
         interface_list = self.getInterfaces(settings)
 
-        self.twisted_factory = WebSocketClientFactory(u"ws://" + settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
+        self.twisted_factory = MyClientFactory(u"ws://" + settings[SETTINGS.SERVER_IP_ADDRESS] + ":" + str(9000))
         self.twisted_factory.protocol = MyClientProtocol
         self.twisted_factory.protocol.setClassVariables(settings, interface_list)
 
@@ -41,6 +40,7 @@ class Client:
         loop = asyncio.get_event_loop()
         coro = loop.create_connection(self.twisted_factory, self.settings[SETTINGS.SERVER_IP_ADDRESS], 9000)
 
+        #TODO: Not sure if this runs as expected
         while True:
             loop.run_until_complete(coro)
 
@@ -109,51 +109,22 @@ class Client:
     def getInterfaces(self, settings):
         # TODO: Do check for required settings!
         interface_list = list()
+        default_settings = Defaults()
+        interface_settings = default_settings.getSettingsWithDefaults()
+
 
         for interface in settings[SETTINGS.INTERFACE_LIST]:
             if interface[SETTINGS.INTERFACE] == SETTINGS.MATRIX:
                 from Interfaces.Matrix import Matrix
+                interface_list.append(Matrix(interface_settings))
 
-                matrix_default_settings = {
-                    SETTINGS.CODE: SETTINGS.CODE_MATRIX,
-                    SETTINGS.MILITARY_TIME: False
-                }
-
-                matrix_settings = self.getSettingsWithDefault(settings[SETTINGS.MATRIX],
-                                                              matrix_default_settings)
-                interface_list.append(Matrix(matrix_settings))
-
-            if interface[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL:
+            elif interface[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL:
                 from Interfaces.Neopixel import Neopixel
+                interface_list.append(Neopixel(interface_settings))
 
-                # TODO: Create audio dimmer setting
-                neopixel_default_settings = {
-                    SETTINGS.CODE: SETTINGS.CODE_NEOPIXEL,
-                    SETTINGS.AUDIO_DIMMER: 1
-                }
-
-                neopixel_settings_list = list(
-                    map(lambda settings: self.getSettingsWithDefault(settings, neopixel_default_settings),
-                        settings[SETTINGS.NEOPIXEL]))
-
-                neopixel_list = list(map(lambda settings: Neopixel(settings), neopixel_settings_list))
-                interface_list.extend(neopixel_list)
-
-            if interface[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
+            elif interface[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
                 from Interfaces.FiftyFifty import FiftyFifty
-
-                fifty_fifty_default_settings = {
-                    SETTINGS.CODE: SETTINGS.CODE_FIFTY_FIFTY,
-                    SETTINGS.BRIGHTNESS_MULTIPLIER: 1.4,
-                    SETTINGS.AUDIO_DIMMER: 1
-                }
-
-                fifty_fifty_settings_list = list(
-                    map(lambda settings: self.getSettingsWithDefault(settings, fifty_fifty_default_settings),
-                        settings[SETTINGS.FIFTY_FIFTY]))
-
-                fifty_fifty_list = list(map(lambda settings: FiftyFifty(settings), fifty_fifty_settings_list))
-                interface_list.extend(fifty_fifty_list)
+                interface_list.append(FiftyFifty(interface_settings))
 
         if len(interface_list) == 0:
             print("No interfaces detected!")
@@ -161,12 +132,7 @@ class Client:
 
         return interface_list
 
-    def getSettingsWithDefault(self, settings, defaults):
-        for key, value in defaults.items():
-            if key not in settings:
-                settings[key] = value
 
-        return settings
 
 
 if __name__ == "__main__":
