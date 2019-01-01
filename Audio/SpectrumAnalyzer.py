@@ -1,5 +1,7 @@
 # https://github.com/markjay4k/Audio-Spectrum-Analyzer-in-Python/blob/master/audio_spectrum.py
 
+# SEE ALSO: https://github.com/lbgists/audio-spectrum-matplotlib/
+
 """
     Notebook for streaming data from a microphone in realtime
     audio is captured using pyaudio
