@@ -1,16 +1,18 @@
 import Keys.Settings as SETTINGS
 
 server = {
-    SETTINGS.AUDIO_SERVER_IP_ADDRESS: '192.168.0.106',
-    SETTINGS.AUDIO_SERVER_PORT_ONE: 8080,
-    SETTINGS.AUDIO_SERVER_PORT_TWO: 8081,
-    SETTINGS.NO_DISPLAY_TOLERANCE: 1.4
+    SETTINGS.SERVICE_LIST: [
+        {
+            SETTINGS.SERVICE: SETTINGS.SPECTRUM_ANALYZER,
+            SETTINGS.NO_DISPLAY_TOLERANCE: 1.4
+        }
+    ]
 }
 
 client = {
     SETTINGS.UNIVERSAL_SETTINGS: {
         SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
-        SETTINGS.DESCRIPTION: "Raspsberry Pi 3b+"
+        SETTINGS.DESCRIPTION: "Raspberry Pi 3b+"
     },
     SETTINGS.INTERFACE_LIST: [
         {
@@ -19,6 +21,7 @@ client = {
             SETTINGS.DESCRIPTION: "Matrix by tv",
             SETTINGS.HAT: True,
             SETTINGS.TIME_ZONE: "US/Eastern"
+            # SETTINGS.FONTS_LOCATION: /pi/home/...
         },
     ]
     
