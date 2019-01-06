@@ -8,3 +8,11 @@ Application/Audio/ProcessingSpectrumAnalyzer/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Skip the virtual environment
+VirtualEnv/
+venv/
+
+# Skip pyinstaller folders
+dist/
+build/
