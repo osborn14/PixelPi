@@ -1,8 +1,10 @@
 import time, json, threading
 
+import Keys.Settings as SETTINGS
 import Keys.Network as NETWORK
 import Settings.Config as Config
 
+from Audio import SpectrumAnalyzer
 from Networking.AudioServerConnection import AudioServerConnection
 from Networking.Server import BroadcastServerFactory, BroadcastServerProtocol
 
@@ -25,13 +27,14 @@ def gatherServer():
 class Server:
     def __init__(self, settings):
         self.settings = settings
+        self.broadcast_services_list = self.getBroadcastServices(settings)
 
         ServerFactory = BroadcastServerFactory
         self.twisted_factory = ServerFactory("ws://127.0.0.1:9000")
         self.twisted_factory.protocol = BroadcastServerProtocol
 
     def run(self):
-        connection_to_audio_server_thread = threading.Thread(target=self.broadcastAudioData)
+        connection_to_audio_server_thread = threading.Thread(target=self.runBroadcastServices)
         connection_to_audio_server_thread.setDaemon(True)
         connection_to_audio_server_thread.start()
 
@@ -39,25 +42,30 @@ class Server:
 
         webdir = File(".")
         web = Site(webdir)
-        print("Starting...")
+        print("Starting server...")
 
         reactor.run(installSignalHandlers=False)
 
-    def broadcastAudioData(self):
-        audio_server_connection = AudioServerConnection(self.settings)
-        while (True):
-            audio_data = audio_server_connection.getAudioServerData()
-            if audio_data and audio_data.music_is_playing:
-                msg = dict()
-                msg[NETWORK.COMMAND] = NETWORK.DISPLAY
-                msg[NETWORK.MODE] = NETWORK.AUDIO
-                msg[NETWORK.AUDIO_DATA] = audio_data.getAudioJSON()
+    def runBroadcastServices(self):
+        if len(self.broadcast_service_list) > 0:
+            while True:
+                for broadcast_service in self.broadcast_service_list:
+                    updated_data = broadcast_service.update()
 
-                # print("Should be printing...")
+                    if updated_data:
+                        broadcast_json = broadcast_service.getBroadcastJson(updated_data)
+                        self.twisted_factory.protocol.broadcast_audio_data(broadcast_json.encode('utf8'))
 
-                self.twisted_factory.protocol.broadcast_audio_data(json.dumps(msg, ensure_ascii=False).encode('utf8'))
+                time.sleep(.05)
 
-            time.sleep(.05)
+    def getBroadcastServices(self, settings):
+        broadcast_service_list = list()
+
+        for service in settings[SETTINGS.SERVICE_LIST]:
+            if service[SETTINGS.SERVICE] == SETTINGS.SPECTRUM_ANALYZER:
+                broadcast_service_list.append(SpectrumAnalyzer())
+
+        return broadcast_service_list
 
 
 if __name__ == "__main__":
