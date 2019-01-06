@@ -1,0 +1,6 @@
+autobahn==18.12.1
+pigpio==1.42
+six==1.12.0
+Twisted==16.0.0
+txaio==18.8.1
+zope.interface==4.6.0
