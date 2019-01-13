@@ -8,7 +8,7 @@ from Interfaces.Common.Task import Task, Simple
 from twisted.internet.protocol import ReconnectingClientFactory
 from autobahn.asyncio.websocket import WebSocketClientFactory, WebSocketClientProtocol
 
-NETWORK.init()
+# NETWORK.init()
 
 
 global audio_queue, display_queue, remove_queue

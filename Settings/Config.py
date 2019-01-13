@@ -1,5 +1,6 @@
 import Keys.Settings as SETTINGS
 
+
 server = {
     SETTINGS.SERVICE_LIST: [
         {
@@ -10,19 +11,22 @@ server = {
 }
 
 client = {
-    SETTINGS.UNIVERSAL_SETTINGS: {
-        SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
-        SETTINGS.DESCRIPTION: "Raspberry Pi 3b+"
-    },
+    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
+    SETTINGS.DESCRIPTION: "Raspberry Pi 3b+",
     SETTINGS.INTERFACE_LIST: [
         {
-            SETTINGS.INTERFACE: SETTINGS.MATRIX,
-            SETTINGS.UNIQUE_IDENTIFIER: "MA01",
-            SETTINGS.DESCRIPTION: "Matrix by tv",
-            SETTINGS.HAT: True,
-            SETTINGS.TIME_ZONE: "US/Eastern"
-            # SETTINGS.FONTS_LOCATION: /pi/home/...
+            SETTINGS.INTERFACE: SETTINGS.LOGGER,
+            SETTINGS.UNIQUE_IDENTIFIER: "LG01",
+            SETTINGS.DESCRIPTION: "Logger to test client"
         },
+        # {
+        #     SETTINGS.INTERFACE: SETTINGS.MATRIX,
+        #     SETTINGS.UNIQUE_IDENTIFIER: "MA01",
+        #     SETTINGS.DESCRIPTION: "Matrix by tv",
+        #     SETTINGS.HAT: True,
+        #     SETTINGS.TIME_ZONE: "US/Eastern"
+        #     # SETTINGS.FONTS_LOCATION: /pi/home/...
+        # },
     ]
     
 ##    SETTINGS.NEOPIXEL: [

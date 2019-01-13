@@ -2,8 +2,9 @@ import json, threading, time
 
 from Interfaces.Interface import Interface
 from Interfaces.Common.Task import Task
-#from Database.ClientTaskDatabase import ClientTaskDatabase
-from Networking.AudioServerConnection import AudioServerConnection
+from Networking.Device import Device
+# from Database.ClientTaskDatabase import ClientTaskDatabase
+# from Networking.AudioServerConnection import AudioServerConnection
 
 import Keys.Network as NETWORK
 import Keys.Settings as SETTINGS
@@ -12,72 +13,49 @@ from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerPr
 
 from twisted.internet import reactor
 from twisted.python import log
-from twisted.web.server import File, Site
 
-#database = ClientTaskDatabase()
-
-registered_device_list = list()
-temp_neopixel_client = None
+# database = ClientTaskDatabase()
 
 
+class AutobahnTwistedServer:
+    def __init__(self):
+        server_factory = MyServerFactory
 
-class Device():
-    def __init__(self, client, device_dict):
-        self.client = client
-        self.description = device_dict[SETTINGS.DEVICE][SETTINGS.DESCRIPTION]
-        self.interface_list = list(map(lambda interface_dict: Interface(interface_dict), device_dict[SETTINGS.INTERFACE_LIST]))
+        # TODO: Create static URL
+        self.autobahn_factory = server_factory("ws://127.0.0.1:9000")
+        self.autobahn_factory.protocol = MyServerProtocol
 
-    def getDeviceInfo(self):
-        interface_json_list = list(map(lambda interface: interface.getInterfaceJson(), self.interface_list))
+    def run(self):
+        reactor.listenTCP(9000, self.autobahn_factory)
+        reactor.run()
 
-        device_dict = {
-            SETTINGS.DESCRIPTION: self.description,
-            SETTINGS.INTERFACE_LIST: interface_json_list
-        }
-
-        return device_dict
-    
-    def checkForAdminInterface(self):
-        for interface in self.interface_list:
-            if interface.code == SETTINGS.CODE_ADMIN:
-                print(self.description)
-                return interface.unique_identifier
-            
-        return None
-
-    def checkForTargetInterface(self, target_identifier):
-        for interface in self.interface_list:
-            if interface.unique_identifier == target_identifier:
-                return interface.unique_identifier
-
-        return None
-
-    def updateInterfaceTaskList(self, interface_id, task_list):
-        for interface in self.interface_list:
-            if interface.unique_identifier == interface_id:
-                interface.task_list = task_list
+    def broadcast(self, json_message):
+        self.autobahn_factory.protocol.broadcast_audio_data(json_message.encode('utf8'))
 
 
-
-class BroadcastServerProtocol(WebSocketServerProtocol):
+class MyServerProtocol(WebSocketServerProtocol):
     def onOpen(self):
         self.factory.register(self)
 
     def onConnect(self, request):
         print("Client connecting: {}".format(request.peer))
-        
 
-    def onMessage(self, payload, isBinary):
+    def onMessage(self, payload, is_binary):
         print("Message received!")
 
-        if not isBinary:
+        if not is_binary:
             msg = json.loads(payload.decode('utf8'))
             print(msg)
 
+            # network_message_dict = {
+            #     NETWORK.REGISTER_DEVICE: handleRegister,
+            #     NETWORK.DISPLAY: handleDisplay
+            # }
+
             if msg[NETWORK.COMMAND] == NETWORK.REGISTER_DEVICE:
                 new_device = Device(self, msg)
-                registered_device_list.append(new_device)
-                print(len(registered_device_list))
+                self.factory.authenticated_clients.append(new_device)
+                print(len(self.factory.authenticated_clients))
 
                 # First check if the new device is an admin
                 if new_device.checkForAdminInterface():
@@ -102,7 +80,7 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
                     # database.addTask(msg[NETWORK.TARGET_INTERFACE_IDENTIFIER], json.dumps(payload.decode('utf8')))
                 msg[SETTINGS.TASK_ID] = 1
 
-                for device in registered_device_list:
+                for device in self.factory.authenticated_clients:
                     target_interface_id = msg[SETTINGS.UNIQUE_IDENTIFIER]
                     
                     if device.checkForTargetInterface(target_interface_id):
@@ -180,23 +158,11 @@ class BroadcastServerProtocol(WebSocketServerProtocol):
             reactor.callFromThread(cls.sendMessage, cd.client, payload)
 
 
-class BroadcastServerFactory(WebSocketServerFactory):
-    """
-    Simple broadcast server broadcasting any message it receives to all
-    currently connected clients.
-    """
-
+class MyServerFactory(WebSocketServerFactory):
     def __init__(self, url, debug=False, debugCodePaths=False):
         WebSocketServerFactory.__init__(self, url)
         self.clients = []
-        #self.tickcount = 0
-        #self.tick()
-
-    #def tick(self):
-        #self.tickcount += 1
-
-    ##        self.broadcast("tick %d from server" % self.tickcount)
-    ##        reactor.callLater(1, self.tick)
+        self.authenticated_clients = list()
 
     def register(self, client):
         if client not in self.clients:
@@ -204,9 +170,9 @@ class BroadcastServerFactory(WebSocketServerFactory):
             self.clients.append(client)
 
     def unregister(self, client):
-        for device in registered_device_list:
+        for device in self.authenticated_clients:
             if device.client == client:
-                registered_device_list.remove(device)
+                self.authenticated_clients.remove(device)
 
         if client in self.clients:
             print("unregistered client {}".format(client.peer))
