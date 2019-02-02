@@ -1,11 +1,16 @@
-import pyowm, datetime
+import pyowm, time, datetime
 
 import Keys.Settings as SETTINGS
+import Keys.Network as NETWORK
+
+from Services.Service import Service
 
 
-class Weather:
+class Weather(Service):
     def __init__(self, settings):
-        self.settings = settings
+        super().__init__(settings)
+
+        print(settings)
 
         self.api_key = self.settings[SETTINGS.PYOWM_API_KEY]
         self.latitude = self.settings[SETTINGS.LATITUDE]
@@ -14,12 +19,17 @@ class Weather:
 
         self.hours_after_sunrise_to_full_brightness = 3
         self.hours_before_sunset_to_start_dimmer = 3
+        self.fetch_weather_time = 0
 
-    def updateWeatherData(self):
+    def update(self):
+        if time.time() - self.fetch_weather_time >= 1800:
+            self.fetch_weather_time = time.time()
+            self.weather_data.updateWeatherData()
+
         self.weather_details = self.open_weather_map_object.weather_at_coords(self.latitude, self.longitude)
         api_weather_details = Weather(self.weather_details.get_weather())
 
-        api_weather_details = None
+        # api_weather_details = None
         if api_weather_details:
             ## See https://github.com/csparpa/pyowm/blob/master/pyowm/docs/usage-examples.md for pyowm details
             ##
@@ -60,7 +70,24 @@ class Weather:
             self.sunset_minute = 0
 
             self.good_weather_fetch = False
-            
+
+            return self.good_weather_fetch
+
+    def getBroadcastDict(self, audio_data):
+        broadcast_dict = {
+            NETWORK.COMMAND: NETWORK.UPDATE,
+            SETTINGS.SERVICE: SETTINGS.WEATHER,
+            SETTINGS.WEATHER_CONDITION: self.weather_condition,
+            SETTINGS.CURRENT_TEMPERATURE: self.current_temperature,
+            SETTINGS.SUNRISE_HOUR: self.sunrise_hour,
+            SETTINGS.SUNRISE_MINUTE: self.sunrise_minute,
+            SETTINGS.SUNSET_HOUR: self.sunset_hour,
+            SETTINGS.SUNSET_MINUTE: self.sunset_minute,
+            SETTINGS.GOOD_WEATHER_FETCH: self.good_weather_fetch
+        }
+
+        return broadcast_dict
+
     def getUsableTime(self, time, unit):
         usable_time = datetime.datetime.fromtimestamp(int(time)).strftime(unit)
         return int(usable_time)

@@ -1,18 +1,18 @@
 import datetime
 
-import Application.Keys.Network as NETWORK
-import Application.Keys.Settings as SETTINGS
+import Keys.Network as NETWORK
+import Keys.Settings as SETTINGS
 
 
-class Task():
+class Task:
     def __init__(self, settings):
         self.settings = settings
         # TODO: Probably need to search for an object here instead of simply storing a json
         self.task_id = settings[SETTINGS.TASK_ID]
         self.display_effect = settings[NETWORK.DISPLAY_EFFECT]
-        self.on_off_control = settings[NETWORK.ON_OFF_CONTROL]
+        # self.on_off_control =
 
-        if self.on_off_control  == NETWORK.TIMER:
+        if self.on_off_control == NETWORK.TIMER:
             self.on_off_control_object = Timer(settings[NETWORK.ON_OFF_CONTROL_DETAILS])
 
     def getTaskJson(self):
@@ -36,6 +36,11 @@ class Simple(Task):
     def getRgbToDisplay(self):
         return self.Rgb
 
+
+class Trigger:
+    def __init__(self, settings):
+        pass
+        # settings[NETWORK.ON_OFF_CONTROL] =
 
 class Timer():
     def __init__(self, settings):

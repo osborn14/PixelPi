@@ -1,6 +1,16 @@
 autobahn==18.12.1
+certifi==2018.11.29
+chardet==3.0.4
+geojson==2.4.1
+idna==2.8
+numpy==1.15.4
 pigpio==1.42
+PyAudio==0.2.11
+pymongo==3.7.2
+pyowm==2.10.0
+requests==2.21.0
 six==1.12.0
 Twisted==16.0.0
 txaio==18.8.1
+urllib3==1.24.1
 zope.interface==4.6.0

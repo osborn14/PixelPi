@@ -1,16 +1,10 @@
-import time, json, threading
+import time, threading, json
 
 import Keys.Settings as SETTINGS
-import Keys.Network as NETWORK
 import Settings.Config as Config
 
-from Audio import SpectrumAnalyzer
-from Networking.AudioServerConnection import AudioServerConnection
-from Networking.Server import BroadcastServerFactory, BroadcastServerProtocol
 
-from autobahn.twisted.websocket import listenWS
-from twisted.internet import reactor
-from twisted.web.server import File, Site
+from Networking.AutobahnTwistedServer import AutobahnTwistedServer
 
 
 def gatherServer():
@@ -28,44 +22,41 @@ class Server:
     def __init__(self, settings):
         self.settings = settings
         self.broadcast_services_list = self.getBroadcastServices(settings)
-
-        ServerFactory = BroadcastServerFactory
-        self.twisted_factory = ServerFactory("ws://127.0.0.1:9000")
-        self.twisted_factory.protocol = BroadcastServerProtocol
+        self.network_server = AutobahnTwistedServer()
 
     def run(self):
-        connection_to_audio_server_thread = threading.Thread(target=self.runBroadcastServices)
-        connection_to_audio_server_thread.setDaemon(True)
-        connection_to_audio_server_thread.start()
+        broadcast_services_thread = threading.Thread(target=self.runBroadcastServices)
+        broadcast_services_thread.setDaemon(True)
+        broadcast_services_thread.start()
 
-        listenWS(self.twisted_factory)
-
-        webdir = File(".")
-        web = Site(webdir)
-        print("Starting server...")
-
-        reactor.run(installSignalHandlers=False)
+        self.network_server.run()
 
     def runBroadcastServices(self):
-        if len(self.broadcast_service_list) > 0:
-            while True:
-                for broadcast_service in self.broadcast_service_list:
-                    updated_data = broadcast_service.update()
+        while True:
+            last_updated_dict = dict()
+            for broadcast_service in self.broadcast_services_list:
+                updated_data = broadcast_service.update()
 
-                    if updated_data:
-                        broadcast_json = broadcast_service.getBroadcastJson(updated_data)
-                        self.twisted_factory.protocol.broadcast_audio_data(broadcast_json.encode('utf8'))
+                if updated_data:
+                    broadcast_dict = broadcast_service.getBroadcastDict(updated_data)
+                    broadcast_json = json.dumps(broadcast_dict, ensure_ascii=False)
+                    self.network_server.broadcast(broadcast_json)
 
-                time.sleep(.05)
+            time.sleep(0.05)
 
     def getBroadcastServices(self, settings):
-        broadcast_service_list = list()
+        broadcast_services_list = list()
 
-        for service in settings[SETTINGS.SERVICE_LIST]:
-            if service[SETTINGS.SERVICE] == SETTINGS.SPECTRUM_ANALYZER:
-                broadcast_service_list.append(SpectrumAnalyzer())
+        for service_settings in settings[SETTINGS.SERVICE_LIST]:
+            if service_settings[SETTINGS.SERVICE] == SETTINGS.SPECTRUM_ANALYZER:
+                from Services.SpectrumAnalyzer import SpectrumAnalyzer
+                broadcast_services_list.append(SpectrumAnalyzer(service_settings))
 
-        return broadcast_service_list
+            # if service_settings[SETTINGS.SERVICE] == SETTINGS.WEATHER:
+            #     from Services.Weather import Weather
+            #
+
+        return broadcast_services_list
 
 
 if __name__ == "__main__":

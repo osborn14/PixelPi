@@ -122,7 +122,7 @@ class LEDClock(SampleBase):
             graphics.DrawText(offscreen_canvas, font_small, 0, 31, MAIN_COLOR, static_text)
 
             self.matrix.SwapOnVSync(offscreen_canvas)
-            time.sleep(refresh_pause)
+            # time.sleep(refresh_pause)
 
 ## Main function
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 #
 #
 # def init():
-#     global audio_queue, display_queue, remove_queue
+#     global locked_cmd_queue, display_queue, remove_queue
 #
 #     audio_queue = queue.Queue(3)
 #     display_queue = remove_queue = queue.Queue(25)
@@ -20,6 +20,7 @@ DISPLAY_EFFECT = "Display Effect"
 ON_OFF_CONTROL = "On Off Control"
 ON_OFF_CONTROL_DETAILS = "On Off Control Details"
 MANUAL = "Manual"
+AUTOMATIC = "Automatic"
 SIMPLE = "Simple"
 TIMER = "Timer"
 HOME = "Home"

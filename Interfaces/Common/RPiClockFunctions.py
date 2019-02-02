@@ -81,14 +81,14 @@ def AMorPM(current_hour, military_time_bool):
             
     return am_or_pm
 
-def calculateDimmer(current_hour, current_minute, sunrise_hour, sunrise_minute, hours_after_sunrise_to_full_brightness, sunset_hour, sunset_minute, hours_before_sunset_to_start_dimmer, dimmer_minimum = 0.02):
-    time_till_sunrise_is_over = 60 * (sunrise_hour + hours_after_sunrise_to_full_brightness - current_hour) + (sunrise_minute - current_minute)
-    time_till_sunset = 60 * (sunset_hour - current_hour) + (sunset_minute - current_minute)
+def calculateDimmer(current_hour, current_minute, weather_data, dimmer_minimum = 0.02):
+    time_till_sunrise_is_over = 60 * (weather_data.sunrise_hour + weather_data.hours_after_sunrise_to_full_brightness - current_hour) + (weather_data.sunrise_minute - current_minute)
+    time_till_sunset = 60 * (weather_data.sunset_hour - current_hour) + (weather_data.sunset_minute - current_minute)
     
-    if 0 <= time_till_sunrise_is_over < 60 * hours_after_sunrise_to_full_brightness:
-        dimmer = time_till_sunrise_is_over / (60 * hours_after_sunrise_to_full_brightness) + dimmer_minimum
-    elif 0 <= time_till_sunset < 60 * hours_before_sunset_to_start_dimmer:
-        dimmer = time_till_sunset / (60 * hours_before_sunset_to_start_dimmer) + dimmer_minimum
+    if 0 <= time_till_sunrise_is_over < 60 * weather_data.hours_after_sunrise_to_full_brightness:
+        dimmer = time_till_sunrise_is_over / (60 * weather_data.hours_after_sunrise_to_full_brightness) + dimmer_minimum
+    elif 0 <= time_till_sunset < 60 * weather_data.hours_before_sunset_to_start_dimmer:
+        dimmer = time_till_sunset / (60 * weather_data.hours_before_sunset_to_start_dimmer) + dimmer_minimum
     elif 0 < time_till_sunrise_is_over or time_till_sunset < 0:
         dimmer = dimmer_minimum
     else:

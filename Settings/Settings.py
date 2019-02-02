@@ -13,7 +13,7 @@ class Settings(object):
         try:
 
             self.server_settings = Config.server
-        except NameError:
+        except AttributeError:
             print("No server settings found!")
             sys.exit()
 
@@ -22,11 +22,11 @@ class Settings(object):
     def getUniversalClientSettings(self):
         try:
             self.client_settings = Config.client
-        except NameError:
+        except AttributeError:
             print("No client settings found!")
             sys.exit()
 
-        return self.client_settings[SETTINGS.UNIVERSAL_SETTINGS]
+        return self.client_settings
 
 
 

@@ -1,3 +1,5 @@
+import Keys.Settings as SETTINGS
+
 from Interfaces.Interface import Interface
 
 
@@ -6,11 +8,16 @@ class Logger(Interface):
         super().__init__(settings)
         self.code = "LG"
 
+        self.compatible_services = {
+            SETTINGS.SPECTRUM_ANALYZER: self.displayAudioLights,
+            SETTINGS.WEATHER: self.processDataList
+        }
+
     def displayAudioLights(self, audio_data):
         print("Audio data")
-        print(audio_data.getAudioJSON())
+        print(audio_data.getDict())
 
-    def displayNormalLights(self):
+    def runDefaults(self):
+        print("Running defaults")
         pass
-        # print("Display normal lights")
 

@@ -1,13 +1,17 @@
 import numpy as np
-import pyaudio, math, time, random, json
+import pyaudio, math, time, random
 
+import Keys.Settings as SETTINGS
 import Keys.Network as NETWORK
 
-from Audio.AudioData import AudioData
+from Services.Service import Service
+from Data.AudioData import AudioData
 
 
-class SpectrumAnalyzer(object):
-    def __init__(self, settings=None):
+class SpectrumAnalyzer(Service):
+    def __init__(self, settings):
+        super().__init__(settings)
+
         self.color_values_dict = {
             0: [255, 215, 0],
             1: [255, 0, 0],
@@ -18,7 +22,6 @@ class SpectrumAnalyzer(object):
             6: [75, 0, 130],
             7: [25, 25, 112]
         }
-
         self.display_mode_timer_dict = {
             0: 180,
             1: 60,
@@ -45,6 +48,8 @@ class SpectrumAnalyzer(object):
         self.spectrum_groups = 16
         self.no_display_tolerance = 1.5
 
+        self.last_spectrum_avgs = None
+
         # Below is the equation 20*self.spectrum_groups^x = 22,050 solved for x
         self.fft_grouping_power = math.log(1024)/math.log(self.spectrum_groups)
         self.fft_grouping_power = round(self.fft_grouping_power, 2)
@@ -64,18 +69,6 @@ class SpectrumAnalyzer(object):
             frames_per_buffer=self.CHUNK,
         )
 
-    def calculateTransition(self, rgb, rgb_to_pursue):
-        if rgb != rgb_to_pursue:
-            for i in range(len(rgb)):
-                if abs(rgb[i] - rgb_to_pursue[i]) <= 5:
-                    rgb[i] = rgb_to_pursue[i]
-                elif rgb[i] - rgb_to_pursue[i] > 5:
-                    rgb[i] = rgb[i] - 5
-                elif rgb[i] - rgb_to_pursue[i] < -5:
-                    rgb[i] = rgb[i] + 5
-
-        return rgb
-
     def update(self):
         current_time = time.time()
 
@@ -94,12 +87,17 @@ class SpectrumAnalyzer(object):
         else:
             self.main_rgb_current = self.secondary_rgb_current = self.rainbow.getNextColor()
 
-
-        audio_data = self.stream.read(self.CHUNK)
-        numpy_audio_data = np.fromstring(audio_data, np.int16)
+        pyaudio_audio_data = self.stream.read(self.CHUNK)
+        numpy_audio_data = np.fromstring(pyaudio_audio_data, np.int16)
 
         numpy_fft_data = np.fft.rfft(numpy_audio_data)
         sound_magnitude = np.abs(numpy_fft_data) * 2
+
+        # if sound_magnitude == 0:
+        #     return None
+
+        # Turn off divide by zero warning
+        np.seterr(divide='ignore')
         sound_db = 20 * np.log10(sound_magnitude / 32768)
 
         fft_list = sound_db.tolist()
@@ -107,21 +105,21 @@ class SpectrumAnalyzer(object):
         spectrum_list = self.getAveragedSpectrumData(fft_list)
         spectrum_avg = sum(spectrum_list)/len(spectrum_list)
 
-        print(spectrum_list)
+        # print(spectrum_list)
 
-        if spectrum_avg < self.no_display_tolerance:
-            spectrum_list = [1] * 16
+        # if spectrum_avg < self.no_display_tolerance:
+        #     spectrum_list = [1] * 16
+        #
+        #     if current_time - self.music_last_played_time > 60:
+        #         # Has it been 60 seconds with no activity?  If so, note that music is off for now
+        #         self.music_is_playing = False
+        #         return None
+        #
+        # else:
+        #     self.music_last_played_time = current_time
+        #     self.music_is_playing = True
 
-            if current_time - self.music_last_played_time > 60:
-                # Has it been 60 seconds with no activity?  If so, note that music is off for now
-                self.music_is_playing = False
-                return None
-
-        else:
-            self.music_last_played_time = current_time
-            self.music_is_playing = True
-
-        new_audio_data = AudioData()
+        new_audio_data = AudioData(SETTINGS.SPECTRUM_ANALYZER)
         new_audio_data.display_mode = self.display_mode
         new_audio_data.spectrum_heights = spectrum_list
         new_audio_data.spectrum_avg = spectrum_avg
@@ -131,13 +129,25 @@ class SpectrumAnalyzer(object):
 
         return new_audio_data
 
-    def getBroadcastJson(self, audio_data):
-        msg = dict()
-        msg[NETWORK.COMMAND] = NETWORK.DISPLAY
-        msg[NETWORK.MODE] = NETWORK.AUDIO
-        msg[NETWORK.AUDIO_DATA] = audio_data.getAudioJSON()
+    def getBroadcastDict(self, audio_data):
+        broadcast_dict = {
+            SETTINGS.SERVICE: SETTINGS.SPECTRUM_ANALYZER,
+            SETTINGS.DATA: audio_data.getDict()
+        }
 
-        return json.dumps(msg, ensure_ascii=False)
+        return broadcast_dict
+
+    def calculateTransition(self, rgb, rgb_to_pursue):
+        if rgb != rgb_to_pursue:
+            for i in range(len(rgb)):
+                if abs(rgb[i] - rgb_to_pursue[i]) <= 5:
+                    rgb[i] = rgb_to_pursue[i]
+                elif rgb[i] - rgb_to_pursue[i] > 5:
+                    rgb[i] = rgb[i] - 5
+                elif rgb[i] - rgb_to_pursue[i] < -5:
+                    rgb[i] = rgb[i] + 5
+
+        return rgb
 
     def getAveragedSpectrumData(self, full_fft_list):
         averaged_spectrum_data = list()
@@ -148,12 +158,20 @@ class SpectrumAnalyzer(object):
 
             fft_group_list = full_fft_list[lower_limit:upper_limit]
             fft_group_avg = sum(fft_group_list) / len(fft_group_list)
-            fft_group_avg = round(fft_group_avg)
+
+            if fft_group_avg == float("inf") or fft_group_avg == float("-inf"):
+                fft_group_avg = self.last_spectrum_avgs[i]
+            else:
+                fft_group_avg = round(fft_group_avg)
+
             averaged_spectrum_data.append(fft_group_avg)
 
             lower_limit = upper_limit
 
+        self.last_spectrum_avgs = averaged_spectrum_data
+
         return averaged_spectrum_data
+
 
 class Rainbow:
     def __init__(self, color_multiplier=1):
@@ -163,7 +181,7 @@ class Rainbow:
 
     def getNextColor(self):
         if self.counter == 0:
-            if self.ncreasing_color == 2:
+            if self.increasing_color == 2:
                 self.increasing_color = 0
             else:
                 self.increasing_color = self.decreasing_color + 1

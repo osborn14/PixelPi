@@ -1,6 +1,5 @@
-import time
-
 import Keys.Settings as SETTINGS
+
 from Interfaces.Interface import Interface
 from Interfaces.Common import RPiLEDFunctions as led_fx
 from neopixel import *
@@ -9,6 +8,10 @@ from neopixel import *
 class Neopixel(Interface):
     def __init__(self, settings):
         super().__init__(settings)
+
+        self.compatible_services = {
+            SETTINGS.SPECTRUM_ANALYZER: self.displayAudioLights
+        }
 
         # LED strip configuration:
         self.LED_COUNT = settings[SETTINGS.LED_COUNT]  # Number of LED pixels.
@@ -32,7 +35,7 @@ class Neopixel(Interface):
         }
         self.rgb_order = list(map(lambda rgb: rgb_order_dict[rgb], settings[SETTINGS.RGB_ORDER]))
 
-        self.timer_tasks = list()
+        self.non_priority_data_list = list()
         self.main_height_list = [0] * 16
 
         # Create NeoPixel object with appropriate configuration.
@@ -40,8 +43,14 @@ class Neopixel(Interface):
                                        LED_CHANNEL)
         self.strip.begin()
 
+
+        # self.frame_start_time = time.time()
+
+    def processDataList(self):
+        pass
+
     def displayAudioLights(self, audio_data):
-        # TODO: Color dimming should be slower, color shoud never reach 0
+        # TODO: Color dimming should be slower, color should never reach 0
         self.main_height_list = led_fx.getDataListtoPrint(self.main_height_list, audio_data.spectrum_heights)
 
         if audio_data.display_mode == 2 or audio_data.display_mode == 3:
@@ -65,9 +74,8 @@ class Neopixel(Interface):
                 self.strip.setPixelColor(individual_pixel, display_color)
 
         self.strip.show()
-        time.sleep(self.PAUSE_TIME)
 
-    def displayNormalLights(self):
+    def runDefaults(self):
         rgb_to_display = self.getRgbToDisplay()
 
         # Our display loops will expect an array of arrays, so make sure that's always the case
@@ -88,7 +96,6 @@ class Neopixel(Interface):
         for i in range(self.LED_COUNT):
             self.strip.setPixelColor(i, Color(0, 0, 0))
         self.strip.show()
-        time.sleep(self.PAUSE_TIME * 5)
 
     def blendColors(self, main_rgb, tip_rgb):
         blended_rgb = [0] * 3

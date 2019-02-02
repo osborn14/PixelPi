@@ -1,7 +1,7 @@
 import math
 
 
-class MatrixDisplayMode():
+class MatrixDisplayMode:
     def __init__(self, audio_data):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.upper_transition_range = 0
@@ -18,23 +18,23 @@ class MatrixDisplayMode():
         transition_range = self.fade_end - self.fade_start + 1
         temp_rgb = increment_rgb = [0, 0, 0]
 
-        ## If the pixel if above the threshold to start a transition
+        # If the pixel if above the threshold to start a transition
         if max_y + 1 > self.fade_start:
             for i in range(len(increment_rgb)):
                 increment_rgb[i] = (rgb[i] - self.lower_main_rgb[i]) / transition_range * 1.0
 
-        ## If the pixel is within the transistion range
+        # If the pixel is within the transistion range
         if current_y <= max_y - self.fade_start and current_y >= max_y - self.fade_end:
             incrementfactor = max_y - self.upper_transition_range - (self.upper_transition_range - current_y) + 2
 
             for i in range(len(increment_rgb)):
                 temp_rgb[i] = self.lower_main_rgb[i] + increment_rgb[i] * incrementfactor * 1.0
 
-        ## If the pixel is below the transition point
+        # If the pixel is below the transition point
         elif current_y < max_y - self.fade_end:
             temp_rgb = self.lower_main_rgb
 
-        ## If the pixel does not need any sort of transition, set it to the normal color
+        # If the pixel does not need any sort of transition, set it to the normal color
         else:
             temp_rgb = rgb
 
@@ -163,8 +163,8 @@ class Singles(MatrixDisplayMode):
         main_height_dict = {
             1: list(reversed(self.shortened_main_height_list)),
             2: list(reversed(self.main_height_list)),
-            3: self.main_height_list,
-            4: self.shortened_main_height_lost
+            3: self.tip_height,
+            4: self.shortened_tip_height
         }
 
         if chart_number <= 1:
