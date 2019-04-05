@@ -31,6 +31,8 @@ class SpectrumAnalyzer(Service):
 
         # TODO: Put calibration data here
         self.calibration_data = list()
+        self.calibration_offset_list = [-37, -27, -19, -25, -25, -27, -29, -33, -36, -39, -43, -45, -47, -46, -46]
+        self.adjusted_max_values_list = []
 
         self.rainbow = Rainbow()
 
@@ -59,8 +61,8 @@ class SpectrumAnalyzer(Service):
         self.RATE = 44100
         self.CHUNK = 1024 * 2
 
-        self.p = pyaudio.PyAudio()
-        self.stream = self.p.open(
+        pa = pyaudio.PyAudio()
+        self.stream = pa.open(
             format=self.FORMAT,
             channels=self.CHANNELS,
             rate=self.RATE,
@@ -103,7 +105,12 @@ class SpectrumAnalyzer(Service):
         fft_list = sound_db.tolist()
 
         spectrum_list = self.getAveragedSpectrumData(fft_list)
-        spectrum_avg = sum(spectrum_list)/len(spectrum_list)
+        calibrated_spectrum_list = self.getCalibratedList(spectrum_list)
+        adjusted_spectrum_list = self.getAdjuectedList(calibrated_spectrum_list)
+
+        print(adjusted_spectrum_list)
+
+        spectrum_avg = sum(adjusted_spectrum_list)/len(adjusted_spectrum_list)
 
         # print(spectrum_list)
 
@@ -127,7 +134,15 @@ class SpectrumAnalyzer(Service):
         new_audio_data.server_secondary_colors = self.secondary_rgb_current
         new_audio_data.music_is_playing = self.music_is_playing
 
-        return new_audio_data
+    def getCalibratedList(self, raw_sound_data_list):
+        calibrated_list = list(map(lambda zipped_pair: zipped_pair[0] - zipped_pair[1], zip(raw_sound_data_list, self.calibration_offset_list)))
+        return calibrated_list
+
+    def getAdjuectedList(self, sound_data_list):
+        # adjusted_data_list = list(map())
+
+        return sound_data_list
+
 
     def getBroadcastDict(self, audio_data):
         broadcast_dict = {

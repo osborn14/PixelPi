@@ -6,21 +6,38 @@ from Networking.Device import Device
 import Keys.Network as NETWORK
 import Keys.Settings as SETTINGS
 
-from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
+# from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 from twisted.internet import reactor
+from autobahn.asyncio.websocket import WebSocketServerProtocol, \
+WebSocketServerFactory
 
+import asyncio
 
 class AutobahnTwistedServer:
     def __init__(self):
-        server_factory = MyServerFactory
+        # server_factory = MyServerFactory
 
         # TODO: Create static URL
-        self.autobahn_factory = server_factory("ws://127.0.0.1:9000")
+        self.autobahn_factory = MyServerFactory("ws://127.0.0.1:9000")
         self.autobahn_factory.protocol = MyServerProtocol
 
     def run(self):
-        reactor.listenTCP(9000, self.autobahn_factory)
-        reactor.run()
+        # reactor.listenTCP(9000, self.autobahn_factory)
+        # reactor.run()
+
+        loop = asyncio.get_event_loop()
+        coro = loop.create_server(self.autobahn_factory, "127.0.0.1", 9000)
+
+        server = loop.run_until_complete(coro)
+
+        try:
+            loop.run_forever()
+        except KeyboardInterrupt:
+            pass
+        finally:
+            server.close()
+
+        loop.close()
 
     def broadcast(self, json_message):
         self.autobahn_factory.broadcast(json_message.encode('utf8'))
@@ -145,7 +162,7 @@ class MyServerFactory(WebSocketServerFactory):
 
     def unregister(self, client):
         for device in self.authenticated_devices:
-            if device.client == client:
+            if device.client.peer == client.peer:
                 self.authenticated_devices.remove(device)
 
         if client in self.clients:

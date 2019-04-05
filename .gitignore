@@ -13,3 +13,6 @@ venv/
 # Skip pyinstaller folders
 dist/
 build/
+
+# Don't need Intellij config files
+.idea/

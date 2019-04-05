@@ -58,7 +58,7 @@ def runInterfaces(data_queue, interface_list):
         while not data_queue.empty():
             data_dict_list.append(data_queue.get())
 
-        print(len(data_dict_list))
+        # print(len(data_dict_list))
 
         # For each data object in the data_queue, create a data object
         for dict_from_server in data_dict_list:
@@ -186,7 +186,7 @@ class MyClientProtocol(WebSocketClientProtocol):
 
     def onClose(self, was_clean, code, reason):
         print("WebSocket connection closed: {0}".format(reason))
-        server_msg_queue.put()
+        # server_msg_queue.put()
         sys.exit(0)
 
 
