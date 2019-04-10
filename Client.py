@@ -117,7 +117,7 @@ def getServices(settings, services_queue):
 
         if interface_settings[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL or interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY or interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
             from Services.HomeKitRGBLight import HomeKitDeviceRunner
-            service_list.append(HomeKitDeviceRunner(device_unique_name, services_queue))
+            service_list.append(HomeKitDeviceRunner(interface_settings, services_queue))
 
     if len(service_list) == 0:
         print("No interfaces detected in config!")

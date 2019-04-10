@@ -17,9 +17,10 @@ class HomeKitRGBLight(Accessory):
 
     category = CATEGORY_LIGHTBULB
 
-    def __init__(self, out_queue, *args, **kwargs):
+    def __init__(self, interface_settings, out_queue, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.interface_settings = interface_settings
         self.out_queue = out_queue
 
         # Set our neopixel API services up using Lightbulb base
@@ -125,8 +126,9 @@ class HomeKitRGBLight(Accessory):
 
 
 class HomeKitDeviceRunner(Process):
-    def __init__(self, out_queue):
+    def __init__(self, interface_settings, out_queue):
         super(HomeKitDeviceRunner, self).__init__()
+        self.interface_settings = interface_settings
         self.out_queue = out_queue
 
         self.driver = AccessoryDriver(port=51826)
@@ -140,7 +142,7 @@ class HomeKitDeviceRunner(Process):
         """Call this method to get a Bridge instead of a standalone accessory."""
         bridge = Bridge(driver, 'Bridge')
 
-        neopixel_one = HomeKitRGBLight(driver, 'Pixel 1', out_queue=out_queue)
+        neopixel_one = HomeKitRGBLight(driver, 'Pixel 1', interface_settings=self.interface_settings, out_queue=out_queue)
         bridge.add_accessory(neopixel_one)
 
         return bridge
