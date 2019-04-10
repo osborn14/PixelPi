@@ -142,7 +142,7 @@ class HomeKitDeviceRunner(Process):
         """Call this method to get a Bridge instead of a standalone accessory."""
         bridge = Bridge(driver, 'Bridge')
 
-        neopixel_one = HomeKitRGBLight(driver, 'Pixel 1', interface_settings=self.interface_settings, out_queue=out_queue)
+        neopixel_one = HomeKitRGBLight(self.interface_settings, self.out_queue, driver, 'Pixel 1')
         bridge.add_accessory(neopixel_one)
 
         return bridge
