@@ -1,12 +1,52 @@
 import sys, time
 
+from multiprocessing import Process, Queue
+
 import Keys.Network as NETWORK
 import Keys.Settings as SETTINGS
 
 
-class Interface:
-    def __init__(self, settings):
+class InterfaceRunner:
+    def __init__(self):
+        self.interface_queue = Queue()
+        self.interface = None
+        self.compatible_services = None
+
+    def setInterface(self, interface_settings):
+        self.interface_settings = interface_settings
+        self.unique_identifier = interface_settings[SETTINGS.UNIQUE_IDENTIFIER]
+
+        if interface_settings[SETTINGS.INTERFACE] == SETTINGS.MATRIX:
+            from Interfaces.Matrix import Matrix
+            interface_class = Matrix
+
+        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL:
+            from Interfaces.Neopixel import Neopixel
+            interface_class = Neopixel
+
+        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
+            from Interfaces.FiftyFifty import FiftyFifty
+            interface_class = FiftyFifty
+
+        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
+            from Interfaces.Logger import Logger
+            interface_class = Logger
+
+        else:
+            print("Invalid interface provided!")
+
+        self.interface = interface_class(interface_settings, self.interface_queue)
+        # self.compatible_services = interface_class.compatible_services
+
+    def run(self):
+        self.interface.start()
+
+
+class Interface(Process):
+    def __init__(self, settings, out_queue):
+        super(Interface, self).__init__()
         self.settings = settings
+        self.out_queue = out_queue
         self.unique_identifier = settings[SETTINGS.UNIQUE_IDENTIFIER]
         self.code = "NA"
         self.description = settings[SETTINGS.DESCRIPTION]
@@ -25,41 +65,46 @@ class Interface:
             "Interface object variable: 'compatible_services' not set! Please set to a valid dictionary!"
             sys.exit()
 
-    def update(self, new_data_list):
-        # current_data_object = None
-        # print(len(new_data_list))
-        for new_data_object in new_data_list:
-            if new_data_object.must_be_singular:
-                # print("Data object singular!")
-                latest_similar_data_object = new_data_object
-                for data_object in self.data_object_list:
-                    if new_data_object.service == data_object.service:
-                        if data_object.creation_time >= new_data_object.creation_time:
-                            latest_similar_data_object = data_object
-                    self.data_object_list.remove(data_object)
+    def run(self):
+        while True:
+            new_data_list = list()
+            while not self.out_queue.empty():
+                new_data_list.append(self.out_queue.get())
 
-                self.data_object_list.append(latest_similar_data_object)
+            for new_data_object in new_data_list:
+                if new_data_object.must_be_singular:
+                    latest_similar_data_object = new_data_object
+                    for data_object in self.data_object_list:
+                        if new_data_object.service == data_object.service:
+                            if data_object.creation_time >= new_data_object.creation_time:
+                                latest_similar_data_object = data_object
+                        self.data_object_list.remove(data_object)
 
-            else:
-                self.unprocessed_data_list.append(new_data_object)
+                    self.data_object_list.append(latest_similar_data_object)
 
-        # Process locked data_objects first
-        for data_object in self.data_object_list:
-            if data_object.locked:
-                current_time = time.time()
+                else:
+                    self.unprocessed_data_list.append(new_data_object)
 
-                if current_time - data_object.last_played_time >= 30:
-                    self.data_object_list.remove(data_object)
-                elif current_time - data_object.last_played_time >= 0.5:
-                    data_object.setToDefaults()
-                    data_object.active = True
+            # Process locked data_objects first
+            for data_object in self.data_object_list:
+                if data_object.locked:
+                    current_time = time.time()
 
-                self.compatible_services[data_object.service](data_object)
-                data_object.active = False
-                return
+                    if current_time - data_object.last_played_time >= 30:
+                        self.data_object_list.remove(data_object)
+                    elif current_time - data_object.last_played_time >= 0.5:
+                        data_object.setToDefaults()
+                        data_object.active = True
 
-        for data_object in self.data_object_list:
-            pass
+                    self.compatible_services[data_object.service](data_object)
+                    data_object.active = False
+                    return
+
+            for data_object in self.data_object_list:
+                print()
+                pass
+
+            time.sleep(0.05)
 
         # TODO: Calculate avg server audio message to use for set spectrum avg to zero
         # if self.last_priority_data and self.last_priority_data.active:

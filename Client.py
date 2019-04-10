@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import Keys.Network as NETWORK
 
-from multiprocessing import Queue
+from multiprocessing import Process, Queue
 
 import Keys.Settings as SETTINGS
 
@@ -88,22 +88,14 @@ def getInterfaces(settings):
     # default_settings = Defaults()
     # interface_settings = default_settings.getSettingsWithDefaults(settings)
 
+    from Interfaces.Interface import InterfaceRunner
+
     for interface_settings in settings[SETTINGS.INTERFACE_LIST]:
-        if interface_settings[SETTINGS.INTERFACE] == SETTINGS.MATRIX:
-            from Interfaces.Matrix import Matrix
-            interface_list.append(Matrix(interface_settings))
+        interface_runner = InterfaceRunner()
+        interface_runner.setInterface(interface_settings)
 
-        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL:
-            from Interfaces.Neopixel import Neopixel
-            interface_list.append(Neopixel(interface_settings))
-
-        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
-            from Interfaces.FiftyFifty import FiftyFifty
-            interface_list.append(FiftyFifty(interface_settings))
-
-        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
-            from Interfaces.Logger import Logger
-            interface_list.append(Logger(interface_settings))
+        if interface_runner.interface is not None:
+            interface_list.append(interface_runner)
 
     if len(interface_list) == 0:
         print("No interfaces detected in config!")
@@ -114,110 +106,66 @@ def getInterfaces(settings):
     return interface_list
 
 
-class AutobahnTwistedClient:
-    def __init__(self, settings):
-        self.settings = settings
-        self.server_ip = self.settings[SETTINGS.SERVER_IP_ADDRESS]
-        # log.startLogging(sys.stdout)
+def getServices(settings, services_queue):
+    # TODO: Do check for required settings!
+    service_list = list()
+    # default_settings = Defaults()
+    # interface_settings = default_settings.getSettingsWithDefaults(settings)
 
-        # TODO: Connect to PixelPi URL
-        self.autobahn_factory = MyClientFactory(u"ws://" + self.server_ip + ":9000", self.settings)
-        self.autobahn_factory.protocol = MyClientProtocol
+    for interface_settings in settings[SETTINGS.INTERFACE_LIST]:
+        device_unique_name = interface_settings[SETTINGS.UNIQUE_IDENTIFIER]
 
+        if interface_settings[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL or interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY or interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
+            from Services.HomeKitRGBLight import HomeKitDeviceRunner
+            service_list.append(HomeKitDeviceRunner(device_unique_name, services_queue))
 
+    if len(service_list) == 0:
+        print("No interfaces detected in config!")
+        sys.exit()
 
-    def run(self):
-        reactor.connectTCP(self.server_ip, 9000, self.autobahn_factory)
-        reactor.run()
+    map(lambda interface: interface.ensureImportantPropertiesAreSet(), interface_list)
 
-        # loop = asyncio.get_event_loop()
-        # coro = loop.create_connection(self.autobahn_factory, self.server_ip, 9000)
-        # loop.run_until_complete(coro)
-        # loop.run_forever()
-        #
-        # loop.close()
-
-
-class MyClientProtocol(WebSocketClientProtocol):
-    def onConnect(self, response):
-        print("Server connected: {0}".format(response.peer))
-
-    def onOpen(self):
-        print("WebSocket connection open.")
-
-        # Send server some basic details about the device upon connecting
-        register_msg = self.factory.settings
-        register_msg[NETWORK.COMMAND] = NETWORK.REGISTER_DEVICE
-
-        self.sendMessage(json.dumps(register_msg, ensure_ascii=False).encode('utf8'))
-
-    def onMessage(self, payload, is_binary):
-        # print("Message received!")
-        if not is_binary:
-            msg = json.loads(payload.decode('utf-8'))
-            print("Message received!")
-            # print(msg)
-
-            # if msg[NETWORK.COMMAND] == NETWORK.DISPLAY:
-            #     print("Display command!")
-            #     if msg[NETWORK.MODE] == NETWORK.AUDIO:
-            #         if self.factory.locked_cmd_queue.full():
-            #             old_value_in_queue = self.factory.locked_cmd_queue.get()
-            #
-            #         self.factory.locked_cmd_queue.put(msg)
-            #
-            #     elif msg[NETWORK.MODE] == NETWORK.HOME:
-            #         # print("Put in display queue")
-            #         self.factory.unlocked_cmd_queue.put(msg)
-            #
-            # elif msg[NETWORK.COMMAND] == NETWORK.REMOVE:
-            #     self.factory.unlocked_cmd_queue.put(msg)
-
-            # print("Message going to be added!")
-
-            server_msg_queue.put(msg)
-
-            # print("Item added to queue!")
-
-            # else:
-            #     pass
-            #     # TODO: Create command not found message
-            # self.sendMessage(json.dumps(command_not_found_msg, ensure_ascii=False).encode('utf8'))
-
-    def onClose(self, was_clean, code, reason):
-        print("WebSocket connection closed: {0}".format(reason))
-        # server_msg_queue.put()
-        sys.exit(0)
-
-
-class MyClientFactory(WebSocketClientFactory):
-    def __init__(self, url, settings):
-        WebSocketClientFactory.__init__(self, url)
-        # ReconnectingClientFactory.__init__(self)
-
-        self.settings = settings
-
-        self.is_active = True
-
-    def clientConnectionFailed(self, connector, reason):
-        print('Connection failed. Reason:', reason)
-        ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
-
-    def clientConnectionLost(self, connector, reason):
-        print('Lost connection. Reason:', reason)
-        ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
+    return service_list
 
 
 if __name__ == "__main__":
     # signal.signal(signal.SIGINT, signal_handler)
 
-    interface_list = getInterfaces(Config.client)
-    network_client = AutobahnTwistedClient(Config.client)
+    service_queue = Queue()
+
+    interface_runner_process_list = getInterfaces(Config.client)
+    service_process_list = getServices(Config.client, service_queue)
+
+    # network_client = AutobahnTwistedClient(Config.client)
+
+    single_interface_process = interface_runner_process_list[0]
+    single_interface_process.run()
+
+    # for interface_runner in interface_runner_process_list:
+    #     interface_runner.interface.run()
+
+    for service in service_process_list:
+        service.run()
+
+    # while True:
+    #     if not service_queue.empty():
+    #         service_data = service_queue.get()
+    #
+    #         for interface_runner in interface_runner_process_list:
+    #             if interface_runner.compatible_services
+    #
+    # for interface in interface_process_list:
+    #     interface.join()
+    #
+    # for service in service_process_list:
+    #     service.join()
+
+
 
     fps = 20
 
-    interface_handler_process = Process(target=runInterfaces, args=(server_msg_queue, interface_list))
-    interface_handler_process.start()
+    #interface_handler_process = Process(target=runInterfaces, args=(server_msg_queue, interface_list))
+    #interface_handler_process.start()
 
-    network_client.run()
-    interface_handler_process.join()
+    # network_client.run()
+    # interface_handler_process.join()

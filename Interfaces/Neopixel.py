@@ -6,8 +6,8 @@ from neopixel import *
 
 
 class Neopixel(Interface):
-    def __init__(self, settings):
-        super().__init__(settings)
+    def __init__(self, settings, queue):
+        super().__init__(settings, queue)
 
         self.compatible_services = {
             SETTINGS.SPECTRUM_ANALYZER: self.displayAudioLights

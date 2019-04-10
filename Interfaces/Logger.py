@@ -4,8 +4,8 @@ from Interfaces.Interface import Interface
 
 
 class Logger(Interface):
-    def __init__(self, settings):
-        super().__init__(settings)
+    def __init__(self, settings, queue):
+        super().__init__(settings, queue)
         self.code = "LG"
 
         self.compatible_services = {
