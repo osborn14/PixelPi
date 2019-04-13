@@ -123,7 +123,7 @@ def getServices(settings, services_queue):
         print("No interfaces detected in config!")
         sys.exit()
 
-    map(lambda interface: interface.ensureImportantPropertiesAreSet(), interface_list)
+    # map(lambda service: service.ensureImportantPropertiesAreSet(), service_list)
 
     return service_list
 

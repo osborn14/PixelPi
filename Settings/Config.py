@@ -16,7 +16,7 @@ server = {
 }
 
 client = {
-    SETTINGS.SERVER_IP_ADDRESS: '127.0.0.1',
+    SETTINGS.SERVER_IP_ADDRESS: '192.168.0.4',
     SETTINGS.DESCRIPTION: "Raspberry Pi 3b+",
     SETTINGS.INTERFACE_LIST: [
         {

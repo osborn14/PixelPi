@@ -137,7 +137,7 @@ class HomeKitDeviceRunner(Process):
 
         self.driver = AccessoryDriver(port=51826)
         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
-        self.signal.signal(signal.SIGTERM, self.driver.signal_handler)
+        signal.signal(signal.SIGTERM, self.driver.signal_handler)
 
     def run(self):
         self.driver.start()
