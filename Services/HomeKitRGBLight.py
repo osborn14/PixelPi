@@ -17,11 +17,11 @@ class HomeKitRGBLight(Accessory):
 
     category = CATEGORY_LIGHTBULB
 
-    def __init__(self, interface_settings, out_queue, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.interface_settings = interface_settings
-        self.out_queue = out_queue
+        self.interface_settings = None
+        self.out_queue = None
 
         # Set our neopixel API services up using Lightbulb base
         serv_light = self.add_preload_service(
@@ -50,6 +50,10 @@ class HomeKitRGBLight(Accessory):
         self.is_GRB = True  # Most neopixels are Green Red Blue
         self.LED_count = 50
         # --------------------- END TESTING ------------------------
+
+    def setQueueAndSettings(self, out_queue, interface_settings):
+        self.interface_settings = interface_settings
+        self.out_queue = out_queue
 
     def set_state(self, value):
         self.accessory_state = value
@@ -142,7 +146,8 @@ class HomeKitDeviceRunner(Process):
         """Call this method to get a Bridge instead of a standalone accessory."""
         bridge = Bridge(driver, 'Bridge')
 
-        neopixel_one = HomeKitRGBLight(self.interface_settings, self.out_queue, driver, 'Pixel 1')
+        neopixel_one = HomeKitRGBLight(driver, 'Pixel 1')
+        neopixel_one.setQueueAndSettings(self.out_queue, self.interface_settings)
         bridge.add_accessory(neopixel_one)
 
         return bridge

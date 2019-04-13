@@ -1,5 +1,5 @@
 # Don't overwrite personalized config file
-# Settings/Config.py
+Settings/Config.py
 
 # Don't worry about pycache files
 __pycache__/
