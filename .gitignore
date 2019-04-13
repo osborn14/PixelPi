@@ -1,5 +1,7 @@
-# Don't overwrite personalized config file
+# Don't overwrite custom config file
 Settings/Config.py
+accessory.state
+log.txt
 
 # Don't worry about pycache files
 __pycache__/
