@@ -1,5 +1,7 @@
+import os
 import logging
 import signal
+import asyncio
 
 import Keys.Settings as SETTINGS
 
@@ -92,7 +94,7 @@ class HomeKitRGBLight(Accessory):
 
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
         home_kit_data.setDataFromDict(color_dict)
-
+        print(os.getpid())
         print("adding value to queue - service")
         self.out_queue.put(home_kit_data)
 
@@ -136,7 +138,7 @@ class HomeKitDeviceRunner(Process):
         self.interface_settings = interface_settings
         self.out_queue = out_queue
 
-        self.driver = AccessoryDriver(port=51826)
+        self.driver = AccessoryDriver(port=51826, loop=asyncio.get_event_loop())
         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
         signal.signal(signal.SIGTERM, self.driver.signal_handler)
 
