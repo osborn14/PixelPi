@@ -105,7 +105,7 @@ class Interface(Process):
 
                     self.data_to_function_mapping[data_object.name](data_object)
                     data_object.active = False
-                    pass
+                    continue
 
             # Then process the non-locked data
             for data_object in self.data_object_list:
