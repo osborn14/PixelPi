@@ -3,7 +3,7 @@ import logging
 import signal
 import asyncio
 
-import Keys.Settings as SETTINGS
+# import Keys.Settings as SETTINGS
 
 from multiprocessing import Process
 from pyhap.accessory import Accessory, Bridge
@@ -86,17 +86,17 @@ class HomeKitRGBLight(Accessory):
         self.set_hue(self.hue)
 
     def update_neopixel_with_color(self, red, green, blue):
-        color_dict = {
-            SETTINGS.RED: red,
-            SETTINGS.GREEN: green,
-            SETTINGS.BLUE: blue
-        }
+        # color_dict = {
+        #     SETTINGS.RED: red,
+        #     SETTINGS.GREEN: green,
+        #     SETTINGS.BLUE: blue
+        # }
 
-        home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
-        home_kit_data.setDataFromDict(color_dict)
-        print(os.getpid())
+        # home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
+        # home_kit_data.setDataFromDict(color_dict)
+
         print("adding value to queue - service")
-        self.out_queue.put(home_kit_data)
+        # self.out_queue.put(home_kit_data)
 
     def hsv_to_rgb(self, h, s, v):
 
@@ -132,31 +132,66 @@ class HomeKitRGBLight(Accessory):
         return int((RGB_Pri[0] + m) * 255), int((RGB_Pri[1] + m) * 255), int((RGB_Pri[2] + m) * 255)
 
 
-class HomeKitDeviceRunner(Process):
-    def __init__(self, interface_settings, out_queue):
-        super(HomeKitDeviceRunner, self).__init__()
-        self.interface_settings = interface_settings
-        self.out_queue = out_queue
+# class HomeKitDeviceRunner(Process):
+#     def __init__(self, interface_settings, out_queue):
+#         super(HomeKitDeviceRunner, self).__init__()
+#         self.interface_settings = interface_settings
+#         self.out_queue = out_queue
+#
+#         self.driver = AccessoryDriver(port=51826)
+#         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
+#         signal.signal(signal.SIGTERM, self.driver.signal_handler)
+#
+#     def run(self):
+#         self.driver.start()
+#
+#     def get_bridge(self, driver):
+#         """Call this method to get a Bridge instead of a standalone accessory."""
+#         bridge = Bridge(driver, 'Bridge')
+#
+#         rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+#         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
+#         bridge.add_accessory(rgb_light)
+#
+#         return bridge
+#
+#     def get_accessory(self, driver):
+#         """Call this method to get a standalone Accessory."""
+#         rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+#         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
+#         return rgb_light
 
-        self.driver = AccessoryDriver(port=51826, loop=asyncio.get_event_loop())
-        self.driver.add_accessory(accessory=self.get_accessory(self.driver))
-        signal.signal(signal.SIGTERM, self.driver.signal_handler)
 
-    def run(self):
-        self.driver.start()
+def get_bridge(driver):
+    """Call this method to get a Bridge instead of a standalone accessory."""
+    bridge = Bridge(driver, 'Bridge')
+    # temp_sensor = TemperatureSensor(driver, 'Sensor 2')
+    # temp_sensor2 = TemperatureSensor(driver, 'Sensor 1')
+    # bridge.add_accessory(temp_sensor)
+    # bridge.add_accessory(temp_sensor2)
 
-    def get_bridge(self, driver):
-        """Call this method to get a Bridge instead of a standalone accessory."""
-        bridge = Bridge(driver, 'Bridge')
+    neopixel_one = HomeKitRGBLight(driver, 'Pixel 1')
+    bridge.add_accessory(neopixel_one)
 
-        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
-        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
-        bridge.add_accessory(rgb_light)
+    return bridge
 
-        return bridge
 
-    def get_accessory(self, driver):
-        """Call this method to get a standalone Accessory."""
-        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
-        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
-        return rgb_light
+def get_accessory(driver):
+    """Call this method to get a standalone Accessory."""
+    return HomeKitRGBLight(driver, 'NeopixelTest')
+
+
+if __name__ == "__main__":
+    # Start the accessory on port 51826
+    driver = AccessoryDriver(port=51826)
+
+    # Change `get_accessory` to `get_bridge` if you want to run a Bridge.
+    driver.add_accessory(accessory=get_accessory(driver))
+
+    # We want SIGTERM (terminate) to be handled by the driver itself,
+    # so that it can gracefully stop the accessory, server and advertising.
+    signal.signal(signal.SIGTERM, driver.signal_handler)
+
+    # Start it!
+    driver.start()
+

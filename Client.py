@@ -10,9 +10,9 @@ from multiprocessing import Process, Queue
 import Keys.Settings as SETTINGS
 
 # from autobahn.asyncio.websocket import WebSocketClientProtocol, WebSocketClientFactory
-from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory
+# from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory
 # from twisted.internet.protocol import ReconnectingClientFactory
-from twisted.internet import reactor
+# from twisted.internet import reactor
 
 from multiprocessing import Process
 
