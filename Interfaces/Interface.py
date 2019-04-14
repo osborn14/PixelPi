@@ -60,7 +60,7 @@ class Interface(Process):
 
         self.data_to_function_mapping = {
             SETTINGS.HOMEKIT_DATA: self.displayLightsFromData,
-            SETTINGS.AUDIO_DATAL: self.displayAudioLights
+            SETTINGS.AUDIO_DATA: self.displayAudioLights
         }
 
     def ensureImportantPropertiesAreSet(self):

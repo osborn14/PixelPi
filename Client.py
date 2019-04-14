@@ -86,8 +86,8 @@ server_msg_queue = Queue()
 def getInterfaces(settings):
     # TODO: Do check for required settings!
     interface_list = list()
-    default_settings = Defaults()
-    interface_settings = default_settings.getSettingsWithDefaults(settings)
+    # default_settings = Defaults()
+    # interface_settings = default_settings.getSettingsWithDefaults(settings)
 
     from Interfaces.Interface import InterfaceRunner
 
