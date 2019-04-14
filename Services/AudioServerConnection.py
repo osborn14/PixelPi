@@ -73,6 +73,8 @@ class AudioServerConnection:
                     self.start_time = time.time()
                     self.queue.put(audio_data)
 
+            time.sleep(0.05)
+
     def connectToServer(self, ip, port):
         try:
             sock = socket.socket()
@@ -108,6 +110,7 @@ class AudioServerConnection:
             return None
 
         return data_list
+
 
 class AudioServerConnectionRunner:
     def __init__(self, service_settings, queue):
