@@ -133,9 +133,9 @@ class HomeKitRGBLight(Accessory):
         return int((RGB_Pri[0] + m) * 255), int((RGB_Pri[1] + m) * 255), int((RGB_Pri[2] + m) * 255)
 
 
-class HomeKitDeviceRunner(Process):
+class HomeKitDeviceRunner():
     def __init__(self, interface_settings, out_queue, event_loop):
-        super(HomeKitDeviceRunner, self).__init__()
+        # super(HomeKitDeviceRunner, self).__init__()
         self.interface_settings = interface_settings
         self.out_queue = out_queue
         self.event_loop = event_loop
@@ -145,7 +145,10 @@ class HomeKitDeviceRunner(Process):
         signal.signal(signal.SIGTERM, self.driver.signal_handler)
 
     def run(self):
-        self.driver.start()
+        driver_thread = threading.Thread(target=self.driver.start())
+        driver_thread.start()
+
+        # self.driver.start()
 
     def get_bridge(self, driver):
         """Call this method to get a Bridge instead of a standalone accessory."""
