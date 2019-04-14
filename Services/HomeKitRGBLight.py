@@ -183,7 +183,7 @@ def get_accessory(driver):
 
 
 if __name__ == "__main__":
-    runner = HomeKitDeviceRunner({}, Queue())
+    runner = HomeKitDeviceRunner({}, Queue(), asyncio.get_event_loop())
     runner.start()
 
     # Start the accessory on port 51826
