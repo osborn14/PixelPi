@@ -56,7 +56,12 @@ class Interface(Process):
         self.last_locked_data = None
 
         # Must be defined in child classes!
-        self.compatible_services = None
+        # self.compatible_services = None
+
+        self.data_to_function_mapping = {
+            SETTINGS.HOMEKIT_DATA: self.displayLightsFromData,
+            SETTINGS.AUDIO_DATAL: self.displayAudioLights
+        }
 
     def ensureImportantPropertiesAreSet(self):
         try:
@@ -71,6 +76,7 @@ class Interface(Process):
             while not self.out_queue.empty():
                 new_data_list.append(self.out_queue.get())
 
+            # Clear any duplicate data for data objects if they must be singular
             for new_data_object in new_data_list:
                 if new_data_object.must_be_singular:
                     latest_similar_data_object = new_data_object
@@ -83,7 +89,7 @@ class Interface(Process):
                     self.data_object_list.append(latest_similar_data_object)
 
                 else:
-                    self.unprocessed_data_list.append(new_data_object)
+                    self.data_object_list.append(new_data_object)
 
             # Process locked data_objects first
             for data_object in self.data_object_list:
@@ -96,13 +102,14 @@ class Interface(Process):
                         data_object.setToDefaults()
                         data_object.active = True
 
-                    self.compatible_services[data_object.service](data_object)
+                    self.data_to_function_mapping[data_object.name](data_object)
                     data_object.active = False
                     return
 
+            # Then process the non-locked data
             for data_object in self.data_object_list:
-                print()
-                pass
+                if not data_object.locked:
+                    self.data_to_function_mapping[data_object.name](data_object)
 
             time.sleep(0.05)
 
@@ -119,6 +126,12 @@ class Interface(Process):
         #         self.processDataList()
         #
         #     self.runDefaults()
+
+    def displayLightsFromData(self, data):
+        raise NotImplementedError
+
+    def displayAudioLights(self, audio_data):
+        raise NotImplementedError
 
     def processDataList(self):
         for unprocessed_data_object in self.unprocessed_data_list:

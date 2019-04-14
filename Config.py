@@ -1,4 +1,4 @@
-import Keys.Settings as SETTINGS
+	import Keys.Settings as SETTINGS
 
 client = {
 	SETTINGS.SERVER_IP_ADDRESS: "127.0.0.1",

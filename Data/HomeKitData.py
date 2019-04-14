@@ -7,8 +7,9 @@ class HomeKitData(Data):
     def __init__(self, service=None):
         super().__init__(service)
 
+        self.name = SETTINGS.HOMEKIT_DATA
         self.locked = False
-        self.must_be_singular = False
+        self.must_be_singular = True
         self.server_store_last_value = None
 
         self.red = 0

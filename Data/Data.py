@@ -9,6 +9,7 @@ class Data:
 
     def ensureImportantPropertiesAreSet(self):
         try:
+            self.name
             self.locked
             self.must_be_singular
             self.server_store_last_value

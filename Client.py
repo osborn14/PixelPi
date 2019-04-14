@@ -32,62 +32,62 @@ except ImportError:
 server_msg_queue = Queue()
 
 
-def runInterfaces(data_queue, interface_list):
-    # process_network_msg_dict = {
-    #     NETWORK.DISPLAY: self.processDisplay,
-    #     NETWORK.REMOVE: self.processRemove
-    # }
-
-    fps = 20
-
-    data_objects_dict = {
-        SETTINGS.SPECTRUM_ANALYZER: AudioData,
-        # SETTINGS.WEATHER: WeatherData
-    }
-
-    for data_object in data_objects_dict.values():
-        data_object().ensureImportantPropertiesAreSet()
-
-    while True:
-
-        frame_start_time = time.time()
-
-        data_dict_list = list()
-        data_list = list()
-
-        # Quickly get all data dictionaries
-        while not data_queue.empty():
-            data_dict_list.append(data_queue.get())
-
-        # print(len(data_dict_list))
-
-        # For each data object in the data_queue, create a data object
-        for dict_from_server in data_dict_list:
-            # print(type(dict_from_server))
-            if SETTINGS.SERVICE in dict_from_server.keys():
-                dict_from_server_service_type = dict_from_server[SETTINGS.SERVICE]
-                if dict_from_server_service_type in data_objects_dict.keys():
-                    data_from_server = data_objects_dict[dict_from_server_service_type](dict_from_server_service_type)
-                    data_from_server.setDataFromDict(dict_from_server[SETTINGS.DATA])
-                    data_list.append(data_from_server)
-
-        # Find what only the data that each interface needs, then send it to that interface
-        for interface in interface_list:
-            data_list_for_interface = list(
-                filter(lambda data_object: data_object.service in interface.compatible_services.keys(), data_list))
-            # print("Update interface list!")
-            interface.update(data_list_for_interface)
-
-        # Sleep until we have an appropriate frame time
-        while time.time() - frame_start_time <= 1 / fps:
-            time.sleep(0.001)
+# def runInterfaces(data_queue, interface_list):
+#     # process_network_msg_dict = {
+#     #     NETWORK.DISPLAY: self.processDisplay,
+#     #     NETWORK.REMOVE: self.processRemove
+#     # }
+#
+#     fps = 20
+#
+#     data_objects_dict = {
+#         SETTINGS.SPECTRUM_ANALYZER: AudioData,
+#         # SETTINGS.WEATHER: WeatherData
+#     }
+#
+#     for data_object in data_objects_dict.values():
+#         data_object().ensureImportantPropertiesAreSet()
+#
+#     while True:
+#
+#         frame_start_time = time.time()
+#
+#         data_dict_list = list()
+#         data_list = list()
+#
+#         # Quickly get all data dictionaries
+#         while not data_queue.empty():
+#             data_dict_list.append(data_queue.get())
+#
+#         # print(len(data_dict_list))
+#
+#         # For each data object in the data_queue, create a data object
+#         for dict_from_server in data_dict_list:
+#             # print(type(dict_from_server))
+#             if SETTINGS.SERVICE in dict_from_server.keys():
+#                 dict_from_server_service_type = dict_from_server[SETTINGS.SERVICE]
+#                 if dict_from_server_service_type in data_objects_dict.keys():
+#                     data_from_server = data_objects_dict[dict_from_server_service_type](dict_from_server_service_type)
+#                     data_from_server.setDataFromDict(dict_from_server[SETTINGS.DATA])
+#                     data_list.append(data_from_server)
+#
+#         # Find what only the data that each interface needs, then send it to that interface
+#         for interface in interface_list:
+#             data_list_for_interface = list(
+#                 filter(lambda data_object: data_object.service in interface.compatible_services.keys(), data_list))
+#             # print("Update interface list!")
+#             interface.update(data_list_for_interface)
+#
+#         # Sleep until we have an appropriate frame time
+#         while time.time() - frame_start_time <= 1 / fps:
+#             time.sleep(0.001)
 
 
 def getInterfaces(settings):
     # TODO: Do check for required settings!
     interface_list = list()
-    # default_settings = Defaults()
-    # interface_settings = default_settings.getSettingsWithDefaults(settings)
+    default_settings = Defaults()
+    interface_settings = default_settings.getSettingsWithDefaults(settings)
 
     from Interfaces.Interface import InterfaceRunner
 

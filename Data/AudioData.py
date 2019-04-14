@@ -7,6 +7,7 @@ class AudioData(Data):
     def __init__(self, service=None):
         super().__init__(service)
 
+        self.name = SETTINGS.AUDIO_DATA
         self.locked = True
         self.must_be_singular = True
         self.server_store_last_value = False
