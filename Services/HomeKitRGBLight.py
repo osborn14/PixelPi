@@ -93,6 +93,7 @@ class HomeKitRGBLight(Accessory):
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
         home_kit_data.setDataFromDict(color_dict)
 
+        print("adding value to queue - service")
         self.out_queue.put(home_kit_data)
 
     def hsv_to_rgb(self, h, s, v):

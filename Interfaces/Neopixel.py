@@ -43,7 +43,7 @@ class Neopixel(Interface):
         # self.frame_start_time = time.time()
 
     def displayLightsFromData(self, data):
-        self.pixels.fill((data[SETTINGS.RED], data[SETTINGS.GREEN], data[SETTINGS.BLUE]))
+        self.pixels.fill((data.red, data.green, data.blue))
         self.pixels.show()
 
     def processDataList(self):

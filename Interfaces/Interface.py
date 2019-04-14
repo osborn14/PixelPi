@@ -75,6 +75,7 @@ class Interface(Process):
             new_data_list = list()
             while not self.out_queue.empty():
                 new_data_list.append(self.out_queue.get())
+                print("new data detected - interface thread")
 
             # Clear any duplicate data for data objects if they must be singular
             for new_data_object in new_data_list:
