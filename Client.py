@@ -121,6 +121,16 @@ def getServices(settings, services_queue):
             from Services.HomeKitRGBLight import HomeKitDeviceRunner
             service_list.append(HomeKitDeviceRunner(interface_settings, services_queue, asyncio.get_event_loop()))
 
+            audio_server_connection_settings = {
+                SETTINGS.AUDIO_SERVER_IP_ADDRESS: "192.168.0.13",
+                SETTINGS.AUDIO_SERVER_PORT_ONE: 8080,
+                SETTINGS.AUDIO_SERVER_PORT_TWO: 8081,
+                SETTINGS.NO_DISPLAY_TOLERANCE: 1.8
+            }
+
+            from Services.AudioServerConnection import AudioServerConnectionRunner
+            service_list.append(AudioServerConnectionRunner(audio_server_connection_settings, services_queue))
+
     if len(service_list) == 0:
         print("No interfaces detected in config!")
         sys.exit()
@@ -150,7 +160,7 @@ if __name__ == "__main__":
     for service in service_process_list:
         service.run()
 
-    print("plcae 1")
+    print("place 1")
 
     while True:
         if not service_queue.empty():
