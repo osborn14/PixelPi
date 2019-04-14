@@ -139,8 +139,8 @@ if __name__ == "__main__":
 
     # network_client = AutobahnTwistedClient(Config.client)
 
-    single_interface_process = interface_runner_process_list[0]
-    single_interface_process.run()
+    single_interface_process_runner = interface_runner_process_list[0]
+    single_interface_process_runner.run()
 
     # for interface_runner in interface_runner_process_list:
     #     interface_runner.interface.run()
@@ -148,18 +148,19 @@ if __name__ == "__main__":
     for service in service_process_list:
         service.run()
 
-    # while True:
-    #     if not service_queue.empty():
-    #         service_data = service_queue.get()
-    #
-    #         for interface_runner in interface_runner_process_list:
-    #             if interface_runner.compatible_services
-    #
-    # for interface in interface_process_list:
-    #     interface.join()
-    #
-    # for service in service_process_list:
-    #     service.join()
+    while True:
+        if not service_queue.empty():
+            service_data = service_queue.get()
+            single_interface_process_runner.interface_queue.put(service_data)
+
+            # for interface_runner in interface_runner_process_list:
+            #     if interface_runner.compatible_services
+
+    for interface in interface_process_list:
+        interface.join()
+
+    for service in service_process_list:
+        service.join()
 
 
 
