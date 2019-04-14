@@ -137,7 +137,7 @@ class HomeKitDeviceRunner(Process):
         super(HomeKitDeviceRunner, self).__init__()
         self.interface_settings = interface_settings
         self.out_queue = out_queue
-        self.event_loop
+        self.event_loop = event_loop
 
         self.driver = AccessoryDriver(port=51826, loop=event_loop)
         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
@@ -159,7 +159,7 @@ class HomeKitDeviceRunner(Process):
     def get_accessory(self, driver):
         """Call this method to get a standalone Accessory."""
         rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
-        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings, self.event_loop)
+        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
         return rgb_light
 
 
@@ -183,6 +183,8 @@ def get_accessory(driver):
 
 
 if __name__ == "__main__":
+    policy = asyncio.get_event_loop_policy()
+    policy.set_event_loop(policy.new_event_loop())
     runner = HomeKitDeviceRunner({}, Queue(), asyncio.get_event_loop())
     runner.start()
 
