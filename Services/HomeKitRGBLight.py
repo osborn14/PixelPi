@@ -133,7 +133,7 @@ class HomeKitRGBLight(Accessory):
         return int((RGB_Pri[0] + m) * 255), int((RGB_Pri[1] + m) * 255), int((RGB_Pri[2] + m) * 255)
 
 
-class HomeKitDeviceRunner():
+class HomeKitDeviceRunner:
     def __init__(self, interface_settings, out_queue, event_loop):
         # super(HomeKitDeviceRunner, self).__init__()
         self.interface_settings = interface_settings

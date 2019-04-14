@@ -146,9 +146,8 @@ if __name__ == "__main__":
     #     interface_runner.interface.run()
     print("place 0")
 
-
     for service in service_process_list:
-        service.start()
+        service.run()
 
     print("plcae 1")
 
