@@ -18,6 +18,7 @@ from multiprocessing import Process
 
 
 import Settings.Config as Config
+#from Settings.Defaults import Defaults
 
 from Data.AudioData import AudioData
 from Data.WeatherData import WeatherData

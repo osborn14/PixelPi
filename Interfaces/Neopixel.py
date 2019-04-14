@@ -23,7 +23,8 @@ class Neopixel(Interface):
         LED_CHANNEL = 0  # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
         # Defining some settings
-        self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
+        # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
+        self.audio_dimmer = 1
         self.PAUSE_TIME = 1 / 20
         # self.BAR_RANGE                          = float(self.LED_COUNT / 16)
         self.BAR_RANGE = self.LED_COUNT / 16
