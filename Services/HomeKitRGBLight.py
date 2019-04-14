@@ -10,7 +10,7 @@ from pyhap.accessory import Accessory, Bridge
 from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_LIGHTBULB
 
-from Data.HomeKitData import HomeKitData
+# from Data.HomeKitData import HomeKitData
 
 logging.basicConfig(level=logging.INFO, format="[%(module)s] %(message)s")
 
