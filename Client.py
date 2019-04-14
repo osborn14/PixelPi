@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import Keys.Network as NETWORK
 
+import threading, queue
 from multiprocessing import Process, Queue
 
 import Keys.Settings as SETTINGS
@@ -132,7 +133,7 @@ def getServices(settings, services_queue):
 if __name__ == "__main__":
     # signal.signal(signal.SIGINT, signal_handler)
 
-    service_queue = Queue()
+    service_queue = queue.Queue()
 
     interface_runner_process_list = getInterfaces(Config.client)
     service_process_list = getServices(Config.client, service_queue)

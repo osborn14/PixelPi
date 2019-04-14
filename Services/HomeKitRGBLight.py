@@ -2,16 +2,16 @@ import os
 import logging
 import signal
 import asyncio
-import threading
+import threading, queue
 
-# import Keys.Settings as SETTINGS
+import Keys.Settings as SETTINGS
 
 from multiprocessing import Process, Queue
 from pyhap.accessory import Accessory, Bridge
 from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_LIGHTBULB
 
-# from Data.HomeKitData import HomeKitData
+from Data.HomeKitData import HomeKitData
 
 logging.basicConfig(level=logging.INFO, format="[%(module)s] %(message)s")
 
@@ -87,17 +87,17 @@ class HomeKitRGBLight(Accessory):
         self.set_hue(self.hue)
 
     def update_neopixel_with_color(self, red, green, blue):
-        # color_dict = {
-        #     SETTINGS.RED: red,
-        #     SETTINGS.GREEN: green,
-        #     SETTINGS.BLUE: blue
-        # }
+        color_dict = {
+            SETTINGS.RED: red,
+            SETTINGS.GREEN: green,
+            SETTINGS.BLUE: blue
+        }
 
-        # home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
-        # home_kit_data.setDataFromDict(color_dict)
+        home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
+        home_kit_data.setDataFromDict(color_dict)
 
         print("adding value to queue - service")
-        # self.out_queue.put(home_kit_data)
+        self.out_queue.put(home_kit_data)
 
     def hsv_to_rgb(self, h, s, v):
 
@@ -145,10 +145,9 @@ class HomeKitDeviceRunner:
         signal.signal(signal.SIGTERM, self.driver.signal_handler)
 
     def run(self):
-        driver_thread = threading.Thread(target=self.driver.start())
+        driver_thread = threading.Thread(target=self.driver.start)
+        driver_thread.setDaemon(True)
         driver_thread.start()
-
-        # self.driver.start()
 
     def get_bridge(self, driver):
         """Call this method to get a Bridge instead of a standalone accessory."""
@@ -186,24 +185,24 @@ def get_accessory(driver):
     return HomeKitRGBLight(driver, 'NeopixelTest')
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # policy = asyncio.get_event_loop_policy()
     # policy.set_event_loop(policy.new_event_loop())
     # runner = HomeKitDeviceRunner({}, Queue(), asyncio.get_event_loop())
     # runner.start()
 
     # Start the accessory on port 51826
-    driver = AccessoryDriver(port=51826)
+    # driver = AccessoryDriver(port=51826)
 
     # Change `get_accessory` to `get_bridge` if you want to run a Bridge.
-    driver.add_accessory(accessory=get_accessory(driver))
+    # driver.add_accessory(accessory=get_accessory(driver))
 
     # We want SIGTERM (terminate) to be handled by the driver itself,
     # so that it can gracefully stop the accessory, server and advertising.
     # signal.signal(signal.SIGTERM, driver.signal_handler)
 
     # Start it!
-    driver_thread = threading.Thread(target=driver.start())
-    driver_thread.start()
+    # driver_thread = threading.Thread(target=driver.start())
+    # driver_thread.start()
     # driver.start()
 
