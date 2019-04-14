@@ -5,7 +5,7 @@ import asyncio
 
 # import Keys.Settings as SETTINGS
 
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 from pyhap.accessory import Accessory, Bridge
 from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_LIGHTBULB
@@ -132,34 +132,34 @@ class HomeKitRGBLight(Accessory):
         return int((RGB_Pri[0] + m) * 255), int((RGB_Pri[1] + m) * 255), int((RGB_Pri[2] + m) * 255)
 
 
-# class HomeKitDeviceRunner(Process):
-#     def __init__(self, interface_settings, out_queue):
-#         super(HomeKitDeviceRunner, self).__init__()
-#         self.interface_settings = interface_settings
-#         self.out_queue = out_queue
-#
-#         self.driver = AccessoryDriver(port=51826)
-#         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
-#         signal.signal(signal.SIGTERM, self.driver.signal_handler)
-#
-#     def run(self):
-#         self.driver.start()
-#
-#     def get_bridge(self, driver):
-#         """Call this method to get a Bridge instead of a standalone accessory."""
-#         bridge = Bridge(driver, 'Bridge')
-#
-#         rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
-#         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
-#         bridge.add_accessory(rgb_light)
-#
-#         return bridge
-#
-#     def get_accessory(self, driver):
-#         """Call this method to get a standalone Accessory."""
-#         rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
-#         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
-#         return rgb_light
+class HomeKitDeviceRunner(Process):
+    def __init__(self, interface_settings, out_queue):
+        super(HomeKitDeviceRunner, self).__init__()
+        self.interface_settings = interface_settings
+        self.out_queue = out_queue
+
+        self.driver = AccessoryDriver(port=51826)
+        self.driver.add_accessory(accessory=self.get_accessory(self.driver))
+        signal.signal(signal.SIGTERM, self.driver.signal_handler)
+
+    def run(self):
+        self.driver.start()
+
+    def get_bridge(self, driver):
+        """Call this method to get a Bridge instead of a standalone accessory."""
+        bridge = Bridge(driver, 'Bridge')
+
+        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
+        bridge.add_accessory(rgb_light)
+
+        return bridge
+
+    def get_accessory(self, driver):
+        """Call this method to get a standalone Accessory."""
+        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
+        return rgb_light
 
 
 def get_bridge(driver):
@@ -182,16 +182,19 @@ def get_accessory(driver):
 
 
 if __name__ == "__main__":
+    runner = HomeKitDeviceRunner({}, Queue())
+    runner.start()
+
     # Start the accessory on port 51826
-    driver = AccessoryDriver(port=51826)
+    # driver = AccessoryDriver(port=51826)
 
     # Change `get_accessory` to `get_bridge` if you want to run a Bridge.
-    driver.add_accessory(accessory=get_accessory(driver))
+    # driver.add_accessory(accessory=get_accessory(driver))
 
     # We want SIGTERM (terminate) to be handled by the driver itself,
     # so that it can gracefully stop the accessory, server and advertising.
-    signal.signal(signal.SIGTERM, driver.signal_handler)
+    # signal.signal(signal.SIGTERM, driver.signal_handler)
 
     # Start it!
-    driver.start()
+    # driver.start()
 
