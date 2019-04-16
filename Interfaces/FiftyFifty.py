@@ -18,7 +18,7 @@ class FiftyFifty(Interface):
         # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
 
         self.strip_led_brightness_multiplier = 1
-        self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
+        self.audio_dimmer = 1
 
     def displayAudioLights(self, audio_data):
         if self.strip_type == SETTINGS.STRIP_PRIMARY:
