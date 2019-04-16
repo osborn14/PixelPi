@@ -14,7 +14,10 @@ class FiftyFifty(Interface):
         self.pi = pigpio.pi()
         self.strip_type = settings[SETTINGS.STRIP_TYPE]
         self.rgb_pins = [settings[SETTINGS.RED_PIN], settings[SETTINGS.GREEN_PIN], settings[SETTINGS.BLUE_PIN]]
-        self.strip_led_brightness_multiplier = settings[SETTINGS.BRIGHTNESS_MULTIPLIER]
+        # self.strip_led_brightness_multiplier = settings[SETTINGS.BRIGHTNESS_MULTIPLIER]
+        # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
+
+        self.strip_led_brightness_multiplier = 1
         self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
 
     def displayAudioLights(self, audio_data):
