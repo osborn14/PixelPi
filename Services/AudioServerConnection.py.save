@@ -31,7 +31,7 @@ class AudioServerConnection:
         while True:
             # Get the values from the first server
             expected_array_list_size1 = 19
-            data_list_one = self.receiveAndCleanData(self.sock_one, expected_array_list_size1)
+            data_list_one = self.receiveAndCleanData(self.sock_one, expected_array_list_size1
             if not data_list_one:
                 data_list_one = [0] * 17
                 self.last_displayed_value = 0
@@ -73,7 +73,7 @@ class AudioServerConnection:
                     self.start_time = time.time()
                     self.queue.put(audio_data)
 
-            time.sleep(0.01)
+            time.sleep(0.05)
 
     def connectToServer(self, ip, port):
         try:

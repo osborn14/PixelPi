@@ -170,7 +170,7 @@ if __name__ == "__main__":
 
             # for interface_runner in interface_runner_process_list:
             #     if interface_runner.compatible_services
-        time.sleep(0.1)
+        time.sleep(0.01)
 
     for interface in interface_process_list:
         interface.join()
