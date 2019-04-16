@@ -24,7 +24,7 @@ class Neopixel(Interface):
         # LED strip configuration:
         self.LED_COUNT = settings[SETTINGS.LED_COUNT]  # Number of LED pixels.
         self.LED_PIN = led_pin_mapping[settings[SETTINGS.MAIN_PIN]]  # GPIO pin connected to the pixels (18 uses PWM!).
-        self.ORDER = neopixel.GRB
+        self.ORDER = neopixel.RGB
 
         # Defining some settings
         # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
