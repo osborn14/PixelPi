@@ -20,6 +20,12 @@ class FiftyFifty(Interface):
         self.strip_led_brightness_multiplier = 1
         self.audio_dimmer = 1
 
+    def displayLightsFromData(self, data):
+        self.pi.set_PWM_dutycycle(self.rgb_pins[0], data.red)
+        self.pi.set_PWM_dutycycle(self.rgb_pins[1], data.green)
+        self.pi.set_PWM_dutycycle(self.rgb_pins[2], data.blue)
+
+
     def displayAudioLights(self, audio_data):
         if self.strip_type == SETTINGS.STRIP_PRIMARY:
             server_rgb = audio_data.server_primary_colors
@@ -36,9 +42,9 @@ class FiftyFifty(Interface):
 
         for i in range(0, 3):
             self.pi.set_PWM_dutycycle(self.rgb_pins[i], server_rgb[i] / 255 * temp_strip_led_brightness)
-
-    def displayNormalLights(self):
-        rgb_to_display = self.getRgbToDisplay()
-
-        for i in range(len(self.rgb_pins)):
-            self.pi.set_PWM_dutycycle(self.rgb_pins[i], rgb_to_display[i])
+    #
+    # def displayNormalLights(self):
+    #     rgb_to_display = self.getRgbToDisplay()
+    #
+    #     for i in range(len(self.rgb_pins)):
+    #         self.pi.set_PWM_dutycycle(self.rgb_pins[i], rgb_to_display[i])
