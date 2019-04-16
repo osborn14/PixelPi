@@ -17,6 +17,7 @@ class FiftyFifty(Interface):
         # self.strip_led_brightness_multiplier = settings[SETTINGS.BRIGHTNESS_MULTIPLIER]
         # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
 
+        self.strip_led_brightness = 0
         self.strip_led_brightness_multiplier = 1
         self.audio_dimmer = 1
 
