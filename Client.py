@@ -165,7 +165,7 @@ if __name__ == "__main__":
     while True:
         if not service_queue.empty():
             service_data = service_queue.get()
-            print("new data detected - main thread")
+            # print("new data detected - main thread")
             single_interface_process_runner.interface_queue.put(service_data)
 
             # for interface_runner in interface_runner_process_list:

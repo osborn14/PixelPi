@@ -6,10 +6,10 @@ from Keys import Settings as SETTINGS
 
 
 class FiftyFifty(Interface):
-    def __init__(self, settings):
-        super().__init__(settings)
+    def __init__(self, settings, queue):
+        super().__init__(settings, queue)
 
-        ## Get pigpiod running on the RPi if it hasn't been done already
+        # Get pigpiod running on the RPi if it hasn't been done already
         os.system("sudo pigpiod")
         self.pi = pigpio.pi()
         self.strip_type = settings[SETTINGS.STRIP_TYPE]

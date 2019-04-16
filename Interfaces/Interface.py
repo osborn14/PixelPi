@@ -75,8 +75,7 @@ class Interface(Process):
             new_data_list = list()
             while not self.out_queue.empty():
                 new_data_list.append(self.out_queue.get())
-                print("new data detected - interface thread")
-
+                # print("new data detected - interface thread")
 
             # Clear any duplicate data for data objects if they must be singular
             for new_data_object in new_data_list:
@@ -113,7 +112,7 @@ class Interface(Process):
                 if not data_object.locked:
                     self.data_to_function_mapping[data_object.name](data_object)
 
-            time.sleep(0.005)
+            time.sleep(0.01)
 
         # TODO: Calculate avg server audio message to use for set spectrum avg to zero
         # if self.last_priority_data and self.last_priority_data.active:

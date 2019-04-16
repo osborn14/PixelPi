@@ -3,6 +3,7 @@ import time, socket, threading
 import Keys.Settings as KEY
 from Data.AudioData import AudioData
 
+
 class AudioServerConnection:
     def __init__(self, settings, queue):
         self.server_ip = settings[KEY.AUDIO_SERVER_IP_ADDRESS]
@@ -13,8 +14,7 @@ class AudioServerConnection:
         
         self.sock_one = None
         self.sock_two = None
-        
-        
+
         # lastdisplayedvalue makes sure we don't display any values that are older than what we just displayed
         # only new values should be displayed
         self.last_displayed_value = 0
