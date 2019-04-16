@@ -96,7 +96,6 @@ class HomeKitRGBLight(Accessory):
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
         home_kit_data.setDataFromDict(color_dict)
 
-        print("adding value to queue - service")
         self.out_queue.put(home_kit_data)
 
     def hsv_to_rgb(self, h, s, v):
@@ -153,7 +152,7 @@ class HomeKitDeviceRunner:
         """Call this method to get a Bridge instead of a standalone accessory."""
         bridge = Bridge(driver, 'Bridge')
 
-        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+        rgb_light = HomeKitRGBLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
         bridge.add_accessory(rgb_light)
 
@@ -161,7 +160,7 @@ class HomeKitDeviceRunner:
 
     def get_accessory(self, driver):
         """Call this method to get a standalone Accessory."""
-        rgb_light = HomeKitRGBLight(driver, 'Pixel 1')
+        rgb_light = HomeKitRGBLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
         rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
         return rgb_light
 

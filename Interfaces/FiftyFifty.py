@@ -25,7 +25,6 @@ class FiftyFifty(Interface):
         self.pi.set_PWM_dutycycle(self.rgb_pins[1], data.green)
         self.pi.set_PWM_dutycycle(self.rgb_pins[2], data.blue)
 
-
     def displayAudioLights(self, audio_data):
         if self.strip_type == SETTINGS.STRIP_PRIMARY:
             server_rgb = audio_data.server_primary_colors
