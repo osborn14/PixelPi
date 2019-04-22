@@ -133,13 +133,12 @@ class HomeKitRGBLight(Accessory):
 
 
 class HomeKitDeviceRunner:
-    def __init__(self, interface_settings, out_queue, event_loop):
+    def __init__(self, interface_settings, out_queue):
         # super(HomeKitDeviceRunner, self).__init__()
         self.interface_settings = interface_settings
         self.out_queue = out_queue
-        self.event_loop = event_loop
 
-        self.driver = AccessoryDriver(port=51826, loop=event_loop)
+        self.driver = AccessoryDriver(port=51826)
         self.driver.add_accessory(accessory=self.get_accessory(self.driver))
         signal.signal(signal.SIGTERM, self.driver.signal_handler)
 

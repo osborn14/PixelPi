@@ -101,7 +101,7 @@ def getInterfaces(settings):
 
     if len(interface_list) == 0:
         print("No interfaces detected in config!")
-        sys.exit()
+        sys.exit(1)
 
     map(lambda interface: interface.ensureImportantPropertiesAreSet(), interface_list)
 
@@ -117,10 +117,11 @@ def getServices(settings, services_queue):
     for interface_settings in settings[SETTINGS.INTERFACE_LIST]:
         device_unique_name = interface_settings[SETTINGS.UNIQUE_IDENTIFIER]
 
-        if interface_settings[SETTINGS.INTERFACE] == SETTINGS.NEOPIXEL or interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY or interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
+        if SETTINGS.HOMEKIT in interface_settings[SETTINGS.SERVICE_LIST]:
             from Services.HomeKitRGBLight import HomeKitDeviceRunner
-            service_list.append(HomeKitDeviceRunner(interface_settings, services_queue, asyncio.get_event_loop()))
+            service_list.append(HomeKitDeviceRunner(interface_settings, services_queue))
 
+        if SETTINGS.HOMEKIT in interface_settings[SETTINGS.SERVICE_LIST]:
             audio_server_connection_settings = {
                 SETTINGS.AUDIO_SERVER_IP_ADDRESS: "192.168.0.13",
                 SETTINGS.AUDIO_SERVER_PORT_ONE: 8080,
@@ -132,8 +133,8 @@ def getServices(settings, services_queue):
             service_list.append(AudioServerConnectionRunner(audio_server_connection_settings, services_queue))
 
     if len(service_list) == 0:
-        print("No interfaces detected in config!")
-        sys.exit()
+        print("No services detected in config!")
+        sys.exit(2)
 
     # map(lambda service: service.ensureImportantPropertiesAreSet(), service_list)
 
