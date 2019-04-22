@@ -114,23 +114,20 @@ def getServices(settings, services_queue):
     # default_settings = Defaults()
     # interface_settings = default_settings.getSettingsWithDefaults(settings)
 
-    for interface_settings in settings[SETTINGS.INTERFACE_LIST]:
-        device_unique_name = interface_settings[SETTINGS.UNIQUE_IDENTIFIER]
+    if SETTINGS.HOMEKIT in settings[SETTINGS.SERVICE_LIST]:
+        from Services.HomeKitRGBLight import HomeKitDeviceRunner
+        service_list.append(HomeKitDeviceRunner(settings[SETTINGS.INTERFACE_LIST](0), services_queue))
 
-        if SETTINGS.HOMEKIT in interface_settings[SETTINGS.SERVICE_LIST]:
-            from Services.HomeKitRGBLight import HomeKitDeviceRunner
-            service_list.append(HomeKitDeviceRunner(interface_settings, services_queue))
+    if SETTINGS.SPECTRUM_ANALYZER in settings[SETTINGS.SERVICE_LIST]:
+        audio_server_connection_settings = {
+            SETTINGS.AUDIO_SERVER_IP_ADDRESS: "192.168.0.13",
+            SETTINGS.AUDIO_SERVER_PORT_ONE: 8080,
+            SETTINGS.AUDIO_SERVER_PORT_TWO: 8081,
+            SETTINGS.NO_DISPLAY_TOLERANCE: 1.8
+        }
 
-        if SETTINGS.HOMEKIT in interface_settings[SETTINGS.SERVICE_LIST]:
-            audio_server_connection_settings = {
-                SETTINGS.AUDIO_SERVER_IP_ADDRESS: "192.168.0.13",
-                SETTINGS.AUDIO_SERVER_PORT_ONE: 8080,
-                SETTINGS.AUDIO_SERVER_PORT_TWO: 8081,
-                SETTINGS.NO_DISPLAY_TOLERANCE: 1.8
-            }
-
-            from Services.AudioServerConnection import AudioServerConnectionRunner
-            service_list.append(AudioServerConnectionRunner(audio_server_connection_settings, services_queue))
+        from Services.AudioServerConnection import AudioServerConnectionRunner
+        service_list.append(AudioServerConnectionRunner(audio_server_connection_settings, services_queue))
 
     if len(service_list) == 0:
         print("No services detected in config!")
