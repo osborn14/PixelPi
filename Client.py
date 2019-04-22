@@ -116,7 +116,7 @@ def getServices(settings, services_queue):
 
     if SETTINGS.HOMEKIT in settings[SETTINGS.SERVICE_LIST]:
         from Services.HomeKitRGBLight import HomeKitDeviceRunner
-        service_list.append(HomeKitDeviceRunner(settings[SETTINGS.INTERFACE_LIST](0), services_queue))
+        service_list.append(HomeKitDeviceRunner(settings[SETTINGS.INTERFACE_LIST][0], services_queue))
 
     if SETTINGS.SPECTRUM_ANALYZER in settings[SETTINGS.SERVICE_LIST]:
         audio_server_connection_settings = {
