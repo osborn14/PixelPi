@@ -38,13 +38,18 @@ import Keys.Settings as SETTINGS
 #             SETTINGS.LED_COUNT: 150,
 #             SETTINGS.RGB_ORDER: SETTINGS.RGB
 #         }, {
-#             SETTINGS.INTERFACE: SETTINGS.FIFTY_FIFTY,
+#             SETTINGS.INTERFACE: SETTINGS.FIFTY_FIFTY_RGB,
 #             SETTINGS.UNIQUE_IDENTIFIER: "5001",
 #             SETTINGS.DESCRIPTION: "FiftyFifty for testing!",
 #             SETTINGS.STRIP_TYPE: SETTINGS.STRIP_PRIMARY,
 #             SETTINGS.RED_PIN: 18,
 #             SETTINGS.GREEN_PIN: 0,
 #             SETTINGS.BLUE_PIN: 0,
+#         }, {
+#             SETTINGS.INTERFACE: SETTINGS.FIFTY_FIFTY_WHITE,
+#             SETTINGS.UNIQUE_IDENTIFIER: "5001",
+#             SETTINGS.DESCRIPTION: "FiftyFiftyWhite for testing!",
+#             SETTINGS.WHITE_PIN: 18
 #         }
 #     ]
 # }

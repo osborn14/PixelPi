@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 def calculateIndividualTransition(main, nextmain):
     if main - nextmain < 5 and main - nextmain > -5:
         main = nextmain
@@ -102,29 +100,9 @@ def getFadedColors(FADE_START, FADE_END, upper_transition_range, current_value, 
     
     return return_rgb
 
-def calculateStripLEDBrightness(strip_led_brightness, avg):
-    if 255 * (avg/32) > strip_led_brightness:
-        strip_led_brightness = int(255 * (avg/32))
-    else:
-        if strip_led_brightness > 75:
-            strip_led_brightness = strip_led_brightness - 2.5
-        elif strip_led_brightness > 0:
-            strip_led_brightness = strip_led_brightness - 1.0
 
-        if strip_led_brightness < 0:
-            strip_led_brightness = 0
 
-    return strip_led_brightness
 
-def calculateTempStripLEDBrightness(strip_led_brightness, strip_led_brightness_multiplier, minimum_brightness = 0):
-    temp_strip_led_brightness = int(strip_led_brightness_multiplier * strip_led_brightness)
-    
-    if temp_strip_led_brightness > 255:
-        temp_strip_led_brightness = 255
-    elif temp_strip_led_brightness < minimum_brightness:
-        temp_strip_led_brightness = minimum_brightness
-    
-    return temp_strip_led_brightness
 
 
 def getAverageofListValues(datalist, lower_item, upper_item):
@@ -162,16 +140,4 @@ def getTipColor(DisplayMode, main_rgb, tip_rgb):
     return tip_rgb
 
 
-def getDataListtoPrint(prev_main_height, new_spectrum_heights):
-    for i in range(len(prev_main_height)):
-        prev_main_height[i] = prev_main_height[i] - 3 if prev_main_height[i] - 3 > new_spectrum_heights[i] else new_spectrum_heights[i]
-        prev_main_height[i] = 1 if prev_main_height[i] < 1 else prev_main_height[i]
-        # if prev_main_height[i] - 3 > new_spectrum_heights[i]:
-        #     prev_main_height[i] = prev_main_height[i] - 3
-        # else:
-        #     prev_main_height[i] = new_spectrum_heights[i]
 
-        #if main_height[i] < 0:
-         #   main_height[i] = 0
-
-    return prev_main_height

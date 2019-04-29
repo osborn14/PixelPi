@@ -1,9 +1,7 @@
-import Keys.Settings as SETTINGS
+import board, neopixel
 
 from Interfaces.Interface import Interface
-from Interfaces.Common import RPiLEDFunctions as led_fx
-
-import board, neopixel
+import Keys.Settings as SETTINGS
 
 
 class Neopixel(Interface):
@@ -56,7 +54,7 @@ class Neopixel(Interface):
 
     def displayAudioLights(self, audio_data):
         # TODO: Color dimming should be slower, color should never reach 0
-        self.main_height_list = led_fx.getDataListtoPrint(self.main_height_list, audio_data.spectrum_heights)
+        self.main_height_list = self.getDataListtoPrint(self.main_height_list, audio_data.spectrum_heights)
 
         if audio_data.display_mode == 2 or audio_data.display_mode == 3:
             lower_main_rgb = audio_data.server_secondary_colors
@@ -110,3 +108,9 @@ class Neopixel(Interface):
 
         return blended_rgb
 
+    def getDataListtoPrint(self, prev_main_height, new_spectrum_heights):
+        for i in range(len(prev_main_height)):
+            prev_main_height[i] = prev_main_height[i] - 3 if prev_main_height[i] - 3 > new_spectrum_heights[i] else new_spectrum_heights[i]
+            prev_main_height[i] = 1 if prev_main_height[i] < 1 else prev_main_height[i]
+
+        return prev_main_height

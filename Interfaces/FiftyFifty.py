@@ -1,7 +1,6 @@
 import os, pigpio
 
 from Interfaces.Interface import Interface
-from Interfaces.Common import RPiLEDFunctions as led_fx
 import Keys.Settings as SETTINGS
 
 
@@ -13,7 +12,7 @@ class FiftyFifty(Interface):
         os.system("sudo pigpiod")
         self.pi = pigpio.pi()
         self.strip_type = settings[SETTINGS.STRIP_TYPE]
-        self.rgb_pins = [settings[SETTINGS.RED_PIN], settings[SETTINGS.GREEN_PIN], settings[SETTINGS.BLUE_PIN]]
+
         # self.strip_led_brightness_multiplier = settings[SETTINGS.BRIGHTNESS_MULTIPLIER]
         # self.audio_dimmer = settings[SETTINGS.AUDIO_DIMMER]
 
@@ -22,29 +21,31 @@ class FiftyFifty(Interface):
         self.audio_dimmer = 1
 
     def displayLightsFromData(self, data):
-        self.pi.set_PWM_dutycycle(self.rgb_pins[0], data.red)
-        self.pi.set_PWM_dutycycle(self.rgb_pins[1], data.green)
-        self.pi.set_PWM_dutycycle(self.rgb_pins[2], data.blue)
+        raise NotImplementedError
 
     def displayAudioLights(self, audio_data):
-        if self.strip_type == SETTINGS.STRIP_PRIMARY:
-            server_rgb = audio_data.server_primary_colors
-        elif self.strip_type == SETTINGS.STRIP_SECONDARY:
-            server_rgb = audio_data.server_secondary_colors
+        raise NotImplementedError
 
-        # Strip brightness is the number (between 0 and 1) that determines the intensity of the displayed color
-        self.strip_led_brightness = led_fx.calculateStripLEDBrightness(self.strip_led_brightness, audio_data.spectrum_avg) * self.audio_dimmer
+    def calculateStripLEDBrightness(self, strip_led_brightness, avg):
+        if 255 * (avg / 32) > strip_led_brightness:
+            strip_led_brightness = int(255 * (avg / 32))
+        else:
+            if strip_led_brightness > 75:
+                strip_led_brightness = strip_led_brightness - 2.5
+            elif strip_led_brightness > 0:
+                strip_led_brightness = strip_led_brightness - 1.0
 
-        # Temp strip brightness takes the strip brightness and multiplies it by a certain factor,
-        # so the displayed color is brighter at lower noise volumes
-        temp_strip_led_brightness = led_fx.calculateTempStripLEDBrightness(self.strip_led_brightness,
-                                                                           self.strip_led_brightness_multiplier)
+            if strip_led_brightness < 0:
+                strip_led_brightness = 0
 
-        for i in range(0, 3):
-            self.pi.set_PWM_dutycycle(self.rgb_pins[i], server_rgb[i] / 255 * temp_strip_led_brightness)
-    #
-    # def displayNormalLights(self):
-    #     rgb_to_display = self.getRgbToDisplay()
-    #
-    #     for i in range(len(self.rgb_pins)):
-    #         self.pi.set_PWM_dutycycle(self.rgb_pins[i], rgb_to_display[i])
+        return strip_led_brightness
+
+    def calculateTempStripLEDBrightness(self, strip_led_brightness, strip_led_brightness_multiplier, minimum_brightness=0):
+        temp_strip_led_brightness = int(strip_led_brightness_multiplier * strip_led_brightness)
+
+        if temp_strip_led_brightness > 255:
+            temp_strip_led_brightness = 255
+        elif temp_strip_led_brightness < minimum_brightness:
+            temp_strip_led_brightness = minimum_brightness
+
+        return temp_strip_led_brightness

@@ -15,6 +15,9 @@ class AudioServerConnection:
         self.sock_one = None
         self.sock_two = None
 
+        self.music_is_playing = False
+        self.music_played_counter = 0
+
         # lastdisplayedvalue makes sure we don't display any values that are older than what we just displayed
         # only new values should be displayed
         self.last_displayed_value = 0
@@ -67,10 +70,14 @@ class AudioServerConnection:
     
                     if time.time() - self.start_time > 60:
                         # Has it been 60 seconds with no activity?  If so, note that music is off for now
-                        audio_data.music_is_playing = False
+                        self.music_is_playing = False
+                        self.music_played_counter = 0
     
                 else:
                     self.start_time = time.time()
+                    self.music_is_playing = True
+
+                if self.music_is_playing:
                     self.queue.put(audio_data)
 
             time.sleep(0.01)

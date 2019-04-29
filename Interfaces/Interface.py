@@ -24,9 +24,13 @@ class InterfaceRunner:
             from Interfaces.Neopixel import Neopixel
             interface_class = Neopixel
 
-        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
-            from Interfaces.FiftyFifty import FiftyFifty
-            interface_class = FiftyFifty
+        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY_RGB or interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY:
+            from Interfaces.FiftyFiftyRGB import FiftyFiftyRGB
+            interface_class = FiftyFiftyRGB
+
+        elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.FIFTY_FIFTY_WHITE:
+            from Interfaces.FiftyFiftyWhite import FiftyFiftyWhite
+            interface_class = FiftyFiftyWhite
 
         elif interface_settings[SETTINGS.INTERFACE] == SETTINGS.LOGGER:
             from Interfaces.Logger import Logger
@@ -93,24 +97,13 @@ class Interface(Process):
                     self.data_object_list.append(new_data_object)
 
             # Process locked data_objects first
-            for data_object in self.data_object_list:
-                if data_object.locked:
-                    current_time = time.time()
-
-                    if current_time - data_object.last_played_time >= 30:
-                        self.data_object_list.remove(data_object)
-                    elif current_time - data_object.last_played_time >= 0.5:
-                        data_object.setToDefaults()
-                        data_object.active = True
-
-                    self.data_to_function_mapping[data_object.name](data_object)
-                    data_object.active = False
-                    continue
+            locked_data_object_was_processed = self.processLockedDataObjects()
 
             # Then process the non-locked data
-            for data_object in self.data_object_list:
-                if not data_object.locked:
-                    self.data_to_function_mapping[data_object.name](data_object)
+            if not locked_data_object_was_processed:
+                for data_object in self.data_object_list:
+                    if not data_object.locked:
+                        self.data_to_function_mapping[data_object.name](data_object)
 
             time.sleep(0.01)
 
@@ -127,6 +120,27 @@ class Interface(Process):
         #         self.processDataList()
         #
         #     self.runDefaults()
+
+    # Return true if a data object was processed, else return false
+    def processLockedDataObjects(self):
+        for data_object in self.data_object_list:
+            if data_object.locked:
+                current_time = time.time()
+
+                if current_time - data_object.first_played_time >= 30:
+                    self.data_object_list.remove(data_object)
+                    return False
+
+                elif current_time - data_object.first_played_time >= 0.5:
+                    data_object.setToDefaults()
+
+                else:
+                    data_object.first_played_time = current_time()
+
+                self.data_to_function_mapping[data_object.name](data_object)
+                return True
+
+        return False
 
     def displayLightsFromData(self, data):
         raise NotImplementedError

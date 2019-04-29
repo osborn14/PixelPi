@@ -1,12 +1,7 @@
-import os
-import logging
-import signal
-import asyncio
-import threading, queue
+import logging, signal, threading
 
 import Keys.Settings as SETTINGS
 
-from multiprocessing import Process, Queue
 from pyhap.accessory import Accessory, Bridge
 from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_LIGHTBULB
@@ -46,24 +41,16 @@ class HomeKitRGBLight(Accessory):
         self.saturation = 100  # Saturation Values 0 - 100 Homekit API
         self.brightness = 100  # Brightness value 0 - 100 Homekit API
 
-        # self.is_GRB = is_GRB  # Most neopixels are Green Red Blue
-        # self.LED_count = LED_count
-
-        # ------------------ TESTING VARIABLES ---------------------
-        self.is_GRB = True  # Most neopixels are Green Red Blue
-        self.LED_count = 50
-        # --------------------- END TESTING ------------------------
-
     def setQueueAndSettings(self, out_queue, interface_settings):
         self.interface_settings = interface_settings
         self.out_queue = out_queue
 
-    def set_state(self, value):
+    def f(self, value):
         self.accessory_state = value
         if value == 1:  # On
             self.set_hue(self.hue)
         else:
-            self.update_neopixel_with_color(0, 0, 0)  # Off
+            self.update_light_with_color(0, 0, 0)  # Off
 
     def set_hue(self, value):
         # Lets only write the new RGB values if the power is on
@@ -73,7 +60,7 @@ class HomeKitRGBLight(Accessory):
             rgb_tuple = self.hsv_to_rgb(
                 self.hue, self.saturation, self.brightness)
             if len(rgb_tuple) == 3:
-                self.update_neopixel_with_color(
+                self.update_light_with_color(
                     rgb_tuple[0], rgb_tuple[1], rgb_tuple[2])
         else:
             self.hue = value
@@ -86,11 +73,11 @@ class HomeKitRGBLight(Accessory):
         self.saturation = value
         self.set_hue(self.hue)
 
-    def update_neopixel_with_color(self, red, green, blue):
+    def update_light_with_color(self, red, green, blue):
         color_dict = {
-            SETTINGS.RED: red,
-            SETTINGS.GREEN: green,
-            SETTINGS.BLUE: blue
+            SETTINGS.RED: int(red * 255 / 100),
+            SETTINGS.GREEN: int(green * 255 / 100),
+            SETTINGS.BLUE: int(blue * 255 / 100)
         }
 
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
@@ -132,9 +119,51 @@ class HomeKitRGBLight(Accessory):
         return int((RGB_Pri[0] + m) * 255), int((RGB_Pri[1] + m) * 255), int((RGB_Pri[2] + m) * 255)
 
 
+class HomeKitWhiteLight(Accessory):
+
+    category = CATEGORY_LIGHTBULB
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Set our neopixel API services up using Lightbulb base
+        serv_light = self.add_preload_service(
+            'Lightbulb', chars=['On', 'Brightness'])
+
+        # Configure our callbacks
+        self.char_on = serv_light.configure_char(
+            'On', setter_callback=self.set_state)
+        self.char_on = serv_light.configure_char(
+            'Brightness', setter_callback=self.set_brightness)
+
+        # Set our instance variables
+        self.accessory_state = 0  # State of the neo light On/Off
+        self.brightness = 100  # Brightness value 0 - 100 Homekit API
+
+    def set_state(self, value):
+        self.accessory_state = value
+        if value == 1:  # On
+            self.set_brightness(100)
+        else:
+            self.set_brightness(0)  # Off
+
+    def set_brightness(self, value):
+        self.brightness = value
+        self.update_light_with_color(self.value)
+
+    def update_light_with_color(self, brightness):
+        color_dict = {
+            SETTINGS.WHITE: int(brightness * 255 / 100)
+        }
+
+        home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
+        home_kit_data.setDataFromDict(color_dict)
+
+        self.out_queue.put(home_kit_data)
+
+
 class HomeKitDeviceRunner:
     def __init__(self, interface_settings, out_queue):
-        # super(HomeKitDeviceRunner, self).__init__()
         self.interface_settings = interface_settings
         self.out_queue = out_queue
 
@@ -159,9 +188,17 @@ class HomeKitDeviceRunner:
 
     def get_accessory(self, driver):
         """Call this method to get a standalone Accessory."""
-        rgb_light = HomeKitRGBLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
-        rgb_light.setQueueAndSettings(self.out_queue, self.interface_settings)
-        return rgb_light
+
+        white_lights = [SETTINGS.FIFTY_FIFTY_WHITE]
+        rgb_lights = [SETTINGS.NEOPIXEL, SETTINGS.FIFTY_FIFTY, SETTINGS.FIFTY_FIFTY_RGB]
+
+        if self.interface_settings[SETTINGS.INTERFACE] in white_lights:
+            light = HomeKitWhiteLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
+
+        elif self.interface_settings[SETTINGS.INTERFACE] in rgb_lights:
+            light = HomeKitRGBLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
+
+        return light
 
 
 def get_bridge(driver):
