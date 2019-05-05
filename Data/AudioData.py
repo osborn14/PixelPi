@@ -11,7 +11,7 @@ class AudioData(Data):
         self.locked = True
         self.must_be_singular = True
         self.server_store_last_value = False
-        self.first_played_time = 0
+        self.first_played_time = None
 
         self.spectrum_heights = [0] * 16
         self.spectrum_avg = 0

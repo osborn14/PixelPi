@@ -127,15 +127,15 @@ class Interface(Process):
             if data_object.locked:
                 current_time = time.time()
 
-                if current_time - data_object.first_played_time >= 30:
+                if data_object.first_played_time is None:
+                    data_object.first_played_time = current_time
+
+                elif current_time - data_object.first_played_time >= 30:
                     self.data_object_list.remove(data_object)
                     return False
 
                 elif current_time - data_object.first_played_time >= 0.5:
                     data_object.setToDefaults()
-
-                else:
-                    data_object.first_played_time = current_time()
 
                 self.data_to_function_mapping[data_object.name](data_object)
                 return True
