@@ -75,9 +75,9 @@ class HomeKitRGBLight(Accessory):
 
     def update_light_with_color(self, red, green, blue):
         color_dict = {
-            SETTINGS.RED: int(red * 255 / 100),
-            SETTINGS.GREEN: int(green * 255 / 100),
-            SETTINGS.BLUE: int(blue * 255 / 100)
+            SETTINGS.RED: red,
+            SETTINGS.GREEN: green,
+            SETTINGS.BLUE: blue
         }
 
         print(color_dict)
