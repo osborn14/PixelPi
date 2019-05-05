@@ -45,7 +45,7 @@ class HomeKitRGBLight(Accessory):
         self.interface_settings = interface_settings
         self.out_queue = out_queue
 
-    def f(self, value):
+    def set_state(self, value):
         self.accessory_state = value
         if value == 1:  # On
             self.set_hue(self.hue)
