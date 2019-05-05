@@ -140,6 +140,10 @@ class HomeKitWhiteLight(Accessory):
         self.accessory_state = 0  # State of the neo light On/Off
         self.brightness = 100  # Brightness value 0 - 100 Homekit API
 
+    def setQueueAndSettings(self, out_queue, interface_settings):
+        self.interface_settings = interface_settings
+        self.out_queue = out_queue
+
     def set_state(self, value):
         self.accessory_state = value
         if value == 1:  # On
@@ -197,6 +201,8 @@ class HomeKitDeviceRunner:
 
         elif self.interface_settings[SETTINGS.INTERFACE] in rgb_lights:
             light = HomeKitRGBLight(driver, self.interface_settings[SETTINGS.UNIQUE_IDENTIFIER])
+
+            light.setQueueAndSettings(self.out_queue, self.interface_settings)
 
         return light
 
