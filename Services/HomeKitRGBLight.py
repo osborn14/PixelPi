@@ -80,6 +80,8 @@ class HomeKitRGBLight(Accessory):
             SETTINGS.BLUE: int(blue * 255 / 100)
         }
 
+        print(color_dict)
+
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
         home_kit_data.setDataFromDict(color_dict)
 
