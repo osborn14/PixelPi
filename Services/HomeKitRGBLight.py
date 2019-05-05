@@ -80,8 +80,6 @@ class HomeKitRGBLight(Accessory):
             SETTINGS.BLUE: blue
         }
 
-        print(color_dict)
-
         home_kit_data = HomeKitData(service=SETTINGS.HOMEKIT)
         home_kit_data.setDataFromDict(color_dict)
 
